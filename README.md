@@ -6,7 +6,7 @@ their campus Sakai server. Learn more about i>clicker products and features from
 Features
 --------
 Students
-   * Register and manage their remotes and i>clicker GO registrations from within Sakai
+   * Register and manage their remotes from within Sakai
 Instructors
    * View reports within Sakai showing the status of student registrations in their classes
    * Download their Sakai roster and registrations directly into i>grader
