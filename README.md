@@ -18,33 +18,15 @@ Administrators
 
 Sakai Compatibility
 -------------------
-This version of the plug-in works with Sakai 11 and supports single sign-on. Installations of Sakai older than version 11 are not supported by 
-the i>clicker integrate plug-in.
-
-    **Note on EntityBroker**
-
-    There will be a reduced number of REST feeds available if not using entitybroker and they will be available
-    as XML only (JSON is provided by entitybroker). Users will need to upgrade their version of EntityBroker to at least 1.3.5.
-    
-    If you see an error like this one in the tomcat logs it indicates that you need to upgrade the version of entitybroker ::
-    
-        org.springframework.beans.factory.CannotLoadBeanClassException: 
-            Error loading class [org.sakaiproject.iclicker.logic.entity.IClickerEntityProvider] 
-            for bean with name 'org.sakaiproject.iclicker.logic.entity.IClickerEntityProvider' 
-            defined in ServletContext resource [/WEB-INF/components.xml]: 
-            problem with class file or dependent class; nested exception is 
-            java.lang.NoClassDefFoundError: org/sakaiproject/entitybroker/entityprovider/capabilities/Describeable
-        Caused by: java.lang.NoClassDefFoundError: org/sakaiproject/entitybroker/entityprovider/capabilities/Describeable
-            at java.lang.ClassLoader.defineClass1(Native Method)
-
+This version of the plug-in works with Sakai 11 and supports single sign-on. Installations of Sakai older than version 11 are not supported by the i>clicker integrate plug-in.
 
 Build
 -----
 The source code for this plugin is located at https://source.sakaiproject.org/contrib/iclicker/
 
-Build the default version of the app (should work with Sakai 2.6-2.9) by running this command from the location of this README ::
+Build the default version of the app by running this command from the location of this README ::
 
-    mvn clean install
+    mvn -e clean install
 
 
 Install
@@ -130,27 +112,9 @@ Adding the plug-in to all existing workspaces (steps are same to remove from all
 
 REST data feeds
 ---------------
-The REST feeds vary depending on the version of Sakai being used.
-
-**Sakai version 2.5 or older**
-
-    There is a reduced set of REST feeds available for users on Sakai 2.5 or older. These feeds are sufficient
-    for i>clicker to operate but are unlikely to be very beneficial to institutions who want to create
-    mashups or consume data from the i>clicker system. The feeds are documented and located at ::
-    
-        http://{SAKAI_SERVER_HOSTNAME}/iclicker/rest
-
-**Sakai version 2.6 or newer**
 
     There is a complete set of REST data feeds for interacting with the i>clicker data so that institutions can
     automate or control the i>clicker registrations and data as desired. The feeds are also used by the
     i>clicker tools. The feeds are documented and located at ::
     
         http://{SAKAI_SERVER_HOSTNAME}/direct/iclicker/describe
-    
-    The feeds require the `Sakai EntityBroker System <http://confluence.sakaiproject.org/x/E4D3>`_
-    be installed with your Sakai installation. If you are using Sakai version 2.6.0 or higher then everything you need is already
-    installed. If not you will need to install the current version (1.3.5+) of entitybroker in your Sakai system. 
-    The source for released versions can be found at https://source.sakaiproject.org/svn/entitybroker/tags/. 
-    See the `Sakai EntityBroker System <http://confluence.sakaiproject.org/x/E4D3>`_ page for installation
-    instructions (it is the same process as `Installing Sakai Contrib Tools <http://confluence.sakaiproject.org/x/JwA5Ag>`_).
