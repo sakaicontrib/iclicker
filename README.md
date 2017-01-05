@@ -22,7 +22,7 @@ This version of the plug-in works with Sakai 11 and supports single sign-on. Ins
 
 Build
 -----
-The source code for this plugin is located at https://source.sakaiproject.org/contrib/iclicker/
+The source code for this plugin is located at https://github.com/sakaicontrib/iclicker
 
 Build the default version of the app by running this command from the location of this README ::
 
