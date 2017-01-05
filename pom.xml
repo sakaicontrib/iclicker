@@ -1,0 +1,466 @@
+<!--suppress MavenModelInspection -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.sakaiproject</groupId>
+    <artifactId>iclicker</artifactId>
+    <name>i&gt;clicker Sakai integrate</name>
+    <description>This is a Sakai plugin which provides integration with the iClicker classroom polling system</description>
+    <organization>
+        <name>i&gt;clicker</name>
+        <url>http://www.iclicker.com/</url>
+    </organization>
+    <inceptionYear>2009</inceptionYear>
+    <packaging>war</packaging>
+    <version>11-SNAPSHOT</version>
+
+    <!-- Sakai master pom is the parent -->
+    <parent>
+        <artifactId>master</artifactId>
+        <groupId>org.sakaiproject</groupId>
+        <version>11-SNAPSHOT</version>
+        <relativePath>../master/pom.xml</relativePath>
+    </parent>
+
+    <dependencies>
+
+        <!-- Sakai dependencies -->
+        <dependency>
+            <groupId>org.sakaiproject.kernel</groupId>
+            <artifactId>sakai-kernel-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.sakaiproject.kernel</groupId>
+            <artifactId>sakai-component-manager</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.sakaiproject.kernel</groupId>
+            <artifactId>sakai-kernel-util</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sakaiproject.entitybroker</groupId>
+            <artifactId>entitybroker-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.sakaiproject.entitybroker</groupId>
+            <artifactId>entitybroker-utils</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sakaiproject.edu-services.gradebook</groupId>
+            <artifactId>gradebook-service-api</artifactId>
+        </dependency>
+
+        <!-- we are running a webapp in a servlet container so we need the servlet API -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+        </dependency>
+
+        <!-- We need this special package to run the jsps in Sakai -->
+        <dependency>
+            <groupId>org.sakaiproject</groupId>
+            <artifactId>sakai-jsp-adapter</artifactId>
+            <version>0.10-K1</version>
+            <scope>runtime</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.sakaiproject</groupId>
+                    <artifactId>sakai-kernel-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- generic DAO -->
+        <dependency>
+            <groupId>org.sakaiproject</groupId>
+            <artifactId>generic-dao</artifactId>
+            <version>0.9.18</version>
+        </dependency>
+        <dependency>
+            <groupId>org.azeckoski</groupId>
+            <artifactId>reflectutils</artifactId>
+            <version>0.9.16</version>
+        </dependency>
+
+        <!-- shared external dependencies -->
+        <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-core</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-context</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-orm</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate-core</artifactId>
+        </dependency>
+
+        <!-- utility libs -->
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+        </dependency>
+        <dependency>
+        <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- for national web-services -->
+        <dependency>
+            <groupId>org.sakaiproject.entitybus</groupId>
+            <artifactId>entitybus-utils</artifactId>
+            <version>1.0.8</version>
+        </dependency>
+
+        <!-- JSP and standard tag libraries -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>2.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+            <version>1.1.2</version>
+        </dependency>
+
+        <!-- testing dependencies -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-mock</artifactId>
+            <version>2.0.6</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>1.8.0.5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <version>1.2_Java1.3</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- needed for hibernate -->
+        <dependency>
+          <groupId>javassist</groupId>
+          <artifactId>javassist</artifactId>
+          <version>3.12.1.GA</version>
+          <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <!-- configure the build to use the standard maven structure -->
+        <directory>target</directory>
+        <outputDirectory>target/classes</outputDirectory>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+        </resources>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
+        <testResources>
+            <testResource>
+                <directory>${basedir}/src/main/webapp/WEB-INF</directory>
+                <includes>
+                    <include>spring-hibernate.xml</include>
+                    <include>logic-support.xml</include>
+                </includes>
+            </testResource>
+            <testResource>
+                <directory>${basedir}/src/test/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </testResource>
+        </testResources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <optimize>true</optimize>
+                    <debug>true</debug>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <!-- configure the war plugin to correctly use the standard maven structure -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <warSourceDirectory>${basedir}/src/main/webapp</warSourceDirectory>
+                    <webResources>
+                        <resource>
+                            <directory>${basedir}/src/main/webapp</directory>
+                            <includes>
+                                <include>**/*.*</include>
+                            </includes>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+            <!-- Uses the license plugin - http://code.google.com/p/maven-license-plugin
+                Run mvn license:format to fix up licenses on all files in the project
+             -->
+            <plugin>
+                <groupId>com.mycila.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+                <version>1.9.0</version>
+                <configuration>
+                    <header>${basedir}/LICENSE_HEADER</header>
+                    <excludes>
+                        <exclude>target/**</exclude>
+                        <exclude>m2-target/**</exclude>
+                        <exclude>.idea/**</exclude>
+                        <exclude>**/*.properties</exclude>
+                        <exclude>*.txt</exclude>
+                        <exclude>**/*.sql</exclude>
+                        <exclude>**/jquery-*</exclude>
+                        <exclude>**/CSSUtils.java</exclude>
+                    </excludes>
+                    <properties>
+                        <name>${project.name}</name>
+                        <year>${project.inceptionYear}</year>
+                        <holder>i&gt;clicker (R)</holder>
+                        <contact>http://www.iclicker.com/dnn/</contact>
+                    </properties>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <configuration>
+            <skip>true</skip>
+          </configuration>
+        </plugin>
+            <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>2.17</version>
+                    <executions>
+                        <execution>
+                            <id>execute-checkstyle</id>
+                            <phase>validate</phase>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.puppycrawl.tools</groupId>
+                            <artifactId>checkstyle</artifactId>
+                            <version>6.12</version>
+                        </dependency>
+                    </dependencies>
+                    <configuration>
+                        <configLocation>checkstyle.xml</configLocation>
+                        <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                        <failOnViolation>true</failOnViolation>
+                        <suppressionsLocation>checkstyle-suppression.xml</suppressionsLocation>
+                    </configuration>
+                </plugin>
+        </plugins>
+        <testOutputDirectory>target/test-classes</testOutputDirectory>
+        <scriptSourceDirectory>src/main/webapp</scriptSourceDirectory>
+        <!-- sets the name of the war file and thus the webapp URL -->
+        <finalName>${project.artifactId}</finalName>
+    </build>
+
+    <profiles>
+        <profile>
+            <!-- special profile to generate DDL -->
+            <id>ddl</id>
+            <properties>
+                <ddl.src.dir>${basedir}/src/ddl</ddl.src.dir>
+                <ddl.dir>./src/ddl</ddl.dir>
+                <ddl.name>iclicker</ddl.name>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <!-- hibernate ddl generation -->
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>hibernate3-maven-plugin</artifactId>
+                        <version>2.1</version>
+                        <configuration>
+                            <components>
+                                <component>
+                                    <name>hbm2ddl</name>
+                                    <outputDirectory>${ddl.dir}</outputDirectory>
+                                </component>
+                            </components>
+                            <componentProperties>
+                                <configurationfile>${ddl.src.dir}/hibernate.cfg.xml</configurationfile>
+                                <propertyfile>${ddl.src.dir}/hibernate-hsqldb.properties</propertyfile>
+                                <outputfilename>hsqldb/${ddl.name}.sql</outputfilename>
+                                <drop>false</drop>
+                                <create>true</create>
+                                <export>false</export>
+                                <jdk5>true</jdk5>
+                                <format>true</format>
+                            </componentProperties>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>export-hsqldb</id>
+                                <phase>process-classes</phase>
+                                <goals>
+                                    <goal>hbm2ddl</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>export-mysql</id>
+                                <phase>process-classes</phase>
+                                <goals>
+                                    <goal>hbm2ddl</goal>
+                                </goals>
+                                <configuration>
+                                    <componentProperties>
+                                        <propertyfile>${ddl.src.dir}/hibernate-mysql.properties</propertyfile>
+                                        <outputfilename>mysql/${ddl.name}.sql</outputfilename>
+                                    </componentProperties>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>export-oracle</id>
+                                <phase>process-classes</phase>
+                                <goals>
+                                    <goal>hbm2ddl</goal>
+                                </goals>
+                                <configuration>
+                                    <componentProperties>
+                                        <propertyfile>${ddl.src.dir}/hibernate-oracle.properties</propertyfile>
+                                        <outputfilename>oracle/${ddl.name}.sql</outputfilename>
+                                    </componentProperties>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <licenses>
+        <license>
+            <name>GNU GENERAL PUBLIC LICENSE, Version 3.0</name>
+            <distribution>repo</distribution>
+            <url>http://www.gnu.org/licenses/gpl.html</url>
+        </license>
+    </licenses>
+
+    <!-- ensure master jars can be found -->
+    <repositories>
+        <repository>
+            <id>sakai-maven</id>
+            <name>Sakai Maven Repo</name>
+            <layout>default</layout>
+            <url>http://source.sakaiproject.org/maven2</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <!-- for the license header plugin -->
+        <pluginRepository>
+            <id>mc-release</id>
+            <url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <scm>
+        <connection>scm:svn:https://source.sakaiproject.org/contrib/iclicker/tags/iclicker-1.1</connection>
+        <developerConnection>scm:svn:https://source.sakaiproject.org/contrib/iclicker/tags/iclicker-1.1</developerConnection>
+        <url>https://source.sakaiproject.org/viewsvn/iclicker/tags/iclicker-1.1?root=contrib</url>
+    </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>Sakai-Maven2</id>
+            <name>Sakaiproject Maven 2 repository</name>
+            <url>dav:https://source.sakaiproject.org/maven2</url>
+        </repository>
+        <site>
+            <id>local site</id>
+            <url>file:/tmp/iclicker/site/</url>
+        </site>
+    </distributionManagement>
+
+    <developers>
+        <developer>
+            <id>aaronz@vt.edu</id>
+            <name>Aaron Zeckoski</name>
+            <email>azeckoski@vt.edu</email>
+            <url>http://tinyurl.com/azprofile</url>
+            <roles>
+                <role>Architect</role>
+                <role>Developer</role>
+            </roles>
+            <timezone>-5</timezone>
+        </developer>
+        <developer>
+            <id>rlong@unicon.net</id>
+            <name>Robert Long</name>
+            <email>rlong@unicon.net</email>
+            <roles>
+                <role>Architect</role>
+                <role>Engineer</role>
+            </roles>
+            <timezone>-7</timezone>
+        </developer>
+    </developers>
+
+</project>
