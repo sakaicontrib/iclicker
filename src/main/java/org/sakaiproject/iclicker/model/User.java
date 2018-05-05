@@ -24,25 +24,24 @@ import java.util.Comparator;
 
 import org.apache.commons.lang.StringUtils;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Represents a user in the system
  * 
  */
+@Data
+@NoArgsConstructor
 public class User {
 
-    @Setter @Getter private String userId;
-    @Setter @Getter private String username;
-    @Setter @Getter private String name;
-    @Setter @Getter private String fname;
-    @Setter @Getter private String lname;
-    @Setter @Getter private String email;
-    @Setter @Getter private String sortName;
-
-    protected User() {
-    }
+    private String userId;
+    private String username;
+    private String name;
+    private String fname;
+    private String lname;
+    private String email;
+    private String sortName;
 
     public User(String userId, String username, String name) {
         this(userId, username, name, null, null);
@@ -54,11 +53,6 @@ public class User {
         this.name = name;
         this.sortName = sortName;
         this.email = email;
-    }
-
-    @Override
-    public String toString() {
-        return userId + ":" + username;
     }
 
     @Override

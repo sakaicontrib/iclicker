@@ -61,15 +61,15 @@ import org.sakaiproject.user.api.User;
 import org.sakaiproject.user.api.UserDirectoryService;
 import org.sakaiproject.user.api.UserNotDefinedException;
 import org.sakaiproject.util.ResourceLoader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * This is the common parts of the logic which is external to our app logic, this provides isolation of the Sakai system from the app so that the integration can be adjusted for future versions or
  * even other systems without requiring rewriting large parts of the code
  */
+@Slf4j
 public abstract class AbstractExternalLogic {
 
     public static final String SCORE_UPDATE_ERRORS = "ScoreUpdateErrors";
@@ -80,8 +80,6 @@ public abstract class AbstractExternalLogic {
     public String serverId = "UNKNOWN_SERVER_ID";
 
     public static final String NO_LOCATION = "noLocationAvailable";
-
-    private static final Logger log = LoggerFactory.getLogger(AbstractExternalLogic.class);
 
     @Setter protected AuthzGroupService authzGroupService;
 

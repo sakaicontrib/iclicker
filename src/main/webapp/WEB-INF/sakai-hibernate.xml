@@ -25,12 +25,12 @@
     <!-- Create a sessionFactory from the Sakai base definition, give this your HBM files
         so the session factory can use them, creates a tool specific bean rather than
         using the shared session factory -->
-    <bean id="org.sakaiproject.iclicker.hibernate.SessionFactory" parent="org.sakaiproject.springframework.orm.hibernate.SessionFactoryBase">
+    <bean id="org.sakaiproject.iclicker.hibernate.SessionFactory" parent="org.sakaiproject.springframework.orm.hibernate.GlobalSessionFactory">
         <property name="mappingResources" ref="org.sakaiproject.iclicker.HBMMappingList" />
     </bean>
 
     <!-- create a transactionManager bean from the Sakai tool SessionFactory -->
-    <bean id="org.sakaiproject.iclicker.hibernate.TransactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+    <bean id="org.sakaiproject.iclicker.hibernate.TransactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory">
             <ref bean="org.sakaiproject.iclicker.hibernate.SessionFactory" />
         </property>

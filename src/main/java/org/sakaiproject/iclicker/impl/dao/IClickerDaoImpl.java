@@ -45,17 +45,16 @@ public class IClickerDaoImpl extends HibernateGeneralGenericDao implements IClic
             Dialect dialect = ((SessionFactoryImplementor) getHibernateTemplate().getSessionFactory()).getDialect();
             if (dialect instanceof MySQLDialect) {
                 currentSession().createSQLQuery(
-                                "ALTER TABLE `iclicker_registration` CHANGE COLUMN `clickerId` `clickerId` VARCHAR(16) NOT NULL")
-                                .executeUpdate();
+                    "ALTER TABLE `iclicker_registration` CHANGE COLUMN `clickerId` `clickerId` VARCHAR(16) NOT NULL")
+                    .executeUpdate();
                 log.info("Updated the iclicker_registration table in MYSQL");
             } else if (dialect instanceof Oracle10gDialect) {
                 currentSession().createSQLQuery("ALTER TABLE iclicker_registration MODIFY clickerId VARCHAR2(16)")
-                                .executeUpdate();
+                    .executeUpdate();
                 log.info("Updated the iclicker_registration table in ORACLE");
             }
         } catch (Exception e) {
-            log.error("Unable to alter i>clicker iclicker_registration table, you will need to manually alter the clickerId column to 16 chars long (from 8 chars)",
-                            e);
+            log.warn("Unable to alter i>clicker iclicker_registration table, you will need to manually alter the clickerId column to 16 chars long (from 8 chars). {}", e.getMessage());
         }
 
     }

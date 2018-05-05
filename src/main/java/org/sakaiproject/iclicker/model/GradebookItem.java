@@ -25,31 +25,30 @@ import java.util.Vector;
 
 import org.apache.commons.lang.StringUtils;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * This represents an item in a gradebook and the associated scores
  */
+@Data
+@NoArgsConstructor
 public class GradebookItem {
-    @Setter @Getter private String id;
-    @Setter @Getter private String gradebookId;
-    @Setter @Getter private String name;
-    @Setter @Getter private Double pointsPossible;
-    @Setter @Getter private Date dueDate;
-    @Setter @Getter private String type = "internal"; // this is the externalAppName or "internal"
-    @Setter @Getter private boolean released = false;
-    @Setter @Getter private List<GradebookItemScore> scores = new Vector<>();
+    private String id;
+    private String gradebookId;
+    private String name;
+    private Double pointsPossible;
+    private Date dueDate;
+    private String type = "internal"; // this is the externalAppName or "internal"
+    private boolean released = false;
+    private List<GradebookItemScore> scores = new Vector<>();
 
     /**
      * map of score id -> error_key,
      * these are recorded when this item is saved
      * (errors also recorded in the scores themselves)
      */
-    @Setter @Getter private Map<String, String> scoreErrors;
-
-    protected GradebookItem() {
-    }
+    private Map<String, String> scoreErrors;
 
     public GradebookItem(String gradebookId, String name) {
         this(gradebookId, name, null, null, null, false);
@@ -80,11 +79,6 @@ public class GradebookItem {
         }
 
         this.released = released;
-    }
-
-    @Override
-    public String toString() {
-        return "{" + name + " [" + id + "] " + pointsPossible + ":" + dueDate + ":" + type + "::" + scores + "}";
     }
 
     @Override

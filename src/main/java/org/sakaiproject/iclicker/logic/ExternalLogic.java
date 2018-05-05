@@ -18,19 +18,13 @@
  */
 package org.sakaiproject.iclicker.logic;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * This is the 2.6 version of the external logic service
  */
 public class ExternalLogic extends AbstractExternalLogic {
 
-    private static final Logger log = LoggerFactory.getLogger(ExternalLogic.class);
-
     public void init() {
         super.init();
-        log.info("INIT");
     }
 
 }

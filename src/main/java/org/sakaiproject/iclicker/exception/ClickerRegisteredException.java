@@ -23,7 +23,7 @@ package org.sakaiproject.iclicker.exception;
  */
 public class ClickerRegisteredException extends RuntimeException {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -8136901550401498971L;
 
     public String ownerId;
     public String clickerId;

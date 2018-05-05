@@ -39,8 +39,6 @@ import org.sakaiproject.iclicker.model.Student;
 import org.sakaiproject.iclicker.model.User;
 import org.sakaiproject.iclicker.model.dao.ClickerRegistration;
 import org.sakaiproject.iclicker.model.dao.ClickerUserKey;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -54,6 +52,7 @@ import org.xml.sax.SAXException;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -82,12 +81,11 @@ import java.util.Vector;
 /**
  * This is the implementation of the business logic interface, this handles all the business logic and processing for the application
  */
+@Slf4j
 public class IClickerLogic {
 
-    private static final Logger log = LoggerFactory.getLogger(IClickerLogic.class);
-
-    public static final String VERSION = "11-SNAPSHOT"; // should match the POM version
-    public static final String VERSION_DATE = "20161222"; // the date in YYYYMMDD
+    public static final String VERSION = "12.0"; // should match the POM version
+    public static final String VERSION_DATE = "20180505"; // the date in YYYYMMDD
 
     // CONFIG
     public static final String DEFAULT_SERVER_URL = "http://localhost/sakai";
@@ -121,7 +119,6 @@ public class IClickerLogic {
      * Place any code that should run when this class is initialized by spring here
      */
     public void init() {
-        log.info("INIT");
         // store this so we can get the service later
         IClickerLogic.setInstance(this);
         serverURL = externalLogic.getConfigurationSetting(ExternalLogic.SETTING_SERVER_URL, DEFAULT_SERVER_URL);

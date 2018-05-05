@@ -43,19 +43,17 @@ import org.sakaiproject.iclicker.model.Gradebook;
 import org.sakaiproject.iclicker.model.GradebookItem;
 import org.sakaiproject.iclicker.model.Student;
 import org.sakaiproject.iclicker.model.dao.ClickerRegistration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * This servlet will basically take the place of entitybroker in versions of Sakai that do not have it <br/>
  * More help info at: <br/>
  * http://localhost:8080/iclicker/rest
  */
+@Slf4j
 public class RestServlet extends HttpServlet {
 
-    private static final long serialVersionUID = 1L;
-
-    private static Logger log = LoggerFactory.getLogger(RestServlet.class);
+    private static final long serialVersionUID = 5404047121138896131L;
 
     private static final String PASSWORD = "_password";
     private static final String LOGIN = "_login";
