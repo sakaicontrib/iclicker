@@ -21,31 +21,30 @@ package org.sakaiproject.iclicker.model.dao;
 import java.io.Serializable;
 import java.util.Date;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * This defines locks to allow for cluster operations
  */
+@Data
+@NoArgsConstructor
 public class ClickerLock implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2351678938136096424L;
 
-    @Setter @Getter private Long id;
-    @Setter @Getter private Date lastModified;
+    private Long id;
+    private Date lastModified;
 
     /**
      * The name of the lock
      */
-    @Setter @Getter private String name;
+    private String name;
 
     /**
      * The holder (owner) of this lock
      */
-    @Setter @Getter private String holder;
-
-    public ClickerLock() {
-    }
+    private String holder;
 
     public ClickerLock(String name, String holder) {
         this.lastModified = new Date();

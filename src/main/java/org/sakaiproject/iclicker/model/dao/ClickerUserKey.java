@@ -22,38 +22,34 @@ package org.sakaiproject.iclicker.model.dao;
 import java.io.Serializable;
 import java.util.Date;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * This represents a clicker user key which is assigned to instructors on demand when used with an
  * LMS which uses a single sign on system. They key is used in place of a password and is a randomly
  * generated alphanumeric char sequence.
  */
+@Data
+@NoArgsConstructor
 public class ClickerUserKey implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Setter @Getter private Long id;
+    private Long id;
 
     /**
      * Sakai userId (internal, not EID/USERNAME)
      */
-    @Setter @Getter private String userId;
+    private String userId;
 
     /**
      * The encoded user key
      */
-    @Setter @Getter private String userKey;
+    private String userKey;
 
-    @Setter @Getter private Date dateCreated;
-    @Setter @Getter private Date dateModified;
-
-    /**
-     * Default constructor
-     */
-    public ClickerUserKey() {
-    }
+    private Date dateCreated;
+    private Date dateModified;
 
     /**
      * Full constructor
@@ -109,11 +105,6 @@ public class ClickerUserKey implements Serializable {
         }
 
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "ClickerUserKey [id=" + id + ", userId=" + userId + ", userKey=" + userKey + "]";
     }
 
 }

@@ -23,28 +23,22 @@ import java.util.Vector;
 
 import org.apache.commons.lang.StringUtils;
 
-import lombok.Getter;
-import lombok.Setter;
-
+import lombok.Data;
 
 /**
  * This holds the values of all the items in a gradebook and the users/scores
  */
+@Data
 public class Gradebook {
-    @Setter @Getter private String id;
-    @Setter @Getter private String courseId;
+    private String id;
+    private String courseId;
 
-    @Setter @Getter private List<Student> students = new Vector<>();
-    @Setter @Getter private List<GradebookItem> items = new Vector<>();
+    private List<Student> students = new Vector<>();
+    private List<GradebookItem> items = new Vector<>();
 
     public Gradebook(String id) {
         this.id = id;
         this.courseId = id;
-    }
-
-    @Override
-    public String toString() {
-        return id + ":(" + students + "):" + items;
     }
 
     @Override

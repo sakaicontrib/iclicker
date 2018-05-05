@@ -23,7 +23,7 @@ package org.sakaiproject.iclicker.exception;
  */
 public class ClickerIdInvalidException extends RuntimeException {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -1959676105677729065L;
 
     public enum Failure {
         /**

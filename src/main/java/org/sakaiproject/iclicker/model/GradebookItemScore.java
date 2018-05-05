@@ -22,29 +22,28 @@ import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * This represents an individual score in a gradebook grade item for a user
  */
+@Data
+@NoArgsConstructor
 public class GradebookItemScore {
-    @Setter @Getter private String id;
-    @Setter @Getter private String itemName;
-    @Setter @Getter private String userId;
-    @Setter @Getter private String username;
-    @Setter @Getter private String graderUserId;
-    @Setter @Getter private Date recorded;
-    @Setter @Getter private String grade;
-    @Setter @Getter private String comment;
+    private String id;
+    private String itemName;
+    private String userId;
+    private String username;
+    private String graderUserId;
+    private Date recorded;
+    private String grade;
+    private String comment;
 
     /**
      * Used to indicate the failure that occurred when saving this score (null if no error)
      */
-    @Setter @Getter private String error;
-
-    protected GradebookItemScore() {
-    }
+    private String error;
 
     public GradebookItemScore(String itemName, String userId, String grade) {
         this(itemName, userId, grade, null, null, null, null);
@@ -79,11 +78,6 @@ public class GradebookItemScore {
         this.id = itemName + ":" + userId;
         this.itemName = itemName;
         this.userId = userId;
-    }
-
-    @Override
-    public String toString() {
-        return "(" + id + ":" + username + ":" + grade + ":" + recorded + ")";
     }
 
     @Override

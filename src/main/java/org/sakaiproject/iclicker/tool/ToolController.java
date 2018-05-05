@@ -29,14 +29,13 @@ import org.sakaiproject.iclicker.logic.ExternalLogic;
 import org.sakaiproject.iclicker.logic.IClickerLogic;
 import org.sakaiproject.iclicker.model.Course;
 import org.sakaiproject.iclicker.model.dao.ClickerRegistration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.PageContext;
@@ -47,22 +46,17 @@ import java.util.Vector;
 
 /**
  * This is the singleton controller for the application, this handles all the display related logic and processing and communicates with the services for the view layer
- * 
- * @author Aaron Zeckoski (azeckoski @ gmail.com)
  */
+@Data
+@Slf4j
+@NoArgsConstructor
 public class ToolController {
 
-    private static final Logger log = LoggerFactory.getLogger(ToolController.class);
-
-    @Setter @Getter private IClickerLogic logic;
-    @Setter @Getter private ExternalLogic externalLogic;
-    @Setter @Getter private ReloadableResourceBundleMessageSource messageSource;
+    private IClickerLogic logic;
+    private ExternalLogic externalLogic;
+    private ReloadableResourceBundleMessageSource messageSource;
 
     public void init() {
-        log.info("INIT");
-    }
-
-    public ToolController() {
     }
 
     /**************************************************************************

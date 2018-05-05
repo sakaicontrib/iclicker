@@ -23,8 +23,8 @@ import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * This represents a clicker (iclicker remote) registration which is stored in the local Sakai DB,
@@ -32,43 +32,44 @@ import lombok.Setter;
  * Registrations can be viewed by the instructor of the courses the owner is in <br/>
  * Anyone in the system can create a registration
  */
+@Data
+@NoArgsConstructor
 public class ClickerRegistration implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    @Setter @Getter private Long id;
-    @Setter @Getter private String clickerId;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6663432681411088970L;
+    private Long id;
+    private String clickerId;
     /**
      * Sakai userId (internal, not EID/USERNAME)
      */
-    @Setter @Getter private String ownerId;
+    private String ownerId;
     /**
      * [OPTIONAL] Sakai course ID
      */
 
-    @Setter @Getter private String locationId;
+    private String locationId;
 
     /**
      * if this is true then the registration is effectively deleted (disabled)
      * and should not be returned as part of the data feeds,
      * it should still be displayed to the owner but not to others
      */
-    @Setter @Getter private boolean activated = true;
+    private boolean activated = true;
 
     /**
      * if this is true it means this registration came from the national system,
      * or has been synced with it
      */
-    @Setter @Getter private boolean national = false;
+    private boolean national = false;
 
-    @Setter @Getter private Date dateCreated;
-    @Setter @Getter private Date dateModified;
+    private Date dateCreated;
+    private Date dateModified;
 
     // NON-PERSISTENT
-    @Setter @Getter public String userDisplayName;
-
-    public ClickerRegistration() {
-    }
+    public String userDisplayName;
 
     public ClickerRegistration(String clickerId, String ownerId) {
         this(clickerId, ownerId, null);
@@ -149,11 +150,6 @@ public class ClickerRegistration implements Serializable {
         }
 
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return this.clickerId + ":uid=" + this.ownerId + ":" + this.dateModified;
     }
 
 }
