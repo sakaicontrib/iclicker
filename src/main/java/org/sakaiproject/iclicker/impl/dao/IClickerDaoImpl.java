@@ -22,13 +22,12 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.dialect.Dialect;
 import org.hibernate.dialect.MySQLDialect;
 import org.hibernate.dialect.Oracle10gDialect;
-import org.hibernate.engine.SessionFactoryImplementor;
+import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.sakaiproject.genericdao.api.search.Search;
 import org.sakaiproject.genericdao.hibernate.HibernateGeneralGenericDao;
 import org.sakaiproject.iclicker.api.dao.IClickerDao;
 import org.sakaiproject.iclicker.model.dao.ClickerLock;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
 import java.util.List;
@@ -37,22 +36,20 @@ import java.util.List;
  * Implementations of any specialized DAO methods from the specialized DAO that allows the developer to extend the functionality of the generic dao package, this handles all data persistence for the
  * application
  */
+@Slf4j
 public class IClickerDaoImpl extends HibernateGeneralGenericDao implements IClickerDao {
 
-    private static final Logger log = LoggerFactory.getLogger(IClickerDaoImpl.class);
-
     public void init() {
-        log.debug("init");
         try {
             // attempt to alter the iclicker_registration table
-            Dialect dialect = ((SessionFactoryImplementor) getSessionFactory()).getDialect();
+            Dialect dialect = ((SessionFactoryImplementor) getHibernateTemplate().getSessionFactory()).getDialect();
             if (dialect instanceof MySQLDialect) {
-                getSession().createSQLQuery(
+                currentSession().createSQLQuery(
                                 "ALTER TABLE `iclicker_registration` CHANGE COLUMN `clickerId` `clickerId` VARCHAR(16) NOT NULL")
                                 .executeUpdate();
                 log.info("Updated the iclicker_registration table in MYSQL");
             } else if (dialect instanceof Oracle10gDialect) {
-                getSession().createSQLQuery("ALTER TABLE iclicker_registration MODIFY clickerId VARCHAR2(16)")
+                currentSession().createSQLQuery("ALTER TABLE iclicker_registration MODIFY clickerId VARCHAR2(16)")
                                 .executeUpdate();
                 log.info("Updated the iclicker_registration table in ORACLE");
             }
