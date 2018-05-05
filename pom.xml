@@ -1,7 +1,6 @@
 <!--suppress MavenModelInspection -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.sakaiproject</groupId>
     <artifactId>iclicker</artifactId>
     <name>i&gt;clicker Sakai integrate</name>
     <description>This is a Sakai plugin which provides integration with the iClicker classroom polling system</description>
@@ -11,15 +10,27 @@
     </organization>
     <inceptionYear>2009</inceptionYear>
     <packaging>war</packaging>
-    <version>11-SNAPSHOT</version>
 
     <!-- Sakai master pom is the parent -->
     <parent>
-        <artifactId>master</artifactId>
         <groupId>org.sakaiproject</groupId>
-        <version>11-SNAPSHOT</version>
-        <relativePath>../master/pom.xml</relativePath>
+        <artifactId>master</artifactId>
+        <version>12-SNAPSHOT</version>
     </parent>
+
+    <properties>
+        <checkstyle.version>6.12</checkstyle.version>
+        <easymock.version>1.2_Java1.3</easymock.version>
+        <entitybus.version>1.0.8</entitybus.version>
+        <hsql.version>2.4.0</hsql.version>
+        <javassist.version>3.12.1.GA</javassist.version>
+        <jsp-api.version>2.0</jsp-api.version>
+        <plugin.checkstyle.version>2.17</plugin.checkstyle.version>
+        <reflectutils.version>0.9.16</reflectutils.version>
+        <sakai-jsp.version>0.10-K1</sakai-jsp.version>
+        <spring-mock.version>2.0.8</spring-mock.version>
+        <taglibs.version>1.1.2</taglibs.version>
+    </properties>
 
     <dependencies>
 
@@ -64,7 +75,7 @@
         <dependency>
             <groupId>org.sakaiproject</groupId>
             <artifactId>sakai-jsp-adapter</artifactId>
-            <version>0.10-K1</version>
+            <version>${sakai-jsp.version}</version>
             <scope>runtime</scope>
             <exclusions>
                 <exclusion>
@@ -76,14 +87,14 @@
 
         <!-- generic DAO -->
         <dependency>
-            <groupId>org.sakaiproject</groupId>
+            <groupId>org.sakaiproject.genericdao</groupId>
             <artifactId>generic-dao</artifactId>
-            <version>0.9.18</version>
+            <version>${sakai.genericdao.version}</version>
         </dependency>
         <dependency>
             <groupId>org.azeckoski</groupId>
             <artifactId>reflectutils</artifactId>
-            <version>0.9.16</version>
+            <version>${reflectutils.version}</version>
         </dependency>
 
         <!-- shared external dependencies -->
@@ -123,14 +134,14 @@
         <dependency>
             <groupId>org.sakaiproject.entitybus</groupId>
             <artifactId>entitybus-utils</artifactId>
-            <version>1.0.8</version>
+            <version>${entitybus.version}</version>
         </dependency>
 
         <!-- JSP and standard tag libraries -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jsp-api</artifactId>
-            <version>2.0</version>
+            <version>${jsp-api.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -140,33 +151,33 @@
         <dependency>
             <groupId>taglibs</groupId>
             <artifactId>standard</artifactId>
-            <version>1.1.2</version>
+            <version>${taglibs.version}</version>
         </dependency>
 
         <!-- testing dependencies -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-mock</artifactId>
-            <version>2.0.6</version>
+            <version>${spring-mock.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>hsqldb</groupId>
+            <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
-            <version>1.8.0.5</version>
+            <version>${hsql.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>easymock</groupId>
             <artifactId>easymock</artifactId>
-            <version>1.2_Java1.3</version>
+            <version>${easymock.version}</version>
             <scope>test</scope>
         </dependency>
         <!-- needed for hibernate -->
         <dependency>
           <groupId>javassist</groupId>
           <artifactId>javassist</artifactId>
-          <version>3.12.1.GA</version>
+          <version>${javassist.version}</version>
           <scope>test</scope>
         </dependency>
 
@@ -286,7 +297,7 @@
             <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>2.17</version>
+                    <version>${plugin.checkstyle.version}</version>
                     <executions>
                         <execution>
                             <id>execute-checkstyle</id>
@@ -300,7 +311,7 @@
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>6.12</version>
+                            <version>${checkstyle.version}</version>
                         </dependency>
                     </dependencies>
                     <configuration>

@@ -732,4 +732,8 @@ public class FakeSite implements Site {
         return null;
     }
 
+    @Override
+    public void deleteGroup(Group group) throws IllegalStateException {
+    }
+
 }
