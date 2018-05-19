@@ -44,14 +44,19 @@ public class IClickerDaoImpl extends HibernateGeneralGenericDao implements IClic
             // attempt to alter the iclicker_registration table
             Dialect dialect = ((SessionFactoryImplementor) getHibernateTemplate().getSessionFactory()).getDialect();
             if (dialect instanceof MySQLDialect) {
-                currentSession().createSQLQuery(
-                    "ALTER TABLE `iclicker_registration` CHANGE COLUMN `clickerId` `clickerId` VARCHAR(16) NOT NULL")
+                currentSession()
+                    .createSQLQuery(
+                        "ALTER TABLE `iclicker_registration` CHANGE COLUMN `clickerId` `clickerId` VARCHAR(16) NOT NULL"
+                    )
                     .executeUpdate();
-                log.info("Updated the iclicker_registration table in MYSQL");
+                log.info("Updated the iclicker_registration table in MySQL");
             } else if (dialect instanceof Oracle10gDialect) {
-                currentSession().createSQLQuery("ALTER TABLE iclicker_registration MODIFY clickerId VARCHAR2(16)")
+                currentSession()
+                    .createSQLQuery(
+                        "ALTER TABLE iclicker_registration MODIFY clickerId VARCHAR2(16)"
+                    )
                     .executeUpdate();
-                log.info("Updated the iclicker_registration table in ORACLE");
+                log.info("Updated the iclicker_registration table in Oracle");
             }
         } catch (Exception e) {
             log.warn("Unable to alter i>clicker iclicker_registration table, you will need to manually alter the clickerId column to 16 chars long (from 8 chars). {}", e.getMessage());
@@ -84,7 +89,7 @@ public class IClickerDaoImpl extends HibernateGeneralGenericDao implements IClic
             // check the lock
             List<ClickerLock> locks = findBySearch(ClickerLock.class, new Search("name", lockId));
 
-            if (locks.size() > 0) {
+            if (!locks.isEmpty()) {
                 // check if this is my lock, if not, then exit, if so then go ahead
                 ClickerLock lock = locks.get(0);
 
@@ -149,11 +154,11 @@ public class IClickerDaoImpl extends HibernateGeneralGenericDao implements IClic
             // check the lock
             List<ClickerLock> locks = findBySearch(ClickerLock.class, new Search("name", lockId));
 
-            if (locks.size() > 0) {
+            if (!locks.isEmpty()) {
                 // check if this is my lock, if not, then exit, if so then go ahead
                 ClickerLock lock = locks.get(0);
 
-                if (lock.getHolder().equals(executerId)) {
+                if (StringUtils.equalsIgnoreCase(lock.getHolder(), executerId)) {
                     releasedLock = true;
                     // if this is my lock then remove it immediately
                     getHibernateTemplate().delete(lock);
@@ -172,7 +177,7 @@ public class IClickerDaoImpl extends HibernateGeneralGenericDao implements IClic
     }
 
     /**
-     * Cleans up lock if there was a failure
+     * Cleans up lock if there was a failure.
      *
      * @param lockId the name of the lock which we are seeking
      */

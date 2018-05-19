@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.junit.Test;
 import org.sakaiproject.iclicker.api.dao.IClickerDao;
 import org.sakaiproject.iclicker.exception.ClickerIdInvalidException;
 import org.sakaiproject.iclicker.logic.AbstractExternalLogic;
@@ -90,6 +91,7 @@ public class IClickerLogicImplTest extends AbstractTransactionalSpringContextTes
         logicImpl.init();
     }
 
+    @Test
     public void testGetItemById() {
         ClickerRegistration item = logicImpl.getItemById(tdp.item1.getId());
         assertNotNull(item);
@@ -106,6 +108,7 @@ public class IClickerLogicImplTest extends AbstractTransactionalSpringContextTes
         }
     }
 
+    @Test
     public void testCanWriteItem() {
         // users can only write their own stuff (unless admin who can write anything
         // testing perms as a normal user
@@ -121,6 +124,7 @@ public class IClickerLogicImplTest extends AbstractTransactionalSpringContextTes
         assertTrue(logicImpl.canWriteItem(tdp.item1, FakeDataPreload.ADMIN_USER_ID));
     }
 
+    @Test
     public void testRemoveItem() {
         try {
             logicImpl.removeItem(tdp.adminitem); // user cannot delete this
@@ -150,6 +154,7 @@ public class IClickerLogicImplTest extends AbstractTransactionalSpringContextTes
         assertNull(item);
     }
 
+    @Test
     public void testSaveItem() {
         ClickerRegistration item = new ClickerRegistration("AA11AA11", FakeDataPreload.USER_ID);
         logicImpl.saveItem(item);
@@ -181,6 +186,7 @@ public class IClickerLogicImplTest extends AbstractTransactionalSpringContextTes
         }
     }
 
+    @Test
     public void testValidateClickerId() {
         try {
             logicImpl.validateClickerId(null);
@@ -264,6 +270,7 @@ public class IClickerLogicImplTest extends AbstractTransactionalSpringContextTes
         }
     }
 
+    @Test
     public void testTranslateClickerId() {
         String result;
 
@@ -304,12 +311,14 @@ public class IClickerLogicImplTest extends AbstractTransactionalSpringContextTes
         assertEquals(null, result);
     }
 
+    @Test
     public void testEncodeClickerReg() {
         ClickerRegistration registration = new ClickerRegistration("11111111", "azeckoski-123456");
         String xml = logicImpl.encodeClickerRegistration(registration);
         assertNotNull(xml);
     }
 
+    @Test
     public void testMakeClickerIdsAndDates() {
         ClickerRegistration registration = new ClickerRegistration("11111111", "azeckoski-1");
         ClickerRegistration registration2 = new ClickerRegistration("22222222", "becky-2");
@@ -333,6 +342,7 @@ public class IClickerLogicImplTest extends AbstractTransactionalSpringContextTes
         assertEquals("22222222,02222202,11111111", result[0]);
     }
 
+    @Test
     public void testDecodeGradebookXML() {
         // fully complete XML with 3 items and 3 students
         String xml = "<coursegradebook courseid='course-id-111'> " + "<user id='student1' usertype='S'> <lineitem name='item 1' pointspossible='100.0' type='internal' score='93.0'/> <lineitem name='item 2' pointspossible='100' type='internal' score='87.0'/> <lineitem name='item 3' pointspossible='50.0' type='internal' score='47.0'/> </user> " + "<user id='student2' usertype='S'> <lineitem name='item 1' pointspossible='100.0' type='internal' score='77.0'/> <lineitem name='item 2' pointspossible='100' type='internal' score='91.0'/> <lineitem name='item 3' pointspossible='50.0' type='internal' score='41.0'/> </user> " + "<user id='student3' usertype='S'> <lineitem name='item 1' pointspossible='100.0' type='internal' score='57.0'/> <lineitem name='item 2' pointspossible='100' type='internal' score='63.0'/> <lineitem name='item 3' pointspossible='50.0' type='internal' score='33.0'/> </user> " + "</coursegradebook>";
@@ -407,6 +417,7 @@ public class IClickerLogicImplTest extends AbstractTransactionalSpringContextTes
         }
     }
 
+    @Test
     public void testEncodeUploadResults() {
         String xml;
         String courseId = "course-id-1111";
@@ -493,6 +504,7 @@ public class IClickerLogicImplTest extends AbstractTransactionalSpringContextTes
      * key in the clear (as a url param or otherwise) as it is one way encrypted and very very difficult to brute force decrypt Sample key: abcdef1234566890 Sample timestamp: 1332470760 Encoded key:
      * cc80462bfc0da7e614237d7cab4b7971b0e71e9f|1332470760
      */
+    @Test
     public void testVerifyKey() {
         String key = "abcdef1234566890";
         logicImpl.setSharedKey(key);

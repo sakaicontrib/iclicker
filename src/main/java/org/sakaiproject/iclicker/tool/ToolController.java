@@ -52,6 +52,16 @@ import java.util.Vector;
 @NoArgsConstructor
 public class ToolController {
 
+    private static final String ICLICKER_MESSAGES = "iClickerMessages";
+    public static final String MESSAGE_BUNDLE = "i18n.Messages";
+    public static final String KEY_INFO = "INFO";
+    public static final String KEY_ERROR = "ERROR";
+    public static final String KEY_BELOW = "BELOW";
+    public static final String VIEW_REGISTRATION = "registration";
+    public static final String VIEW_INSTRUCTOR = "instructor";
+    public static final String VIEW_INSTRUCTOR_SSO = "instructor_sso";
+    public static final String VIEW_ADMIN = "admin";
+    public static final String[] VIEWS = {VIEW_REGISTRATION, VIEW_INSTRUCTOR, VIEW_INSTRUCTOR_SSO, VIEW_ADMIN};
     private IClickerLogic logic;
     private ExternalLogic externalLogic;
     private ReloadableResourceBundleMessageSource messageSource;
@@ -62,13 +72,6 @@ public class ToolController {
     /**************************************************************************
      * VIEW handling
      */
-
-    public static final String VIEW_REGISTRATION = "registration";
-    public static final String VIEW_INSTRUCTOR = "instructor";
-    public static final String VIEW_INSTRUCTOR_SSO = "instructor_sso";
-    public static final String VIEW_ADMIN = "admin";
-
-    public static final String[] VIEWS = {VIEW_REGISTRATION, VIEW_INSTRUCTOR, VIEW_INSTRUCTOR_SSO, VIEW_ADMIN};
 
     /**************************************************************************
      * View handling methods
@@ -478,13 +481,6 @@ public class ToolController {
     /**************************************************************************
      * STATICS and methods for message handling
      */
-
-    private static final String ICLICKER_MESSAGES = "iClickerMessages";
-
-    public static final String MESSAGE_BUNDLE = "i18n.Messages";
-    public static final String KEY_INFO = "INFO";
-    public static final String KEY_ERROR = "ERROR";
-    public static final String KEY_BELOW = "BELOW";
 
     public static String springMessageBundle() {
         return "classpath:" + MESSAGE_BUNDLE.replace('.', '/');

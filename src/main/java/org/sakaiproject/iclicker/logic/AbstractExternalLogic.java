@@ -72,6 +72,32 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public abstract class AbstractExternalLogic {
 
+    /**
+     * String type: gets the printable name of this server
+     */
+    public static final String SETTING_SERVER_NAME = "server.name";
+
+    /**
+     * String type: gets the unique id of this server (safe for clustering if used)
+     */
+    public static final String SETTING_SERVER_ID = "server.cluster.id";
+
+    /**
+     * String type: gets the URL to this server
+     */
+    public static final String SETTING_SERVER_URL = "server.main.URL";
+
+    /**
+     * String type: gets the URL to the portal on this server (or just returns the server URL if no portal in use)
+     */
+    public static final String SETTING_PORTAL_URL = "server.portal.URL";
+
+    /**
+     * Boolean type: if true then there will be data preloads and DDL creation, if false then data preloads are disabled (and will cause exceptions if preload data is missing)
+     */
+    public static final String SETTING_AUTO_DDL = "auto.ddl";
+
+    public static final String[] SPECIAL_USERS = {"admin", "postmaster"};
     public static final String SCORE_UPDATE_ERRORS = "ScoreUpdateErrors";
     public static final String POINTS_POSSIBLE_UPDATE_ERRORS = "PointsPossibleUpdateErrors";
     public static final String USER_DOES_NOT_EXIST_ERROR = "UserDoesNotExistError";
@@ -263,8 +289,7 @@ public abstract class AbstractExternalLogic {
                 return false;
             }
         } catch (Exception e) {
-            throw new IllegalArgumentException(
-                            "Failure attempting to set sakai session id (" + sessionId + "): " + e.getMessage());
+            throw new IllegalArgumentException("Failure attempting to set sakai session id (" + sessionId + "): " + e.getMessage());
         }
 
         return true;
@@ -625,8 +650,7 @@ public abstract class AbstractExternalLogic {
         return gb;
     }
 
-    private GradebookItem makeGradebookItemFromAssignment(String gbID, Assignment assignment,
-                    Map<String, String> studentUserIds, ArrayList<String> studentIds) {
+    private GradebookItem makeGradebookItemFromAssignment(String gbID, Assignment assignment, Map<String, String> studentUserIds, List<String> studentIds) {
         // build up the items listing
         GradebookItem gbItem = new GradebookItem(gbID, assignment.getName(), assignment.getPoints(),
                         assignment.getDueDate(), assignment.getExternalAppName(), assignment.isReleased());
@@ -724,7 +748,7 @@ public abstract class AbstractExternalLogic {
             throw new IllegalArgumentException("Invalid assignment (" + assignment + "): cannot create: ", e);
         }
 
-        gbItem.setId(assignment.getId() + ""); // avoid NPE
+        gbItem.setId(assignment.getId() != null ? Long.toString(assignment.getId()) : "");
         int errorsCount = 0;
 
         if (gbItem.getScores() != null && !gbItem.getScores().isEmpty()) {
@@ -826,31 +850,6 @@ public abstract class AbstractExternalLogic {
     }
 
     /**
-     * String type: gets the printable name of this server
-     */
-    public static final String SETTING_SERVER_NAME = "server.name";
-
-    /**
-     * String type: gets the unique id of this server (safe for clustering if used)
-     */
-    public static final String SETTING_SERVER_ID = "server.cluster.id";
-
-    /**
-     * String type: gets the URL to this server
-     */
-    public static final String SETTING_SERVER_URL = "server.main.URL";
-
-    /**
-     * String type: gets the URL to the portal on this server (or just returns the server URL if no portal in use)
-     */
-    public static final String SETTING_PORTAL_URL = "server.portal.URL";
-
-    /**
-     * Boolean type: if true then there will be data preloads and DDL creation, if false then data preloads are disabled (and will cause exceptions if preload data is missing)
-     */
-    public static final String SETTING_AUTO_DDL = "auto.ddl";
-
-    /**
      * Retrieves settings from the configuration service (sakai.properties)
      * 
      * @param settingName the name of the setting to retrieve, Should be a string name: e.g. auto.ddl, mystuff.config, etc. OR one of the SETTING constants (e.g {@link #SETTING_AUTO_DDL})
@@ -894,8 +893,6 @@ public abstract class AbstractExternalLogic {
     }
 
     // METHODS TO ADD TOOL TO MY WORKSPACES
-
-    static final String[] SPECIAL_USERS = {"admin", "postmaster"};
 
     /**
      * Set a current user for the current thread, create session if needed

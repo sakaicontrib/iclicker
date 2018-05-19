@@ -26,6 +26,11 @@
         <javassist.version>3.12.1.GA</javassist.version>
         <jsp-api.version>2.0</jsp-api.version>
         <plugin.checkstyle.version>2.17</plugin.checkstyle.version>
+        <plugin.pmd.version>3.7</plugin.pmd.version>
+        <pmd.version>5.5.2</pmd.version>
+        <pmd.failurePriority>3</pmd.failurePriority>
+        <pmd.showWarnings>false</pmd.showWarnings>
+        <pmd.suppressions>pmd-suppressions.properties</pmd.suppressions>
         <reflectutils.version>0.9.16</reflectutils.version>
         <sakai-jsp.version>0.10-K1</sakai-jsp.version>
         <spring-mock.version>2.0.8</spring-mock.version>
@@ -270,6 +275,7 @@
                         <exclude>**/*.sql</exclude>
                         <exclude>**/jquery-*</exclude>
                         <exclude>**/CSSUtils.java</exclude>
+                        <excluse>*pmd*</excluse>
                     </excludes>
                     <properties>
                         <name>${project.name}</name>
@@ -295,32 +301,74 @@
           </configuration>
         </plugin>
             <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>${plugin.checkstyle.version}</version>
-                    <executions>
-                        <execution>
-                            <id>execute-checkstyle</id>
-                            <phase>validate</phase>
-                            <goals>
-                                <goal>check</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <dependencies>
-                        <dependency>
-                            <groupId>com.puppycrawl.tools</groupId>
-                            <artifactId>checkstyle</artifactId>
-                            <version>${checkstyle.version}</version>
-                        </dependency>
-                    </dependencies>
-                    <configuration>
-                        <configLocation>checkstyle.xml</configLocation>
-                        <includeTestSourceDirectory>true</includeTestSourceDirectory>
-                        <failOnViolation>true</failOnViolation>
-                        <suppressionsLocation>checkstyle-suppression.xml</suppressionsLocation>
-                    </configuration>
-                </plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${plugin.checkstyle.version}</version>
+                <executions>
+                    <execution>
+                        <id>execute-checkstyle</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>${checkstyle.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <configLocation>checkstyle.xml</configLocation>
+                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                    <failOnViolation>true</failOnViolation>
+                    <suppressionsLocation>checkstyle-suppression.xml</suppressionsLocation>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>${plugin.pmd.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>net.sourceforge.pmd</groupId>
+                        <artifactId>pmd-java</artifactId>
+                        <version>${pmd.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>net.sourceforge.pmd</groupId>
+                        <artifactId>pmd-jsp</artifactId>
+                        <version>${pmd.version}</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>execute-pmd</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <linkXRef>false</linkXRef>
+                    <sourceEncoding>utf-8</sourceEncoding>
+                    <targetJdk>${javac.source}</targetJdk>
+                    <failurePriority>${pmd.failurePriority}</failurePriority>
+                    <verbose>${pmd.showWarnings}</verbose>
+                    <printFailingErrors>true</printFailingErrors>
+                    <includeTests>true</includeTests>
+                    <excludeRoots>
+                        <excludeRoot>${project.basedir}/target/generated-sources/**</excludeRoot>
+                    </excludeRoots>
+                    <rulesets>
+                        <ruleset>${project.basedir}/pmd-ruleset.xml</ruleset>
+                    </rulesets>
+                    <excludeFromFailureFile>${project.basedir}/${pmd.suppressions}</excludeFromFailureFile>
+                </configuration>
+            </plugin>
         </plugins>
         <testOutputDirectory>target/test-classes</testOutputDirectory>
         <scriptSourceDirectory>src/main/webapp</scriptSourceDirectory>
