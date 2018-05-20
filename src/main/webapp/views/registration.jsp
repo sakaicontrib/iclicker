@@ -113,34 +113,34 @@
             <h3><fmt:message key="reg.remote.faqs">Remote Registration FAQs</fmt:message></h3>
             
             <div id="accordion">
-                <h3><a href="#"><fmt:message key="reg.remote.faq1.question">Where do I find my remote ID?</fmt:message></a></h3>
+                <h3><div  class="instructions"><a href="#"><fmt:message key="reg.remote.faq1.question">Where do I find my remote ID?</fmt:message></a></div></h3>
                 <div>
                 <fmt:message key="reg.remote.faq1.answer">Your i>clicker remote ID is printed on a sticker located on the back of your remote. The ID is the 8-character code below the barcode.</fmt:message>
                 <img src="images/clickers.png" alt="<fmt:message key="reg.remote.faq1.image.alt" />" />
                 </div>
 
-                <h3><a href="#"><fmt:message key="reg.remote.faq2.question">What do I do if I cannot read the ID printed on my remote?</fmt:message></a></h3>
+                <h3><div class="instructions"><a href="#"><fmt:message key="reg.remote.faq2.question">What do I do if I cannot read the ID printed on my remote?</fmt:message></a></div></h3>
                 <div><fmt:message key="reg.remote.faq2.answer">If your remote ID has rubbed off or is illegible, go to http://www.iclicker.com/support/findclickerID/ for instructions on how to recover your remote ID.</fmt:message></div>
 
-                <h3><a href="#"><fmt:message key="reg.remote.faq3.question">Question</fmt:message></a></h3>
+                <h3><div class="instructions"><a href="#"><fmt:message key="reg.remote.faq3.question">Question</fmt:message></a></div></h3>
                 <div><fmt:message key="reg.remote.faq3.answer">[Content Here]</fmt:message></div>
 
-                <h3><a href="#"><fmt:message key="reg.remote.faq4.question">Question</fmt:message></a></h3>
+                <h3><div class="instructions"><a href="#"><fmt:message key="reg.remote.faq4.question">Question</fmt:message></a></div></h3>
                 <div><fmt:message key="reg.remote.faq4.answer">[Content Here]</fmt:message></div>
 
-                <h3><a href="#"><fmt:message key="reg.remote.faq5.question">Question</fmt:message></a></h3>
+                <h3><div class="instructions"><a href="#"><fmt:message key="reg.remote.faq5.question">Question</fmt:message></a></div></h3>
                 <div><fmt:message key="reg.remote.faq5.answer">[Content Here]</fmt:message></div>
 
-                <h3><a href="#"><fmt:message key="reg.remote.faq6.question">Question</fmt:message></a></h3>
+                <h3><div class="instructions"><a href="#"><fmt:message key="reg.remote.faq6.question">Question</fmt:message></a></div></h3>
                 <div><fmt:message key="reg.remote.faq6.answer">[Content Here]</fmt:message></div>
 
-                <h3><a href="#"><fmt:message key="reg.remote.faq7.question">Question</fmt:message></a></h3>
+                <h3><div class="instructions"><a href="#"><fmt:message key="reg.remote.faq7.question">Question</fmt:message></a></div></h3>
                 <div><fmt:message key="reg.remote.faq7.answer">[Content Here]</fmt:message></div>
 
-                <h3><a href="#"><fmt:message key="reg.remote.faq8.question">Question</fmt:message></a></h3>
+                <h3><div class="instructions"><a href="#"><fmt:message key="reg.remote.faq8.question">Question</fmt:message></a></div></h3>
                 <div><fmt:message key="reg.remote.faq8.answer">[Content Here]</fmt:message></div>
 
-                <h3><a href="#"><fmt:message key="reg.remote.faq9.question">Question</fmt:message></a></h3>
+                <h3><div class="instructions"><a href="#"><fmt:message key="reg.remote.faq9.question">Question</fmt:message></a></div></h3>
                 <div><fmt:message key="reg.remote.faq9.answer">[Content Here]</fmt:message></div>
 
             </div>

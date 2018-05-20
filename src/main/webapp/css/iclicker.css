@@ -220,6 +220,15 @@
     color:#000000;
 }
 
+.iclicker h3 div.instructions {
+    margin-left: 15px;
+}
+
+.iclicker h3 div.instructions > a {
+    color: #454545 !important;
+    font-weight: bold;
+}
+
 .iclicker p
 {
     width:96%;
