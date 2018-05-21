@@ -22,9 +22,9 @@
 <% controller.processAdmin(pageContext, request); %>
 <div class="iclicker">
 
-<ul class="navIntraTool actionToolBar nav_items">
-    <li class="firstToolBarItem nav_item"><a href="${regPath}"><fmt:message key="reg.title" /></a></li>
-    <li class="nav_item"><span class="current"><fmt:message key="admin.title" /></span></li>
+<ul class="navIntraTool actionToolBar">
+    <li class="firstToolBarItem"><span><a href="${regPath}"><fmt:message key="reg.title" /></a></span></li>
+    <li><span class="current"><fmt:message key="admin.title" /></span></li>
 </ul>
 
 <h3 class="insColor insBak insBorder page_header">&nbsp;<fmt:message key="app.iclicker">iClicker</fmt:message> <fmt:message key="admin.title">Sample Title</fmt:message></h3>
