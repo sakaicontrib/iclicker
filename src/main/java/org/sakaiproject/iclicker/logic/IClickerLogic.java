@@ -76,7 +76,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.Vector;
 
 /**
  * This is the implementation of the business logic interface, this handles all the business logic and processing for the application
@@ -85,7 +84,7 @@ import java.util.Vector;
 public class IClickerLogic {
 
     public static final String VERSION = "12.0"; // should match the POM version
-    public static final String VERSION_DATE = "20180505"; // the date in YYYYMMDD
+    public static final String VERSION_DATE = "20180521"; // the date in YYYYMMDD
 
     // CONFIG
     public static final String DEFAULT_SERVER_URL = "http://localhost/sakai";
@@ -93,16 +92,24 @@ public class IClickerLogic {
     public String serverURL = DEFAULT_SERVER_URL;
     public String domainURL = DEFAULT_SERVER_URL;
     public String workspacePageTitle = "i>clicker";
+    private static final String OWNER_ID = "ownerId";
+    private static final String SCORE_KEY = "${SCORE}";
     public boolean disableAlternateRemoteID = false;
     public boolean forceRestDebugging = false;
-
+    public ThreadLocal<String> lastValidGOKey = new ThreadLocal<>();
+    public static final String CLICKERID_SAMPLE = "11A4C277";
     private String notifyEmailsString = null;
     private String[] notifyEmails = null;
     @Getter private boolean singleSignOnHandling = false;
     private String singleSignOnSharedkey = null;
     private int maxCoursesForInstructor = 100;
     private static final int CLICKERID_LENGTH = 8;
-    @Getter private List<String> failures = new Vector<>();
+    @Getter private List<String> failures = new ArrayList<>();
+    public static final char AMP = '&';
+    public static final char APOS = '\'';
+    public static final char GT = '>';
+    public static final char LT = '<';
+    public static final char QUOT = '"';
 
     /**
      * Special tracker to see if the system is already running a thread, this is meant to ensure that more than one large scale operation is not running at once
@@ -176,8 +183,14 @@ public class IClickerLogic {
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             failure.printStackTrace(pw);
-            String stacktrace = "Full stacktrace:\n" + failure.getClass().getSimpleName() + ":" + failure.getMessage() + ":\n" + sw.toString();
-            body = body + "\nFailure:\n" + failure.toString() + "\n\n" + stacktrace;
+            String stacktrace = new StringBuilder("Full stacktrace:\n")
+                .append(failure.getClass().getSimpleName())
+                .append(":")
+                .append(failure.getMessage())
+                .append(":\n")
+                .append(sw.toString())
+                .toString();
+            body = body + (new StringBuilder("\nFailure:\n").append(failure.toString()).append("\n\n").append(stacktrace)).toString();
 
             // add to failures record and trim it
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -377,6 +390,7 @@ public class IClickerLogic {
             throw new IllegalArgumentException("key must be set in order to verify the key");
         }
 
+        String invalidKey = "i>clicker shared key (" + key + ") format is invalid ";
         boolean verified = false;
 
         if (singleSignOnHandling) {
@@ -384,19 +398,19 @@ public class IClickerLogic {
             int splitIndex = key.lastIndexOf('|');
 
             if ((splitIndex == -1) || (key.length() < splitIndex + 1)) {
-                throw new IllegalArgumentException("i>clicker shared key (" + key + ") format is invalid (no |), must be {encoded key}|{timestamp}");
+                throw new IllegalArgumentException(invalidKey + "(no |), must be {encoded key}|{timestamp}");
             }
 
             String actualKey = key.substring(0, splitIndex);
 
             if (StringUtils.isEmpty(actualKey)) {
-                throw new IllegalArgumentException("i>clicker shared key (" + key + ") format is invalid (missing encoded key), must be {encoded key}|{timestamp}");
+                throw new IllegalArgumentException(invalidKey + "(missing encoded key), must be {encoded key}|{timestamp}");
             }
 
             String timestampStr = key.substring(splitIndex + 1);
 
             if (StringUtils.isEmpty(timestampStr)) {
-                throw new IllegalArgumentException("i>clicker shared key (" + key + ") format is invalid (missing timestamp), must be {encoded key}|{timestamp}");
+                throw new IllegalArgumentException(invalidKey + "(missing timestamp), must be {encoded key}|{timestamp}");
             }
 
             long timestamp;
@@ -404,7 +418,7 @@ public class IClickerLogic {
             try {
                 timestamp = Long.parseLong(timestampStr);
             } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("i>clicker shared key (" + key + ") format is invalid (non numeric timestamp), must be {encoded key}|{timestamp}");
+                throw new IllegalArgumentException(invalidKey + "(non numeric timestamp), must be {encoded key}|{timestamp}");
             }
 
             // check this key is still good (must be within 5 mins of now)
@@ -412,7 +426,7 @@ public class IClickerLogic {
             long timeDiff = Math.abs(timestamp - unixTime);
 
             if (timeDiff > 300L) {
-                throw new SecurityException("i>clicker shared key (" + key + ") timestamp is out of date, this timestamp (" + timestamp + ") is more than 5 minutes different from the current time (" + unixTime + ")");
+                throw new SecurityException(invalidKey + ", this timestamp (" + timestamp + ") is more than 5 minutes different from the current time (" + unixTime + ")");
             }
 
             // finally we verify the key with the one in the config
@@ -420,7 +434,7 @@ public class IClickerLogic {
             String sha1Hex = Hex.encodeHexString(sha1Bytes);
 
             if (!StringUtils.equals(actualKey, sha1Hex)) {
-                throw new SecurityException("i>clicker encoded shared key (" + key + ") does not match with the key (" + sha1Hex + ") in Sakai (using timestamp: " + timestamp + ")");
+                throw new SecurityException(invalidKey + ", does not match with the key (" + sha1Hex + ") in Sakai (using timestamp: " + timestamp + ")");
             }
 
             verified = true;
@@ -566,7 +580,6 @@ public class IClickerLogic {
      * @throws SecurityException if the current user cannot access this item
      */
     public ClickerRegistration getItemByClickerId(String clickerId, String ownerId) {
-        log.debug("Getting item by clickerId: {}", clickerId);
         String userId = externalLogic.getCurrentUserId();
 
         if (userId == null) {
@@ -583,7 +596,7 @@ public class IClickerLogic {
             return null;
         }
 
-        ClickerRegistration item = dao.findOneBySearch(ClickerRegistration.class, new Search(new Restriction[] {new Restriction("clickerId", clickerId), new Restriction("ownerId", userId)}));
+        ClickerRegistration item = dao.findOneBySearch(ClickerRegistration.class, new Search(new Restriction[] {new Restriction("clickerId", clickerId), new Restriction(OWNER_ID, userId)}));
         if (item != null) {
             if (!canReadItem(item, externalLogic.getCurrentUserId())) {
                 throw new SecurityException("User (" + externalLogic.getCurrentUserId() + ") not allowed to access registration (" + item + ")");
@@ -655,12 +668,11 @@ public class IClickerLogic {
      * @return a List of ClickerRegistration objects
      */
     public List<ClickerRegistration> getAllVisibleItems(String userId, String locationId) {
-        log.debug("Fetching visible items for {} in site: {}", userId, locationId);
         List<ClickerRegistration> l;
 
         if (locationId == null) {
             // get the items for this user only
-            l = dao.findBySearch(ClickerRegistration.class, new Search(new Restriction[] {new Restriction("ownerId",
+            l = dao.findBySearch(ClickerRegistration.class, new Search(new Restriction[] {new Restriction(OWNER_ID,
                             userId), new Restriction("activated", true)}));
         } else {
             // inst gets registrations for themselves only
@@ -671,7 +683,7 @@ public class IClickerLogic {
                 l = dao.findAll(ClickerRegistration.class);
             } else {
                 // student gets registrations for themselves only always
-                l = dao.findBySearch(ClickerRegistration.class, new Search(new Restriction[] {new Restriction("ownerId",
+                l = dao.findBySearch(ClickerRegistration.class, new Search(new Restriction[] {new Restriction(OWNER_ID,
                                 userId), new Restriction("activated", true)}));
             }
         }
@@ -926,10 +938,10 @@ public class IClickerLogic {
                     owners[i] = students.get(i).getUserId();
                 }
 
-                search.addRestriction(new Restriction("ownerId", owners));
+                search.addRestriction(new Restriction(OWNER_ID, owners));
             }
 
-            search.addOrder(new Order("ownerId"));
+            search.addOrder(new Order(OWNER_ID));
             List<ClickerRegistration> l = dao.findBySearch(ClickerRegistration.class, search);
             l = removeInvalidClickerRegistrations(l);
             // create map of registrations to owners
@@ -973,7 +985,7 @@ public class IClickerLogic {
             search.addRestriction(new Restriction("activated", true)); // only active ones
         }
 
-        search.addRestriction(new Restriction("ownerId", userId));
+        search.addRestriction(new Restriction(OWNER_ID, userId));
         search.addOrder(new Order("dateCreated", false));
 
         return dao.findBySearch(ClickerRegistration.class, search);
@@ -1142,7 +1154,6 @@ public class IClickerLogic {
         try {
             db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         } catch (ParserConfigurationException e) {
-            e.printStackTrace();
             throw new RuntimeException("XML parser failure: " + e, e);
         }
 
@@ -1233,8 +1244,6 @@ public class IClickerLogic {
 
         return sb.toString();
     }
-
-    private static final String SCORE_KEY = "${SCORE}";
 
     public String encodeGradebook(Gradebook gradebook) {
         if (gradebook == null) {
@@ -1657,10 +1666,6 @@ public class IClickerLogic {
      * ************************************************************************ Clicker ID validation ************************************************************************
      */
 
-    ThreadLocal<String> lastValidGOKey = new ThreadLocal<>();
-
-    public static final String CLICKERID_SAMPLE = "11A4C277";
-
     /**
      * Cleans up and validates a given clickerId
      * 
@@ -1833,12 +1838,6 @@ public class IClickerLogic {
         return m;
     }
 
-    public static final char AMP = '&';
-    public static final char APOS = '\'';
-    public static final char GT = '>';
-    public static final char LT = '<';
-    public static final char QUOT = '"';
-
     /**
      * Escape a string for XML encoding: replace special characters with XML escapes <br/>
      * &, <, >, ", ' will be escaped
@@ -1870,6 +1869,7 @@ public class IClickerLogic {
                     break;
                 default:
                     sb.append(c);
+                    break;
             }
         }
 

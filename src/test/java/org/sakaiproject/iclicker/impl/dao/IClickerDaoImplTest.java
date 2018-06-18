@@ -19,7 +19,7 @@
 package org.sakaiproject.iclicker.impl.dao;
 
 import org.junit.Assert;
-
+import org.junit.Test;
 import org.sakaiproject.genericdao.api.search.Restriction;
 import org.sakaiproject.genericdao.api.search.Search;
 import org.sakaiproject.iclicker.api.dao.IClickerDao;
@@ -35,7 +35,6 @@ import org.springframework.test.AbstractTransactionalSpringContextTests;
 public class IClickerDaoImplTest extends AbstractTransactionalSpringContextTests {
 
     protected IClickerDao dao;
-    private FakeDataPreload tdp;
 
     private ClickerRegistration item;
     private ClickerRegistration item2;
@@ -67,7 +66,7 @@ public class IClickerDaoImplTest extends AbstractTransactionalSpringContextTests
         }
 
         // load up the test data preloader from spring
-        tdp = (FakeDataPreload) applicationContext.getBean("org.sakaiproject.iclicker.impl.logic.test.FakeDataPreload");
+        FakeDataPreload tdp = (FakeDataPreload) applicationContext.getBean("org.sakaiproject.iclicker.impl.logic.test.FakeDataPreload");
 
         if (tdp == null) {
             throw new NullPointerException("FakeDataPreload could not be retrieved from spring context");
@@ -90,6 +89,7 @@ public class IClickerDaoImplTest extends AbstractTransactionalSpringContextTests
     /**
      * Test method for {@link org.sakaiproject.iclicker.dao.impl.GenericHibernateDao#save(java.lang.Object)}.
      */
+    @Test
     public void testSave() {
         ClickerRegistration item1 = new ClickerRegistration("New item1", ITEM_OWNER);
         dao.save(item1);
@@ -101,6 +101,7 @@ public class IClickerDaoImplTest extends AbstractTransactionalSpringContextTests
     /**
      * Test method for {@link org.sakaiproject.iclicker.dao.impl.GenericHibernateDao#delete(java.lang.Object)}.
      */
+    @Test
     public void testDelete() {
         int count = dao.countAll(ClickerRegistration.class);
         Assert.assertTrue(count > 6);
@@ -111,6 +112,7 @@ public class IClickerDaoImplTest extends AbstractTransactionalSpringContextTests
     /**
      * Test method for {@link org.sakaiproject.iclicker.dao.impl.GenericHibernateDao#findById(java.lang.Class, java.io.Serializable)} .
      */
+    @Test
     public void testFindById() {
         Long id = item.getId();
         Assert.assertNotNull(id);
@@ -119,6 +121,7 @@ public class IClickerDaoImplTest extends AbstractTransactionalSpringContextTests
         Assert.assertEquals(item, item1);
     }
 
+    @Test
     public void testObtainLock() {
         // check I can get a lock
         assertTrue(dao.obtainLock("AZ.my.lock", "AZ1", 100));
@@ -155,6 +158,7 @@ public class IClickerDaoImplTest extends AbstractTransactionalSpringContextTests
         }
     }
 
+    @Test
     public void testReleaseLock() {
         // check I can get a lock
         assertTrue(dao.obtainLock("AZ.R.lock", "AZ1", 1000));
@@ -190,6 +194,7 @@ public class IClickerDaoImplTest extends AbstractTransactionalSpringContextTests
         }
     }
 
+    @Test
     public void testUserKeys() {
         ClickerUserKey key1 = new ClickerUserKey("123456789", "aaronz");
         dao.save(key1);
@@ -218,6 +223,7 @@ public class IClickerDaoImplTest extends AbstractTransactionalSpringContextTests
         assertNull(key2.getId());
     }
 
+    @Test
     public void testUserKeysDelete() {
         ClickerUserKey key1 = new ClickerUserKey("123456789", "aaronz");
         dao.save(key1);

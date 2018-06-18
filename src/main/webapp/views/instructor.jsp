@@ -20,15 +20,23 @@
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%><%@ include file="/views/include.jsp" %>
 <% controller.processInstructor(pageContext, request); %>
-<ul class="navIntraTool actionToolBar nav_items">
-    <li class="firstToolBarItem nav_item"><a href="${regPath}"><fmt:message key="reg.title" /></a></li>
-    <li class="nav_item">
-        <span class="current"><fmt:message key="inst.title" /></span> &gt;
-        <c:choose><c:when test="${courseId == null}"><fmt:message key="inst.all.courses" /></c:when>
-        <c:otherwise><a href="${instPath}"><fmt:message key="inst.all.courses" /></a> &gt; ${courseTitle}</c:otherwise></c:choose>
+<ul class="navIntraTool actionToolBar">
+    <li class="firstToolBarItem"><span><a href="${regPath}"><fmt:message key="reg.title" /></a></span></li>
+    <li>
+        <span>
+            <fmt:message key="inst.title" /> &gt;
+            <c:choose>
+                <c:when test="${courseId == null}">
+                    <fmt:message key="inst.all.courses" />
+                </c:when>
+                <c:otherwise>
+                    <a href="${instPath}"><fmt:message key="inst.all.courses" /></a> &gt; ${courseTitle}
+                </c:otherwise>
+            </c:choose>
+        </span>
     </li>
     <c:if test="${ssoEnabled}">
-    <li class="nav_item"><a href="${instSSOPath}"><fmt:message key="inst.sso.link" /></a></li>
+        <li><span><a href="${instSSOPath}"><fmt:message key="inst.sso.link" /></a></span></li>
     </c:if>
 </ul>
 

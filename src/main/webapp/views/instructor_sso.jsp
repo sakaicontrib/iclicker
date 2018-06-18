@@ -20,10 +20,10 @@
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%><%@ include file="/views/include.jsp" %>
 <% controller.processInstructorSSO(pageContext, request); %>
-<ul class="navIntraTool actionToolBar nav_items">
-    <li class="firstToolBarItem nav_item"><a href="${regPath}"><fmt:message key="reg.title" /></a></li>
-    <li class="nav_item"><a href="${instPath}"><fmt:message key="inst.title" /></a></li>
-    <li class="nav_item"><span class="current"><fmt:message key="inst.sso.link" /></span></li>
+<ul class="navIntraTool actionToolBar">
+    <li class="firstToolBarItem"><span><a href="${regPath}"><fmt:message key="reg.title" /></a></span></li>
+    <li><span><a href="${instPath}"><fmt:message key="inst.title" /></a></span></li>
+    <li><span class="current"><fmt:message key="inst.sso.link" /></span></li>
 </ul>
 
 <h3 class="insColor insBak insBorder page_header">&nbsp;<fmt:message key="inst.sso.title">Sample Title</fmt:message></h3>
