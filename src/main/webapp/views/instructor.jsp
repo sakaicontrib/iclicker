@@ -22,25 +22,23 @@
 <% controller.processInstructor(pageContext, request); %>
 <ul class="navIntraTool actionToolBar">
     <li class="firstToolBarItem"><span><a href="${regPath}"><fmt:message key="reg.title" /></a></span></li>
-    <li>
-        <span>
-            <fmt:message key="inst.title" /> &gt;
-            <c:choose>
-                <c:when test="${courseId == null}">
-                    <fmt:message key="inst.all.courses" />
-                </c:when>
-                <c:otherwise>
-                    <a href="${instPath}"><fmt:message key="inst.all.courses" /></a> &gt; ${courseTitle}
-                </c:otherwise>
-            </c:choose>
-        </span>
-    </li>
+    <li><span class="current"><fmt:message key="inst.title" /></span></li>
     <c:if test="${ssoEnabled}">
         <li><span><a href="${instSSOPath}"><fmt:message key="inst.sso.link" /></a></span></li>
     </c:if>
 </ul>
 
-<h3 class="insColor insBak insBorder page_header">&nbsp;<fmt:message key="app.iclicker">iClicker</fmt:message> <fmt:message key="inst.title">Sample Title</fmt:message></h3>
+<h3 class="insColor insBak insBorder page_header">&nbsp;<fmt:message key="app.iclicker">iClicker</fmt:message> <fmt:message key="inst.title">Sample Title</fmt:message>
+ &gt;
+<c:choose>
+    <c:when test="${courseId == null}">
+        <fmt:message key="inst.all.courses" />
+    </c:when>
+    <c:otherwise>
+        <a href="${instPath}"><fmt:message key="inst.all.courses" /></a> &gt; ${courseTitle}
+    </c:otherwise>
+</c:choose>
+</h3>
 <!-- show messages if there are any to show -->
 <jsp:include page="/views/userMsgs.jsp"></jsp:include>
 
