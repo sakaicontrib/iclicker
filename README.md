@@ -64,6 +64,8 @@ All the properties are optional. If they are not included the default values are
     ## Domain configuration
     # the iclicker domain URL, DEFAULT: the Sakai server URL (e.g. http://your.server.edu)
     #iclicker.domainurl={server url}
+    #iclicker REST service /courses to return only published sites, DEFAULT: false
+    #iclicker.get.published.courses.only=false
 
 NOTE on Single Sign-On::
 

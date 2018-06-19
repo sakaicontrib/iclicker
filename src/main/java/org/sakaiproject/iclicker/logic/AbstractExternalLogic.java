@@ -104,6 +104,7 @@ public abstract class AbstractExternalLogic {
     public static final String GENERAL_ERRORS = "GeneralErrors";
 
     public String serverId = "UNKNOWN_SERVER_ID";
+    public Boolean publishedSitesOnly = false;
 
     public static final String NO_LOCATION = "noLocationAvailable";
 
@@ -121,6 +122,7 @@ public abstract class AbstractExternalLogic {
 
     public void init() {
         serverId = getConfigurationSetting(AbstractExternalLogic.SETTING_SERVER_ID, serverId);
+        publishedSitesOnly = getConfigurationSetting("iclicker.get.published.courses.only", publishedSitesOnly);
     }
 
     /**
@@ -506,6 +508,11 @@ public abstract class AbstractExternalLogic {
             }
 
             instSites.add(site);
+        }
+
+        // filter out unpublished sites
+        if (publishedSitesOnly && !site.isPublished()) {
+            continue;
         }
 
         return instSites;
