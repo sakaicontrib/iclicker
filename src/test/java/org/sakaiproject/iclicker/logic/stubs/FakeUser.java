@@ -165,4 +165,14 @@ public class FakeUser implements User {
         return new Date();
     }
 
+    @Override
+    public String getDisplayName(String context) {
+        return null;
+    }
+
+    @Override
+    public String getDisplayId(String context) {
+        return null;
+    }
+
 }
