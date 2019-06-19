@@ -56,7 +56,14 @@
     <bean id="org.sakaiproject.iclicker.hibernate.SessionFactory"
         class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="javax.sql.DataSource" />
-        <property name="mappingResources" ref="org.sakaiproject.iclicker.HBMMappingList" />
+        <!-- property name="mappingResources" ref="org.sakaiproject.iclicker.HBMMappingList" / -->
+        <property name="mappingResources">
+            <list>
+                <value>org/sakaiproject/iclicker/dao/hbm/ClickerRegistration.hbm.xml</value>
+                <value>org/sakaiproject/iclicker/dao/hbm/ClickerLock.hbm.xml</value>
+                <value>org/sakaiproject/iclicker/dao/hbm/ClickerUserKey.hbm.xml</value>
+            </list>
+        </property>
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>
@@ -73,7 +80,7 @@
     <!-- Create a transaction manager from the SessionFactory,
         name it the same as the Sakai one so we can reuse our other spring config files -->
     <bean id="org.sakaiproject.iclicker.hibernate.TransactionManager"
-        class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        class="org.sakaiproject.springframework.orm.hibernate.GlobalTransactionManager">
         <property name="sessionFactory"
             ref="org.sakaiproject.iclicker.hibernate.SessionFactory" />
     </bean>

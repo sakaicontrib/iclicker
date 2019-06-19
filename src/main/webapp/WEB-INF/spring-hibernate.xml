@@ -19,13 +19,11 @@
     along with i>clicker Sakai integrate.  If not, see <http://www.gnu.org/licenses/>.
 
 -->
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
-"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-<beans>
-
-    <!-- define the list of HBM mapping files -->
-    <bean id="org.sakaiproject.iclicker.HBMMappingList" class="java.util.ArrayList">
+    <bean id="org.sakaiproject.iclicker.hbmMappingList" class="java.util.ArrayList">
         <constructor-arg>
             <list>
                 <value>org/sakaiproject/iclicker/dao/hbm/ClickerRegistration.hbm.xml</value>
@@ -35,29 +33,42 @@
         </constructor-arg>
     </bean>
 
-<!-- This is the DAO and the bean config wraps it so that the transactions are managed -->
-<bean id="org.sakaiproject.iclicker.api.dao.IClickerDao" class="org.sakaiproject.genericdao.springutil.CurrentClassLoaderTxProxyFactoryBean">
-    <property name="transactionManager" ref="org.sakaiproject.iclicker.hibernate.TransactionManager" />
-    <property name="target">
-        <bean class="org.sakaiproject.iclicker.impl.dao.IClickerDaoImpl" init-method="init">
-            <property name="sessionFactory" ref="org.sakaiproject.iclicker.hibernate.SessionFactory" />
-            <property name="persistentClasses">
-                <list>
-                    <value>org.sakaiproject.iclicker.model.dao.ClickerRegistration</value>
-                    <value>org.sakaiproject.iclicker.model.dao.ClickerLock</value>
-                    <value>org.sakaiproject.iclicker.model.dao.ClickerUserKey</value>
-                </list>
-            </property>
-        </bean>
-    </property>
-    <property name="transactionAttributes">
-        <props>
-            <prop key="get*">PROPAGATION_REQUIRED,readOnly</prop>
-            <prop key="find*">PROPAGATION_REQUIRED,readOnly</prop>
-            <prop key="count*">PROPAGATION_REQUIRED,readOnly</prop>
-            <prop key="*">PROPAGATION_REQUIRED</prop>
-        </props>
-    </property>
-</bean>
+    <bean id="org.sakaiproject.springframework.orm.hibernate.impl.AdditionalHibernateMappings.iclicker"
+        class="org.sakaiproject.springframework.orm.hibernate.impl.AdditionalHibernateMappingsImpl">
+        <property name="mappingResources">
+            <list>
+                <value>org/sakaiproject/iclicker/dao/hbm/ClickerRegistration.hbm.xml</value>
+                <value>org/sakaiproject/iclicker/dao/hbm/ClickerLock.hbm.xml</value>
+                <value>org/sakaiproject/iclicker/dao/hbm/ClickerUserKey.hbm.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="org.sakaiproject.iclicker.impl.dao.IClickerDaoImplTarget"
+        class="org.sakaiproject.iclicker.impl.dao.IClickerDaoImpl"
+        init-method="init">
+        <property name="sessionFactory" ref="org.sakaiproject.springframework.orm.hibernate.GlobalSessionFactory" />
+        <property name="persistentClasses">
+            <list>
+                <value>org.sakaiproject.iclicker.model.dao.ClickerRegistration</value>
+                <value>org.sakaiproject.iclicker.model.dao.ClickerLock</value>
+                <value>org.sakaiproject.iclicker.model.dao.ClickerUserKey</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="org.sakaiproject.iclicker.api.dao.IClickerDao"
+        class="org.sakaiproject.genericdao.springutil.CurrentClassLoaderTxProxyFactoryBean">
+        <property name="transactionManager" ref="org.sakaiproject.springframework.orm.hibernate.GlobalTransactionManager" />
+        <property name="target" ref="org.sakaiproject.iclicker.impl.dao.IClickerDaoImplTarget" />
+        <property name="transactionAttributes">
+            <props>
+                <prop key="get*">PROPAGATION_REQUIRED,readOnly</prop>
+                <prop key="find*">PROPAGATION_REQUIRED,readOnly</prop>
+                <prop key="count*">PROPAGATION_REQUIRED,readOnly</prop>
+                <prop key="*">PROPAGATION_REQUIRED</prop>
+            </props>
+        </property>
+    </bean>
 
 </beans>
