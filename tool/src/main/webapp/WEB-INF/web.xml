@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2009 i>clicker (R) <http://www.iclicker.com/dnn/>
+
+    This file is part of i>clicker Sakai integrate.
+
+    i>clicker Sakai integrate is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    i>clicker Sakai integrate is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with i>clicker Sakai integrate.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee  http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+    version="2.4">
+    <display-name>Sakai iClicker Plugin</display-name>
+    <description>Sakai i>clicker plugin for integration between Sakai and i>clicker products</description>
+
+    <!-- Sakai request filter -->
+    <filter>
+        <filter-name>sakai.request</filter-name>
+        <filter-class>org.sakaiproject.util.RequestFilter</filter-class>
+        <!-- If you need to do uploads you will need this -->
+        <init-param>
+            <param-name>upload.enabled</param-name>
+            <param-value>false</param-value>
+        </init-param>
+    </filter>
+
+    <!-- Tool Servlet -->
+    <servlet>
+        <servlet-name>sakai.iclicker</servlet-name>
+        <servlet-class>
+            uk.ac.cam.caret.sakai.WebappToolServlet
+        </servlet-class>
+        <!-- use this to specify a starting page location if needed -->
+        <!--
+        <init-param>
+            <param-name>main-page</param-name>
+            <param-value>/</param-value>
+        </init-param>
+        -->
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <filter-mapping>
+        <filter-name>sakai.request</filter-name>
+        <servlet-name>sakai.iclicker</servlet-name>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+    </filter-mapping>
+
+    <!-- REST handling servlet - for when entitybroker is not available -->
+    <servlet>
+        <servlet-name>sakai.iclicker.rest</servlet-name>
+        <servlet-class>org.sakaiproject.iclicker.tool.RestServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <filter-mapping>
+        <filter-name>sakai.request</filter-name>
+        <servlet-name>sakai.iclicker.rest</servlet-name>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+    </filter-mapping>
+    <servlet-mapping>
+        <servlet-name>sakai.iclicker.rest</servlet-name>
+        <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>
+    <!-- REST handling servlet -->
+
+    <!-- Sakai listeners -->
+    <listener>
+        <listener-class>org.sakaiproject.util.ToolListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>org.sakaiproject.util.SakaiContextLoaderListener</listener-class>
+    </listener>
+
+    <!-- define the starting page for this app -->
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+</web-app>

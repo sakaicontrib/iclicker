@@ -1,0 +1,1287 @@
+<ruleset name="CCC"
+         xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
+    <description>
+        CCC PMD Rules.  This is based on rules for 5.3.2.
+    </description>
+
+    <rule ref="rulesets/java/basic.xml/JumbledIncrementer">
+        <description>
+            Avoid jumbled loop incrementers - its usually a mistake, and is confusing even if intentional.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/basic.xml/ForLoopShouldBeWhileLoop">
+        <description>
+            Some for loops can be simplified to while loops, this makes them more concise.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/basic.xml/OverrideBothEqualsAndHashcode">
+        <description>
+            Override both public boolean Object.equals(Object other), and public int Object.hashCode(), or override neither.  Even if you are inheriting a hashCode() from a parent class, consider implementing hashCode and explicitly delegating to your superclass.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/basic.xml/DoubleCheckedLocking">
+        <description>
+            Partially created objects can be returned by the Double Checked Locking pattern when used in Java.
+            An optimizing JRE may assign a reference to the baz variable before it creates the object the
+            reference is intended to point to.
+
+            For more details refer to: http://www.javaworld.com/javaworld/jw-02-2001/jw-0209-double.html
+            or http://www.cs.umd.edu/~pugh/java/memoryModel/DoubleCheckedLocking.html
+        </description>
+        <priority>1</priority>
+    </rule>
+    <rule ref="rulesets/java/basic.xml/ReturnFromFinallyBlock">
+        <description>
+            Avoid returning from a finally block, this can discard exceptions.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/basic.xml/UnconditionalIfStatement">
+        <description>
+            Do not use "if" statements whose conditionals are always true or always false.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/basic.xml/BooleanInstantiation">
+        <description>
+            Avoid instantiating Boolean objects; you can reference Boolean.TRUE, Boolean.FALSE, or call Boolean.valueOf() instead.
+        </description>
+        <priority>2</priority>
+    </rule>
+    <rule ref="rulesets/java/basic.xml/ClassCastExceptionWithToArray">
+        <description>
+            When deriving an array of a specific class from your Collection, one should provide an array of
+            the same class as the parameter of the toArray() method. Doing otherwise you will will result
+            in a ClassCastException.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/basic.xml/AvoidDecimalLiteralsInBigDecimalConstructor">
+        <description>
+            One might assume that the result of "new BigDecimal(0.1)" is exactly equal to 0.1, but it is actually
+            equal to .1000000000000000055511151231257827021181583404541015625.
+            This is because 0.1 cannot be represented exactly as a double (or as a binary fraction of any finite
+            length). Thus, the long value that is being passed in to the constructor is not exactly equal to 0.1,
+            appearances notwithstanding.
+
+            The (String) constructor, on the other hand, is perfectly predictable: 'new BigDecimal("0.1")' is
+            exactly equal to 0.1, as one would expect.  Therefore, it is generally recommended that the
+            (String) constructor be used in preference to this one.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/basic.xml/MisplacedNullCheck">
+        <description>
+            The null check here is misplaced. If the variable is null a NullPointerException will be thrown.
+            Either the check is useless (the variable will never be "null") or it is incorrect.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/basic.xml/AvoidThreadGroup">
+        <description>
+            Avoid using java.lang.ThreadGroup; although it is intended to be used in a threaded environment
+            it contains methods that are not thread-safe.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/basic.xml/BrokenNullCheck">
+        <description>
+            The null check is broken since it will throw a NullPointerException itself.
+            It is likely that you used || instead of &amp;&amp; or vice versa.
+        </description>
+        <priority>2</priority>
+    </rule>
+    <rule ref="rulesets/java/basic.xml/BigIntegerInstantiation">
+        <description>
+            Don't create instances of already existing BigInteger (BigInteger.ZERO, BigInteger.ONE) and
+            for Java 1.5 onwards, BigInteger.TEN and BigDecimal (BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.TEN)
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/basic.xml/AvoidUsingOctalValues">
+        <description>
+
+            Integer literals should not start with zero since this denotes that the rest of literal will be
+            interpreted as an octal value.
+
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/basic.xml/AvoidMultipleUnaryOperators">
+        <description>
+
+            The use of multiple unary operators may be problematic, and/or confusing.
+            Ensure that the intended usage is not a bug, or consider simplifying the expression.
+
+        </description>
+        <priority>2</priority>
+    </rule>
+    <rule ref="rulesets/java/basic.xml/ExtendsObject">
+        <description>No need to explicitly extend Object.</description>
+        <priority>4</priority>
+    </rule>
+    <rule ref="rulesets/java/basic.xml/CheckSkipResult">
+        <description>The skip() method may skip a smaller number of bytes than requested. Check the returned value to find out if it was the case or not.</description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/basic.xml/AvoidBranchingStatementAsLastInLoop">
+        <description>
+
+            Using a branching statement as the last part of a loop may be a bug, and/or is confusing.
+            Ensure that the usage is not a bug, or consider using another approach.
+
+        </description>
+        <priority>2</priority>
+    </rule>
+    <rule ref="rulesets/java/basic.xml/DontCallThreadRun">
+        <description>
+            Explicitly calling Thread.run() method will execute in the caller's thread of control.  Instead, call Thread.start() for the intended behavior.
+        </description>
+        <priority>4</priority>
+    </rule>
+    <rule ref="rulesets/java/basic.xml/DontUseFloatTypeForLoopIndices">
+        <description>
+            Don't use floating point for loop indices. If you must use floating point, use double
+            unless you're certain that float provides enough precision and you have a compelling
+            performance need (space or time).
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/controversial.xml/AssignmentInOperand">
+        <description>
+            Avoid assignments in operands; this can make code more complicated and harder to read.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/controversial.xml/DontImportSun">
+        <description>
+            Avoid importing anything from the 'sun.*' packages.  These packages are not portable and are likely to change.
+        </description>
+        <priority>4</priority>
+    </rule>
+    <rule ref="rulesets/java/controversial.xml/SuspiciousOctalEscape">
+        <description>
+            A suspicious octal escape sequence was found inside a String literal.
+            The Java language specification (section 3.10.6) says an octal
+            escape sequence inside a literal String shall consist of a backslash
+            followed by:
+
+            OctalDigit | OctalDigit OctalDigit | ZeroToThree OctalDigit OctalDigit
+
+            Any octal escape sequence followed by non-octal digits can be confusing,
+            e.g. "\038" is interpreted as the octal escape sequence "\03" followed by
+            the literal character "8".
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/controversial.xml/DefaultPackage">
+        <description>
+            Use explicit scoping instead of the default package private level.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/controversial.xml/AvoidUsingShortType">
+        <description>
+
+            Java uses the 'short' type to reduce memory usage, not to optimize calculation. In fact, the JVM does not have any
+            arithmetic capabilities for the short type: the JVM must convert the short into an int, do the proper calculation
+            and convert the int back to a short. Thus any storage gains found through use of the 'short' type may be offset by
+            adverse impacts on performance.
+
+        </description>
+        <priority>1</priority>
+    </rule>
+    <rule ref="rulesets/java/controversial.xml/AvoidUsingNativeCode">
+        <description>
+
+            Unnecessary reliance on Java Native Interface (JNI) calls directly reduces application portability
+            and increases the maintenance burden.
+
+        </description>
+        <priority>2</priority>
+    </rule>
+    <rule ref="rulesets/java/controversial.xml/DoNotCallGarbageCollectionExplicitly">
+        <description>
+
+            Calls to System.gc(), Runtime.getRuntime().gc(), and System.runFinalization() are not advised. Code should have the
+            same behavior whether the garbage collection is disabled using the option -Xdisableexplicitgc or not.
+            Moreover, "modern" jvms do a very good job handling garbage collections. If memory usage issues unrelated to memory
+            leaks develop within an application, it should be dealt with JVM options rather than within the code itself.
+
+        </description>
+        <priority>2</priority>
+    </rule>
+    <rule ref="rulesets/java/controversial.xml/OneDeclarationPerLine">
+        <description>
+
+            Java allows the use of several variables declaration of the same type on one line. However, it
+            can lead to quite messy code. This rule looks for several declarations on the same line.
+
+        </description>
+        <priority>4</priority>
+    </rule>
+    <rule ref="rulesets/java/controversial.xml/AvoidPrefixingMethodParameters">
+        <description>
+
+            Prefixing parameters by 'in' or 'out' pollutes the name of the parameters and reduces code readability.
+            To indicate whether or not a parameter will be modify in a method, its better to document method
+            behavior with Javadoc.
+
+        </description>
+        <priority>4</priority>
+    </rule>
+    <rule ref="rulesets/java/controversial.xml/AvoidLiteralsInIfCondition">
+        <description>
+            Avoid using hard-coded literals in conditional statements. By declaring them as static variables
+            or private members with descriptive names maintainability is enhanced. By default, the literals "-1" and "0" are ignored.
+            More exceptions can be defined with the property "ignoreMagicNumbers".
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/coupling.xml/ExcessiveImports">
+        <description>
+            A high number of imports can indicate a high degree of coupling within an object. This rule
+            counts the number of unique imports and reports a violation if the count is above the
+            user-specified threshold.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/coupling.xml/LooseCoupling">
+        <description>
+            The use of implementation types as object references limits your ability to use alternate
+            implementations in the future as requirements change. Whenever available, referencing objects
+            by their interface types provides much more flexibility.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/UseUtilityClass">
+        <description>
+
+            For classes that only have static methods, consider making them utility classes.
+            Note that this doesn't apply to abstract classes, since their subclasses may
+            well include non-static methods.  Also, if you want this class to be a utility class,
+            remember to add a private constructor to prevent instantiation.
+            (Note, that this use was known before PMD 5.1.0 as UseSingleton).
+
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/SimplifyBooleanReturns">
+        <description>
+            Avoid unnecessary if-then-else statements when returning a boolean. The result of
+            the conditional test can be returned instead.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/SimplifyBooleanExpressions">
+        <description>
+            Avoid unnecessary comparisons in boolean expressions, they serve no purpose and impacts readability.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/SwitchStmtsShouldHaveDefault">
+        <description>
+            All switch statements should include a default option to catch any unspecified values.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/SwitchDensity">
+        <description>
+            A high ratio of statements to labels in a switch statement implies that the switch statement
+            is overloaded.  Consider moving the statements into new methods or creating subclasses based
+            on the switch variable.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/ConstructorCallsOverridableMethod">
+        <description>
+            Calling overridable methods during construction poses a risk of invoking methods on an incompletely
+            constructed object and can be difficult to debug.
+            It may leave the sub-class unable to construct its superclass or forced to replicate the construction
+            process completely within itself, losing the ability to call super().  If the default constructor
+            contains a call to an overridable method, the subclass may be completely uninstantiable.   Note that
+            this includes method calls throughout the control flow graph - i.e., if a constructor Foo() calls a
+            private method bar() that calls a public method buz(), this denotes a problem.
+        </description>
+        <priority>4</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/AccessorClassGeneration">
+        <description>
+            Instantiation by way of private constructors from outside of the constructor's class often causes the
+            generation of an accessor. A factory method, or non-privatization of the constructor can eliminate this
+            situation. The generated class file is actually an interface.  It gives the accessing class the ability
+            to invoke a new hidden package scope constructor that takes the interface as a supplementary parameter.
+            This turns a private constructor effectively into one with package scope, and is challenging to discern.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/FinalFieldCouldBeStatic">
+        <description>
+            If a final field is assigned to a compile-time constant, it could be made static, thus saving overhead
+            in each object at runtime.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/CloseResource">
+        <description>
+            Ensure that resources (like Connection, Statement, and ResultSet objects) are always closed after use.
+        </description>
+        <priority>3</priority>
+        <properties>
+            <property name="types" value="Connection, Statement, PreparedStatement, ResultSet"/>
+            <property name="closeTargets" value="JdbcUtils.closeResultSet,JdbcUtils.closeStatement,JdbcUtils.closeConnection,DbUtils.closeQuietly,close"/>
+        </properties>
+    </rule>
+    <rule ref="rulesets/java/design.xml/NonStaticInitializer">
+        <description>
+            A non-static initializer block will be called any time a constructor is invoked (just prior to
+            invoking the constructor).  While this is a valid language construct, it is rarely used and is
+            confusing.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/DefaultLabelNotLastInSwitchStmt">
+        <description>
+            By convention, the default label should be the last label in a switch statement.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/NonCaseLabelInSwitchStatement">
+        <description>
+            A non-case label (e.g. a named break/continue label) was present in a switch statement.
+            This legal, but confusing. It is easy to mix up the case labels and the non-case labels.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/OptimizableToArrayCall">
+        <description>
+            Calls to a collection's toArray() method should specify target arrays sized to match the size of the
+            collection. Initial arrays that are too small are discarded in favour of new ones that have to be created
+            that are the proper size.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/BadComparison">
+        <description>
+            Avoid equality comparisons with Double.NaN. Due to the implicit lack of representation
+            precision when comparing floating point numbers these are likely to cause logic errors.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/EqualsNull">
+        <description>
+            Tests for null should not use the equals() method. The '==' operator should be used instead.
+        </description>
+        <priority>1</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/ConfusingTernary">
+        <description>
+            Avoid negation within an "if" expression with an "else" clause.  For example, rephrase:
+
+            if (x != y) diff(); else same();
+            as:
+            if (x == y) same(); else diff();
+
+            Most "if (x != y)" cases without an "else" are often return cases, so consistent use of this
+            rule makes the code easier to read.  Also, this resolves trivial ordering problems, such
+            as "does the error case go first?" or "does the common case go first?".
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/InstantiationToGetClass">
+        <description>
+            Avoid instantiating an object just to call getClass() on it; use the .class public member instead.
+        </description>
+        <priority>4</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/IdempotentOperations">
+        <description>
+            Avoid idempotent operations - they have no effect.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/SimpleDateFormatNeedsLocale">
+        <description>
+            Be sure to specify a Locale when creating SimpleDateFormat instances to ensure that locale-appropriate
+            formatting is used.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/AvoidProtectedFieldInFinalClass">
+        <description>
+            Do not use protected fields in final classes since they cannot be subclassed.
+            Clarify your intent by using private or package access modifiers instead.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/AssignmentToNonFinalStatic">
+        <description>
+            Identifies a possible unsafe usage of a static field.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/MissingStaticMethodInNonInstantiatableClass">
+        <description>
+            A class that has private constructors and does not have any static methods or fields cannot be used.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/AvoidSynchronizedAtMethodLevel">
+        <description>
+            Method-level synchronization can cause problems when new code is added to the method.
+            Block-level synchronization helps to ensure that only the code that needs synchronization
+            gets it.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/MissingBreakInSwitch">
+        <description>
+            Switch statements without break or return statements for each case option
+            may indicate problematic behaviour. Empty cases are ignored as these indicate an intentional fall-through.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/UseNotifyAllInsteadOfNotify">
+        <description>
+            Thread.notify() awakens a thread monitoring the object. If more than one thread is monitoring, then only
+            one is chosen.  The thread chosen is arbitrary; thus its usually safer to call notifyAll() instead.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/AvoidInstanceofChecksInCatchClause">
+        <description>
+            Each caught exception type should be handled in its own catch clause.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/AbstractClassWithoutAbstractMethod">
+        <description>
+            The abstract class does not contain any abstract methods. An abstract class suggests
+            an incomplete implementation, which is to be completed by subclasses implementing the
+            abstract methods. If the class is intended to be used as a base class only (not to be instantiated
+            directly) a protected constructor can be provided prevent direct instantiation.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/SimplifyConditional">
+        <description>
+            No need to check for null before an instanceof; the instanceof keyword returns false when given a null argument.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/CompareObjectsWithEquals">
+        <description>
+            Use equals() to compare object references; avoid comparing them with ==.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/PositionLiteralsFirstInComparisons">
+        <description>
+            Position literals first in comparisons, if the second argument is null then NullPointerExceptions
+            can be avoided, they will just return false.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/PositionLiteralsFirstInCaseInsensitiveComparisons">
+        <description>
+            Position literals first in comparisons, if the second argument is null then NullPointerExceptions
+            can be avoided, they will just return false.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/UnnecessaryLocalBeforeReturn">
+        <description>
+            Avoid the creation of unnecessary local variables
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/NonThreadSafeSingleton">
+        <description>
+            Non-thread safe singletons can result in bad state changes. Eliminate
+            static singletons if possible by instantiating the object directly. Static
+            singletons are usually not needed as only a single instance exists anyway.
+            Other possible fixes are to synchronize the entire method or to use an
+            initialize-on-demand holder class (do not use the double-check idiom).
+
+            See Effective Java, item 48.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/AvoidConstantsInterface">
+        <description>
+            An interface should be used only to characterize the external behaviour of an
+            implementing class: using an interface as a container of constants is a poor
+            usage pattern and not recommended.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/UnsynchronizedStaticDateFormatter">
+        <description>
+            SimpleDateFormat instances are not synchronized. Sun recommends using separate format instances
+            for each thread. If multiple threads must access a static formatter, the formatter must be
+            synchronized either on method or block level.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/PreserveStackTrace">
+        <description>
+            Throwing a new exception from a catch block without passing the original exception into the
+            new exception will cause the original stack trace to be lost making it difficult to debug
+            effectively.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/UseCollectionIsEmpty">
+        <description>
+            The isEmpty() method on java.util.Collection is provided to determine if a collection has any elements.
+            Comparing the value of size() to 0 does not convey intent as well as the isEmpty() method.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/ClassWithOnlyPrivateConstructorsShouldBeFinal">
+        <description>
+            A class with only private constructors should be final, unless the private constructor
+            is invoked by a inner class.
+        </description>
+        <priority>1</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/SingularField">
+        <description>
+
+            Fields whose scopes are limited to just single methods do not rely on the containing
+            object to provide them to other methods. They may be better implemented as local variables
+            within those methods.
+
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/AbstractClassWithoutAnyMethod">
+        <description>
+            If an abstract class does not provides any methods, it may be acting as a simple data container
+            that is not meant to be instantiated. In this case, it is probably better to use a private or
+            protected constructor in order to prevent instantiation than make the class misleadingly abstract.
+        </description>
+        <priority>1</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/TooFewBranchesForASwitchStatement">
+        <description>
+            Switch statements are indended to be used to support complex branching behaviour. Using a switch for only a few
+            cases is ill-advised, since switches are not as easy to understand as if-then statements. In these cases use the
+            if-then statement to increase code readability.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <!-- sometimes easier to read.  Lowering priority to warning -->
+    <rule ref="rulesets/java/design.xml/LogicInversion">
+        <description>
+            Use opposite operator instead of negating the whole expression with a logic complement operator.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/design.xml/FieldDeclarationsShouldBeAtStartOfClass">
+        <description>
+            Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <!-- afraid this will pick up too much existing code.  Lowering priority -->
+    <rule ref="rulesets/java/design.xml/GodClass">
+        <description>
+            The God Class rule detects the God Class design flaw using metrics. God classes do too many things,
+            are very big and overly complex. They should be split apart to be more object-oriented.
+            The rule uses the detection strategy described in "Object-Oriented Metrics in Practice".
+            The violations are reported against the entire class. See also the references:
+            Michele Lanza and Radu Marinescu. Object-Oriented Metrics in Practice:
+            Using Software Metrics to Characterize, Evaluate, and Improve the Design
+            of Object-Oriented Systems. Springer, Berlin, 1 edition, October 2006. Page 80.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/imports.xml/DuplicateImports">
+        <description>
+            Duplicate or overlapping import statements should be avoided.
+        </description>
+        <priority>4</priority>
+    </rule>
+    <rule ref="rulesets/java/imports.xml/DontImportJavaLang">
+        <description>
+            Avoid importing anything from the package 'java.lang'.  These classes are automatically imported (JLS 7.5.3).
+        </description>
+        <priority>4</priority>
+    </rule>
+    <rule ref="rulesets/java/imports.xml/UnusedImports">
+        <description>
+            Avoid the use of unused import statements to prevent unwanted dependencies.
+        </description>
+        <priority>4</priority>
+    </rule>
+    <rule ref="rulesets/java/imports.xml/ImportFromSamePackage">
+        <description>
+            There is no need to import a type that lives in the same package.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/imports.xml/UnnecessaryFullyQualifiedName">
+        <description>
+            Import statements allow the use of non-fully qualified names.  The use of a fully qualified name
+            which is covered by an import statement is redundant.  Consider using the non-fully qualified name.
+        </description>
+        <priority>4</priority>
+    </rule>
+    <rule ref="rulesets/java/j2ee.xml/UseProperClassLoader">
+        <description>
+            In J2EE, the getClassLoader() method might not work as expected. Use
+            Thread.currentThread().getContextClassLoader() instead.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/junit.xml/JUnitSpelling">
+        <description>
+            Some JUnit framework methods are easy to misspell.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/junit.xml/JUnitAssertionsShouldIncludeMessage">
+        <description>
+            JUnit assertions should include an informative message - i.e., use the three-argument version of
+            assertEquals(), not the two-argument version.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/junit.xml/JUnitTestsShouldIncludeAssert">
+        <description>
+            JUnit tests should include at least one assertion.  This makes the tests more robust, and using assert
+            with messages provide the developer a clearer idea of what the test does.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/junit.xml/TestClassWithoutTestCases">
+        <description>
+            Test classes end with the suffix Test. Having a non-test class with that name is not a good practice,
+            since most people will assume it is a test case. Test classes have test methods named testXXX.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/junit.xml/UnnecessaryBooleanAssertion">
+        <description>
+            A JUnit test assertion with a boolean literal is unnecessary since it always will evaluate to the same thing.
+            Consider using flow control (in case of assertTrue(false) or similar) or simply removing
+            statements like assertTrue(true) and assertFalse(false).  If you just want a test to halt after finding
+            an error, use the fail() method and provide an indication message of why it did.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/junit.xml/UseAssertEqualsInsteadOfAssertTrue">
+        <description>
+            This rule detects JUnit assertions in object equality. These assertions should be made by more specific methods, like assertEquals.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/junit.xml/UseAssertSameInsteadOfAssertTrue">
+        <description>
+            This rule detects JUnit assertions in object references equality. These assertions should be made
+            by more specific methods, like assertSame, assertNotSame.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/junit.xml/UseAssertNullInsteadOfAssertTrue">
+        <description>
+            This rule detects JUnit assertions in object references equality. These assertions should be made by
+            more specific methods, like assertNull, assertNotNull.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/junit.xml/SimplifyBooleanAssertion">
+        <description>
+            Avoid negation in an assertTrue or assertFalse test.
+
+            For example, rephrase:
+
+            assertTrue(!expr);
+
+            as:
+
+            assertFalse(expr);
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/junit.xml/UseAssertTrueInsteadOfAssertEquals">
+        <description>
+            When asserting a value is the same as a boolean literal, use assertTrue/assertFalse, instead of assertEquals.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/logging-jakarta-commons.xml/UseCorrectExceptionLogging">
+        <description>
+            To make sure the full stacktrace is printed out, use the logging statement with two arguments: a String and a Throwable.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/logging-java.xml/MoreThanOneLogger">
+        <description>
+            Normally only one logger is used in each class.
+        </description>
+        <priority>2</priority>
+    </rule>
+    <rule ref="rulesets/java/logging-java.xml/SystemPrintln">
+        <description>
+            References to System.(out|err).print are usually intended for debugging purposes and can remain in
+            the codebase even in production code. By using a logger one can enable/disable this behaviour at
+            will (and by priority) and avoid clogging the Standard out log.
+        </description>
+        <priority>2</priority>
+    </rule>
+    <rule ref="rulesets/java/logging-java.xml/AvoidPrintStackTrace">
+        <description>
+            Avoid printStackTrace(); use a logger call instead.
+        </description>
+        <priority>1</priority>
+    </rule>
+    <rule ref="rulesets/java/migrating.xml/ReplaceVectorWithList">
+        <description>
+            Consider replacing Vector usages with the newer java.util.ArrayList if expensive thread-safe operations are not required.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/migrating.xml/ReplaceHashtableWithMap">
+        <description>
+            Consider replacing Hashtable usage with the newer java.util.Map if thread safety is not required.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/migrating.xml/ReplaceEnumerationWithIterator">
+        <description>
+            Consider replacing Enumeration usages with the newer java.util.Iterator
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/migrating.xml/AvoidEnumAsIdentifier">
+        <description>
+            Use of the term 'enum' will conflict with newer versions of Java since it is a reserved word.
+        </description>
+        <priority>2</priority>
+    </rule>
+    <rule ref="rulesets/java/migrating.xml/AvoidAssertAsIdentifier">
+        <description>
+            Use of the term 'assert' will conflict with newer versions of Java since it is a reserved word.
+        </description>
+        <priority>2</priority>
+    </rule>
+    <rule ref="rulesets/java/migrating.xml/IntegerInstantiation">
+        <description>
+            Calling new Integer() causes memory allocation that can be avoided by the static Integer.valueOf().
+            It makes use of an internal cache that recycles earlier instances making it more memory efficient.
+        </description>
+        <priority>2</priority>
+    </rule>
+    <rule ref="rulesets/java/migrating.xml/ByteInstantiation">
+        <description>
+            Calling new Byte() causes memory allocation that can be avoided by the static Byte.valueOf().
+            It makes use of an internal cache that recycles earlier instances making it more memory efficient.
+        </description>
+        <priority>2</priority>
+    </rule>
+    <rule ref="rulesets/java/migrating.xml/ShortInstantiation">
+        <description>
+            Calling new Short() causes memory allocation that can be avoided by the static Short.valueOf().
+            It makes use of an internal cache that recycles earlier instances making it more memory efficient.
+        </description>
+        <priority>2</priority>
+    </rule>
+    <rule ref="rulesets/java/migrating.xml/LongInstantiation">
+        <description>
+            Calling new Long() causes memory allocation that can be avoided by the static Long.valueOf().
+            It makes use of an internal cache that recycles earlier instances making it more memory efficient.
+        </description>
+        <priority>2</priority>
+    </rule>
+    <rule ref="rulesets/java/migrating.xml/JUnit4TestShouldUseBeforeAnnotation">
+        <description>
+            In JUnit 3, the setUp method was used to set up all data entities required in running tests.
+            JUnit 4 skips the setUp method and executes all methods annotated with @Before before all tests
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/migrating.xml/JUnit4TestShouldUseAfterAnnotation">
+        <description>
+            In JUnit 3, the tearDown method was used to clean up all data entities required in running tests.
+            JUnit 4 skips the tearDown method and executes all methods annotated with @After after running each test
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/migrating.xml/JUnit4TestShouldUseTestAnnotation">
+        <description>
+            In JUnit 3, the framework executed all methods which started with the word test as a unit test.
+            In JUnit 4, only methods annotated with the @Test annotation are executed.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/migrating.xml/JUnit4SuitesShouldUseSuiteAnnotation">
+        <description>
+            In JUnit 3, test suites are indicated by the suite() method. In JUnit 4, suites are indicated
+            through the @RunWith(Suite.class) annotation.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/migrating.xml/JUnitUseExpected">
+        <description>
+            In JUnit4, use the @Test(expected) annotation to denote tests that should throw exceptions.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/naming.xml/ShortVariable">
+        <description>
+            Fields, local variables, or parameter names that are very short are not helpful to the reader.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/naming.xml/LongVariable">
+        <description>
+            Fields, formal arguments, or local variable names that are too long can make the code difficult to follow.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/naming.xml/ShortMethodName">
+        <description>
+            Method names that are very short are not helpful to the reader.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/naming.xml/SuspiciousHashcodeMethodName">
+        <description>
+            The method name and return type are suspiciously close to hashCode(), which may denote an intention
+            to override the hashCode() method.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/naming.xml/SuspiciousConstantFieldName">
+        <description>
+            Field names using all uppercase characters - Sun's Java naming conventions indicating constants - should
+            be declared as final.
+        </description>
+        <priority>5</priority>
+    </rule>
+
+    <rule ref="rulesets/java/naming.xml/SuspiciousEqualsMethodName">
+        <description>
+            The method name and parameter number are suspiciously close to equals(Object), which can denote an
+            intention to override the equals(Object) method.
+        </description>
+        <priority>2</priority>
+    </rule>
+    <rule ref="rulesets/java/naming.xml/AvoidFieldNameMatchingTypeName">
+        <description>
+            It is somewhat confusing to have a field name matching the declaring class name.
+            This probably means that type and/or field names should be chosen more carefully.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/naming.xml/AvoidFieldNameMatchingMethodName">
+        <description>
+            It can be confusing to have a field name with the same name as a method. While this is permitted,
+            having information (field) and actions (method) is not clear naming. Developers versed in
+            Smalltalk often prefer this approach as the methods denote accessor methods.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/naming.xml/NoPackage">
+        <description>
+            Detects when a class or interface does not have a package definition.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/naming.xml/PackageCase">
+        <description>
+            Detects when a package definition contains uppercase characters.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/naming.xml/MisleadingVariableName">
+        <description>
+            Detects when a non-field has a name starting with 'm_'.  This usually denotes a field and could be confusing.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/naming.xml/BooleanGetMethodName">
+        <description>
+            Methods that return boolean results should be named as predicate statements to denote this.
+            I.e, 'isReady()', 'hasValues()', 'canCommit()', 'willFail()', etc.   Avoid the use of the 'get'
+            prefix for these methods.
+        </description>
+        <priority>4</priority>
+    </rule>
+    <rule ref="rulesets/java/naming.xml/ShortClassName">
+        <description>
+
+            Short Classnames with fewer than e.g. five characters are not recommended.
+
+        </description>
+        <priority>4</priority>
+    </rule>
+    <rule ref="rulesets/java/naming.xml/GenericsNaming">
+        <description>
+            Names for references to generic values should be limited to a single uppercase letter.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/optimizations.xml/UseArrayListInsteadOfVector">
+        <description>
+            ArrayList is a much better Collection implementation than Vector if thread-safe operation is not required.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/optimizations.xml/SimplifyStartsWith">
+        <description>
+            Since it passes in a literal of length 1, calls to (string).startsWith can be rewritten using (string).charAt(0)
+            at the expense of some readability.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/optimizations.xml/UseStringBufferForStringAppends">
+        <description>
+            The use of the '+=' operator for appending strings causes the JVM to create and use an internal StringBuffer.
+            If a non-trivial number of these concatenations are being used then the explicit use of a StringBuilder or
+            threadsafe StringBuffer is recommended to avoid this.
+        </description>
+        <priority>4</priority>
+    </rule>
+    <rule ref="rulesets/java/optimizations.xml/UseArraysAsList">
+        <description>
+            The java.util.Arrays class has a "asList" method that should be used when you want to create a new List from
+            an array of objects. It is faster than executing a loop to copy all the elements of the array one by one.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/optimizations.xml/AvoidArrayLoops">
+        <description>
+            Instead of manually copying data between two arrays, use the efficient System.arraycopy method instead.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/optimizations.xml/UnnecessaryWrapperObjectCreation">
+        <description>
+            Most wrapper classes provide static conversion methods that avoid the need to create intermediate objects
+            just to create the primitive forms. Using these avoids the cost of creating objects that also need to be
+            garbage-collected later.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/optimizations.xml/AddEmptyString">
+        <description>
+            The conversion of literals to strings by concatenating them with empty strings is inefficient.
+            It is much better to use one of the type-specific toString() methods instead.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/optimizations.xml/RedundantFieldInitializer">
+        <description>
+            Java will initialize fields with known default values so any explicit initialization of those same defaults
+            is redundant and results in a larger class file (approximately three additional bytecode instructions per field).
+        </description>
+        <priority>5</priority>
+    </rule>
+    <!-- this is a decent optimization rule, but sometimes for readability it's better to go ahead
+        and declare vars before they are needed.  If this could be suppressed for literals, would keep it still -->
+    <rule ref="rulesets/java/optimizations.xml/PrematureDeclaration">
+        <description>
+            Checks for variables that are defined before they might be used. A reference is deemed to be premature if it is created right before a block of code that doesn't use it that also has the ability to return or throw an exception.
+        </description>
+        <priority>4</priority>
+    </rule>
+    <rule ref="rulesets/java/strictexception.xml/AvoidCatchingThrowable">
+        <description>
+            Catching Throwable errors is not recommended since its scope is very broad. It includes runtime issues such as
+            OutOfMemoryError that should be exposed and managed separately.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/strictexception.xml/SignatureDeclareThrowsException">
+        <description>
+            Methods that declare the generic Exception as a possible throwable are not very helpful since their
+            failure modes are unclear. Use a class derived from RuntimeException or a more specific checked exception.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/strictexception.xml/ExceptionAsFlowControl">
+        <description>
+            Using Exceptions as form of flow control is not recommended as they obscure true exceptions when debugging.
+            Either add the necessary validation or use an alternate control structure.
+        </description>
+        <priority>4</priority>
+    </rule>
+    <rule ref="rulesets/java/strictexception.xml/AvoidCatchingNPE">
+        <description>
+            Code should never throw NullPointerExceptions under normal circumstances.  A catch block may hide the
+            original error, causing other, more subtle problems later on.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <!-- ideally, should do this, but too much code relys on it -->
+    <rule ref="rulesets/java/strictexception.xml/AvoidThrowingRawExceptionTypes">
+        <description>
+            Avoid throwing certain exception types. Rather than throw a raw RuntimeException, Throwable,
+            Exception, or Error, use a subclassed exception or error instead.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/strictexception.xml/AvoidThrowingNullPointerException">
+        <description>
+            Avoid throwing NullPointerExceptions. These are confusing because most people will assume that the
+            virtual machine threw it. Consider using an IllegalArgumentException instead; this will be
+            clearly seen as a programmer-initiated exception.
+        </description>
+        <priority>4</priority>
+    </rule>
+    <rule ref="rulesets/java/strictexception.xml/AvoidRethrowingException">
+        <description>
+            Catch blocks that merely rethrow a caught exception only add to code size and runtime complexity.
+        </description>
+        <priority>4</priority>
+    </rule>
+    <rule ref="rulesets/java/strictexception.xml/DoNotExtendJavaLangError">
+        <description>
+
+            Errors are system exceptions. Do not extend them.
+
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/strictexception.xml/DoNotThrowExceptionInFinally">
+        <description>
+
+            Throwing exceptions within a 'finally' block is confusing since they may mask other exceptions
+            or code defects.
+            Note: This is a PMD implementation of the Lint4j rule "A throw in a finally block"
+
+        </description>
+        <priority>4</priority>
+    </rule>
+    <rule ref="rulesets/java/strictexception.xml/AvoidThrowingNewInstanceOfSameException">
+        <description>
+            Catch blocks that merely rethrow a caught exception wrapped inside a new instance of the same type only add to
+            code size and runtime complexity.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/strictexception.xml/AvoidLosingExceptionInformation">
+        <description>
+            Statements in a catch block that invoke accessors on the exception without using the information
+            only add to code size.  Either remove the invocation, or use the return result.
+        </description>
+        <priority>2</priority>
+    </rule>
+    <rule ref="rulesets/java/strings.xml/AvoidDuplicateLiterals">
+        <description>
+            Code containing duplicate String literals can usually be improved by declaring the String as a constant field.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/strings.xml/StringInstantiation">
+        <description>
+            Avoid instantiating String objects; this is usually unnecessary since they are immutable and can be safely shared.
+        </description>
+        <priority>2</priority>
+    </rule>
+    <rule ref="rulesets/java/strings.xml/StringToString">
+        <description>
+            Avoid calling toString() on objects already known to be string instances; this is unnecessary.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/strings.xml/InefficientStringBuffering">
+        <description>
+            Avoid concatenating non-literals in a StringBuffer constructor or append() since intermediate buffers will
+            need to be be created and destroyed by the JVM.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/strings.xml/UnnecessaryCaseChange">
+        <description>
+            Using equalsIgnoreCase() is faster than using toUpperCase/toLowerCase().equals()
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/strings.xml/UseStringBufferLength">
+        <description>
+            Use StringBuffer.length() to determine StringBuffer length rather than using StringBuffer.toString().equals("")
+            or StringBuffer.toString().length() == ...
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/strings.xml/AppendCharacterWithChar">
+        <description>
+            Avoid concatenating characters as strings in StringBuffer/StringBuilder.append methods.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/strings.xml/ConsecutiveAppendsShouldReuse">
+        <description>
+            Consecutively calls to StringBuffer/StringBuilder .append should reuse the target object. This can improve the performance.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/strings.xml/ConsecutiveLiteralAppends">
+        <description>
+            Consecutively calling StringBuffer/StringBuilder.append with String literals
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/strings.xml/UseIndexOfChar">
+        <description>
+            Use String.indexOf(char) when checking for the index of a single character; it executes faster.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/strings.xml/InefficientEmptyStringCheck">
+        <description>
+            String.trim().length() is an inefficient way to check if a String is really empty, as it
+            creates a new String object just to check its size. Consider creating a static function that
+            loops through a string, checking Character.isWhitespace() on each character and returning
+            false if a non-whitespace character is found.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/strings.xml/InsufficientStringBufferDeclaration">
+        <description>
+            Failing to pre-size a StringBuffer or StringBuilder properly could cause it to re-size many times
+            during runtime. This rule attempts to determine the total number the characters that are actually
+            passed into StringBuffer.append(), but represents a best guess "worst case" scenario. An empty
+            StringBuffer/StringBuilder constructor initializes the object to 16 characters. This default
+            is assumed if the length of the constructor can not be determined.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/strings.xml/UselessStringValueOf">
+        <description>
+            No need to call String.valueOf to append to a string; just use the valueOf() argument directly.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/strings.xml/StringBufferInstantiationWithChar">
+        <description>
+            Individual character values provided as initialization arguments will be converted into integers.
+            This can lead to internal buffer sizes that are larger than expected. Some examples:
+
+            new StringBuffer()      //  16
+            new StringBuffer(6)     //  6
+            new StringBuffer("hello world")  // 11 + 16 = 27
+            new StringBuffer('A')   //  chr(A) = 65
+            new StringBuffer("A")   //  1 + 16 = 17
+
+            new StringBuilder()         //  16
+            new StringBuilder(6)        //  6
+            new StringBuilder("hello world")  // 11 + 16 = 27
+            new StringBuilder('C')   //  chr(C) = 67
+            new StringBuilder("A")   //  1 + 16 = 17
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/strings.xml/UseEqualsToCompareStrings">
+        <description>
+            Using '==' or '!=' to compare strings only works if intern version is used on both sides.
+            Use the equals() method instead.
+        </description>
+        <priority>1</priority>
+    </rule>
+    <rule ref="rulesets/java/strings.xml/AvoidStringBufferField">
+        <description>
+
+            StringBuffers/StringBuilders can grow considerably, and so may become a source of memory leaks
+            if held within objects with long lifetimes.
+
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/sunsecure.xml/MethodReturnsInternalArray">
+        <description>
+            Exposing internal arrays to the caller violates object encapsulation since elements can be
+            removed or replaced outside of the object that owns it. It is safer to return a copy of the array.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/sunsecure.xml/ArrayIsStoredDirectly">
+        <description>
+            Constructors and methods receiving arrays should clone objects and store the copy.
+            This prevents future changes from the user from affecting the original array.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/typeresolution.xml/LooseCoupling">
+        <description>
+            Avoid using implementation types (i.e., HashSet); use the interface (i.e, Set) instead
+        </description>
+        <priority>3</priority>
+    </rule>
+    <!-- would like to keep this, but it breaks too many things -->
+    <rule ref="rulesets/java/typeresolution.xml/SignatureDeclareThrowsException">
+        <description>
+            It is unclear which exceptions that can be thrown from the methods.
+            It might be difficult to document and understand the vague interfaces.
+            Use either a class derived from RuntimeException or a checked exception.
+
+            JUnit classes are excluded.
+        </description>
+        <priority>4</priority>
+    </rule>
+    <rule ref="rulesets/java/unnecessary.xml/UnnecessaryConversionTemporary">
+        <description>
+            Avoid the use temporary objects when converting primitives to Strings. Use the static conversion methods
+            on the wrapper classes instead.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/unnecessary.xml/UnnecessaryReturn">
+        <description>
+            Avoid the use of unnecessary return statements.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/unnecessary.xml/UselessOverridingMethod">
+        <description>
+            The overriding method merely calls the same method defined in a superclass.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/unnecessary.xml/UselessOperationOnImmutable">
+        <description>
+            An operation on an Immutable object (String, BigDecimal or BigInteger) won't change the object itself
+            since the result of the operation is a new object. Therefore, ignoring the operation result is an error.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/unnecessary.xml/UnusedNullCheckInEquals">
+        <description>
+            After checking an object reference for null, you should invoke equals() on that object rather than passing it to another object's equals() method.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/unusedcode.xml/UnusedPrivateField">
+        <description>
+            Detects when a private field is declared and/or assigned a value, but not used.
+        </description>
+        <priority>5</priority>
+    </rule>
+    <rule ref="rulesets/java/unusedcode.xml/UnusedLocalVariable">
+        <description>
+            Detects when a local variable is declared and/or assigned, but not used.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/unusedcode.xml/UnusedPrivateMethod">
+        <description>
+            Unused Private Method detects when a private method is declared but is unused.
+        </description>
+        <priority>3</priority>
+    </rule>
+    <rule ref="rulesets/java/unusedcode.xml/UnusedFormalParameter">
+        <description>
+            Avoid passing parameters to methods or constructors without actually referencing them in the method body.
+        </description>
+        <priority>5</priority>
+    </rule>
+</ruleset>

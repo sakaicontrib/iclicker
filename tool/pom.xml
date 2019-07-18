@@ -1,0 +1,28 @@
+<!--suppress MavenModelInspection -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <name>Sakai iclicker Tool Module (iclicker-tool)</name>
+    <groupId>org.sakaiproject.iclicker</groupId>
+    <artifactId>iclicker-tool</artifactId>
+    <packaging>war</packaging>
+
+    <parent>
+        <groupId>org.sakaiproject.iclicker</groupId>
+        <artifactId>iclicker-parent</artifactId>
+        <version>19-SNAPSHOT</version>
+    </parent>
+
+    <description>
+        This project creates a WAR containing the iclicker tool for Sakai.
+    </description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.sakaiproject.iclicker</groupId>
+            <artifactId>iclicker-api</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>

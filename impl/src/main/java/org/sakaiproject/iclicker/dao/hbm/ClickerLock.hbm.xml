@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2009 i>clicker (R) <http://www.iclicker.com/dnn/>
+
+    This file is part of i>clicker Sakai integrate.
+
+    i>clicker Sakai integrate is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    i>clicker Sakai integrate is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with i>clicker Sakai integrate.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-cascade="none">
+    <class name="org.sakaiproject.iclicker.model.dao.ClickerLock" table="ICLICKER_LOCK" dynamic-insert="false" dynamic-update="false">
+        <id name="id" type="java.lang.Long" unsaved-value="null">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="lastModified" type="java.util.Date">
+            <column name="LAST_MODIFIED" not-null="true" />
+        </property>
+        <property name="name" type="string" index="clicker_lock_name">
+            <column name="NAME" not-null="true" unique="true" length="255" />
+        </property>
+        <property name="holder" type="string">
+            <column name="HOLDER" not-null="true" length="255" />
+        </property>
+    </class>
+</hibernate-mapping>
