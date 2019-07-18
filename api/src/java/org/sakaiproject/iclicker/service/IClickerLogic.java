@@ -1,6 +1,5 @@
 package org.sakaiproject.iclicker.service;
 
-import org.sakaiproject.iclicker.api.logic.BigRunner;
 import org.sakaiproject.iclicker.model.Course;
 import org.sakaiproject.iclicker.model.Gradebook;
 import org.sakaiproject.iclicker.model.GradebookItem;

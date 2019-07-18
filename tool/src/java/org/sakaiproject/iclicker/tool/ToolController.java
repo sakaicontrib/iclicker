@@ -20,11 +20,11 @@ package org.sakaiproject.iclicker.tool;
 
 import org.apache.commons.lang.StringUtils;
 import org.azeckoski.reflectutils.ArrayUtils;
-import org.sakaiproject.iclicker.api.logic.BigRunner;
 import org.sakaiproject.iclicker.exception.ClickerIdInvalidException;
 import org.sakaiproject.iclicker.exception.ClickerLockException;
 import org.sakaiproject.iclicker.exception.ClickerRegisteredException;
 import org.sakaiproject.iclicker.exception.ClickerIdInvalidException.Failure;
+import org.sakaiproject.iclicker.service.BigRunner;
 import org.sakaiproject.iclicker.service.ExternalLogic;
 import org.sakaiproject.iclicker.service.IClickerLogic;
 import org.sakaiproject.iclicker.model.Course;

@@ -20,10 +20,10 @@ package org.sakaiproject.iclicker.impl.logic;
 
 import java.util.Observable;
 
-import org.sakaiproject.iclicker.api.logic.BigRunner;
-
 import lombok.Getter;
 import lombok.Setter;
+
+import org.sakaiproject.iclicker.service.BigRunner;
 
 /**
  * Handles the execution of large scale tasks and the tracking thereof
