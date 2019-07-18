@@ -39,6 +39,22 @@
         <taglibs.version>1.1.2</taglibs.version>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>iclicker-api</artifactId>
+                <version>${project.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>iclicker-impl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
 
         <!-- Sakai dependencies -->
@@ -191,7 +207,7 @@
 
     <build>
         <!-- configure the build to use the standard maven structure -->
-        <directory>target</directory>
+        <!--directory>target</directory>
         <outputDirectory>target/classes</outputDirectory>
         <sourceDirectory>src/main/java</sourceDirectory>
         <resources>
@@ -223,9 +239,9 @@
                     <include>**/*</include>
                 </includes>
             </testResource>
-        </testResources>
+        </testResources -->
         <plugins>
-            <plugin>
+            <!-- plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
@@ -241,9 +257,9 @@
                 <configuration>
                     <encoding>UTF-8</encoding>
                 </configuration>
-            </plugin>
+            </plugin -->
             <!-- configure the war plugin to correctly use the standard maven structure -->
-            <plugin>
+            <!-- plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
@@ -264,7 +280,7 @@
                 <configuration>
                     <skip>true</skip>
                 </configuration>
-            </plugin>
+            </plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
@@ -335,7 +351,7 @@
                 </configuration>
             </plugin>
         </plugins>
-        <testOutputDirectory>target/test-classes</testOutputDirectory>
+        <!-- testOutputDirectory>target/test-classes</testOutputDirectory -->
         <scriptSourceDirectory>src/main/webapp</scriptSourceDirectory>
         <!-- sets the name of the war file and thus the webapp URL -->
         <finalName>${project.artifactId}</finalName>

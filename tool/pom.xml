@@ -4,7 +4,7 @@
 
     <name>Sakai iclicker Tool Module (iclicker-tool)</name>
     <groupId>org.sakaiproject.iclicker</groupId>
-    <artifactId>iclicker-tool</artifactId>
+    <artifactId>iclicker</artifactId>
     <packaging>war</packaging>
 
     <parent>
@@ -24,5 +24,16 @@
             <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
 
 </project>
