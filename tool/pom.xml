@@ -17,11 +17,15 @@
         This project creates a WAR containing the iclicker tool for Sakai.
     </description>
 
+    <properties>
+        <app.version.date>${git.commit.time}</app.version.date>
+        <git-commit-id-plugin.version>3.0.0</git-commit-id-plugin.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.sakaiproject.iclicker</groupId>
             <artifactId>iclicker-api</artifactId>
-            <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
 
@@ -32,8 +36,30 @@
                 <includes>
                     <include>**/*</include>
                 </includes>
+                <filtering>true</filtering>
             </resource>
         </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <version>${git-commit-id-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>get-the-git-infos</id>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                        <phase>validate</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <dotGitDirectory>${basedir}/.git</dotGitDirectory>
+                    <dateFormat>yyyyMMdd</dateFormat>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
 </project>

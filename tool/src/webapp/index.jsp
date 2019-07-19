@@ -19,7 +19,6 @@
 
 --%>
 <?xml version="1.0" encoding="UTF-8" ?>
-<%@page import="org.sakaiproject.iclicker.service.IClickerLogic"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" errorPage="error.jsp"%><%@ include file="/views/includeOnce.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -44,7 +43,7 @@
 <div class="portletBody">
 <jsp:include page="${viewPath}"></jsp:include>
 </div>
-<div class="iclicker_version">Version <%=IClickerLogic.getVersion()%> (<%=IClickerLogic.getVersionDate()%>)</div>
+<div class="iclicker_version">Version <fmt:message key="app.version">N/A</fmt:message> (<fmt:message key="app.version.date">N/A</fmt:message>)</div>
 </div>
 </body>
 </html>

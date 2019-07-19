@@ -12,9 +12,6 @@ import java.util.Map;
 
 public interface IClickerLogic {
 
-    String VERSION = "12.0"; // should match the POM version
-    String VERSION_DATE = "20180521"; // the date in YYYYMMDD
-
     void init();
 
     /**
@@ -383,13 +380,5 @@ public interface IClickerLogic {
     List<String> getFailures();
     boolean isForceRestDebugging();
     ExternalLogic getExternalLogic();
-
-    static String getVersion() {
-        return VERSION;
-    }
-
-    static String getVersionDate() {
-        return VERSION_DATE;
-    }
 
 }
