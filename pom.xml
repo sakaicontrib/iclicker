@@ -24,9 +24,8 @@
         <checkstyle.version>6.12</checkstyle.version>
         <easymock.version>1.2_Java1.3</easymock.version>
         <entitybus.version>1.0.8</entitybus.version>
-        <hsql.version>2.4.0</hsql.version>
-        <javassist.version>3.12.1.GA</javassist.version>
         <jsp-api.version>2.0</jsp-api.version>
+        <lombok.version>1.18.8</lombok.version>
         <plugin.checkstyle.version>2.17</plugin.checkstyle.version>
         <plugin.pmd.version>3.7</plugin.pmd.version>
         <pmd.version>5.5.2</pmd.version>
@@ -35,7 +34,6 @@
         <pmd.suppressions>pmd-suppressions.properties</pmd.suppressions>
         <reflectutils.version>0.9.16</reflectutils.version>
         <sakai-jsp.version>0.10-K1</sakai-jsp.version>
-        <spring-mock.version>2.0.8</spring-mock.version>
         <taglibs.version>1.1.2</taglibs.version>
     </properties>
 
@@ -52,54 +50,85 @@
                 <artifactId>iclicker-impl</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>jsp-api</artifactId>
+                <version>${jsp-api.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.azeckoski</groupId>
+                <artifactId>reflectutils</artifactId>
+                <version>${reflectutils.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.sakaiproject</groupId>
+                <artifactId>sakai-jsp-adapter</artifactId>
+                <version>${sakai-jsp.version}</version>
+                <scope>runtime</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.sakaiproject</groupId>
+                        <artifactId>sakai-kernel-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.sakaiproject.entitybus</groupId>
+                <artifactId>entitybus-utils</artifactId>
+                <version>${entitybus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>taglibs</groupId>
+                <artifactId>standard</artifactId>
+                <version>${taglibs.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
-
-        <!-- Sakai dependencies -->
         <dependency>
-            <groupId>org.sakaiproject.kernel</groupId>
-            <artifactId>sakai-kernel-api</artifactId>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.sakaiproject.kernel</groupId>
-            <artifactId>sakai-kernel-util</artifactId>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.sakaiproject.kernel</groupId>
-            <artifactId>sakai-kernel-storage-util</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.sakaiproject.kernel</groupId>
-            <artifactId>sakai-component-manager</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.sakaiproject.entitybroker</groupId>
-            <artifactId>entitybroker-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.sakaiproject.entitybroker</groupId>
-            <artifactId>entitybroker-utils</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.sakaiproject.edu-services.gradebook</groupId>
-            <artifactId>gradebook-service-api</artifactId>
-        </dependency>
-
-        <!-- we are running a webapp in a servlet container so we need the servlet API -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
         </dependency>
-
-        <!-- We need this special package to run the jsps in Sakai -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jsp-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.azeckoski</groupId>
+            <artifactId>reflectutils</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.sakaiproject</groupId>
             <artifactId>sakai-jsp-adapter</artifactId>
-            <version>${sakai-jsp.version}</version>
             <scope>runtime</scope>
             <exclusions>
                 <exclusion>
@@ -108,179 +137,62 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
-        <!-- generic DAO -->
+        <dependency>
+            <groupId>org.sakaiproject.kernel</groupId>
+            <artifactId>sakai-component-manager</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.sakaiproject.edu-services.gradebook</groupId>
+            <artifactId>gradebook-service-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.sakaiproject.entitybroker</groupId>
+            <artifactId>entitybroker-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.sakaiproject.entitybroker</groupId>
+            <artifactId>entitybroker-utils</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.sakaiproject.entitybus</groupId>
+            <artifactId>entitybus-utils</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.sakaiproject.genericdao</groupId>
             <artifactId>generic-dao</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.azeckoski</groupId>
-            <artifactId>reflectutils</artifactId>
-            <version>${reflectutils.version}</version>
-        </dependency>
-
-        <!-- shared external dependencies -->
-        <dependency>
-          <groupId>org.springframework</groupId>
-          <artifactId>spring-core</artifactId>
+            <groupId>org.sakaiproject.kernel</groupId>
+            <artifactId>sakai-kernel-api</artifactId>
         </dependency>
         <dependency>
-          <groupId>org.springframework</groupId>
-          <artifactId>spring-context</artifactId>
+            <groupId>org.sakaiproject.kernel</groupId>
+            <artifactId>sakai-kernel-storage-util</artifactId>
         </dependency>
         <dependency>
-          <groupId>org.springframework</groupId>
-          <artifactId>spring-orm</artifactId>
+            <groupId>org.sakaiproject.kernel</groupId>
+            <artifactId>sakai-kernel-util</artifactId>
         </dependency>
         <dependency>
-          <groupId>org.hibernate</groupId>
-          <artifactId>hibernate-core</artifactId>
-        </dependency>
-
-        <!-- utility libs -->
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
         </dependency>
         <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
         </dependency>
         <dependency>
-        <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- for national web-services -->
-        <dependency>
-            <groupId>org.sakaiproject.entitybus</groupId>
-            <artifactId>entitybus-utils</artifactId>
-            <version>${entitybus.version}</version>
-        </dependency>
-
-        <!-- JSP and standard tag libraries -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jsp-api</artifactId>
-            <version>${jsp-api.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
         </dependency>
         <dependency>
             <groupId>taglibs</groupId>
             <artifactId>standard</artifactId>
-            <version>${taglibs.version}</version>
         </dependency>
-
-        <!-- testing dependencies -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-mock</artifactId>
-            <version>${spring-mock.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>easymock</groupId>
-            <artifactId>easymock</artifactId>
-            <version>${easymock.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- needed for hibernate -->
-        <dependency>
-          <groupId>javassist</groupId>
-          <artifactId>javassist</artifactId>
-          <version>${javassist.version}</version>
-          <scope>test</scope>
-        </dependency>
-
     </dependencies>
 
     <build>
-        <!-- configure the build to use the standard maven structure -->
-        <!--directory>target</directory>
-        <outputDirectory>target/classes</outputDirectory>
-        <sourceDirectory>src/main/java</sourceDirectory>
-        <resources>
-            <resource>
-                <directory>${basedir}/src/main/java</directory>
-                <includes>
-                    <include>**/*.xml</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>${basedir}/src/main/resources</directory>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </resource>
-        </resources>
-        <testSourceDirectory>src/test/java</testSourceDirectory>
-        <testResources>
-            <testResource>
-                <directory>${basedir}/src/main/webapp/WEB-INF</directory>
-                <includes>
-                    <include>spring-hibernate.xml</include>
-                    <include>logic-support.xml</include>
-                </includes>
-            </testResource>
-            <testResource>
-                <directory>${basedir}/src/test/resources</directory>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </testResource>
-        </testResources -->
         <plugins>
-            <!-- plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <optimize>true</optimize>
-                    <debug>true</debug>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin -->
-            <!-- configure the war plugin to correctly use the standard maven structure -->
-            <!-- plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <configuration>
-                    <warSourceDirectory>${basedir}/src/main/webapp</warSourceDirectory>
-                    <webResources>
-                        <resource>
-                            <directory>${basedir}/src/main/webapp</directory>
-                            <includes>
-                                <include>**/*.*</include>
-                            </includes>
-                        </resource>
-                    </webResources>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
@@ -351,15 +263,12 @@
                 </configuration>
             </plugin>
         </plugins>
-        <!-- testOutputDirectory>target/test-classes</testOutputDirectory -->
-        <scriptSourceDirectory>src/main/webapp</scriptSourceDirectory>
-        <!-- sets the name of the war file and thus the webapp URL -->
+        <scriptSourceDirectory>src/webapp</scriptSourceDirectory>
         <finalName>${project.artifactId}</finalName>
     </build>
 
     <profiles>
         <profile>
-            <!-- special profile to generate DDL -->
             <id>ddl</id>
             <properties>
                 <ddl.src.dir>${basedir}/src/ddl</ddl.src.dir>
