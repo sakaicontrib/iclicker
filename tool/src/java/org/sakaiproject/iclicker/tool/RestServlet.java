@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.sakaiproject.entitybus.util.http.HttpAuth;
 import org.sakaiproject.entitybus.util.http.HttpRESTUtils;
 import org.sakaiproject.iclicker.exception.ClickerIdInvalidException;

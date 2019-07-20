@@ -22,7 +22,7 @@
 package org.sakaiproject.iclicker.tool.utils;
 
 import org.sakaiproject.site.api.Site;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.sakaiproject.component.cover.ServerConfigurationService;
 
 /* NOTE: copied from portal/portal-util/util/src/java/org/sakaiproject/portal/util/CSSUtils.java

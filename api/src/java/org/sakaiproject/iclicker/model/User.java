@@ -22,7 +22,7 @@ package org.sakaiproject.iclicker.model;
 import java.io.Serializable;
 import java.util.Comparator;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

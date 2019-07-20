@@ -18,7 +18,7 @@
  */
 package org.sakaiproject.iclicker.tool;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.azeckoski.reflectutils.ArrayUtils;
 import org.sakaiproject.iclicker.exception.ClickerIdInvalidException;
 import org.sakaiproject.iclicker.exception.ClickerLockException;
