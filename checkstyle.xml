@@ -160,7 +160,6 @@
         </module>
         <module name="LeftCurly">
             <property name="severity" value="info"/>
-            <property name="maxLineLength" value="120"/>
             <property name="option" value="eol"/>
         </module>
         <module name="LineLength">

@@ -21,13 +21,13 @@
     </modules>
 
     <properties>
-        <checkstyle.version>6.12</checkstyle.version>
+        <checkstyle.version>8.22</checkstyle.version>
         <commons-lang3.version>3.9</commons-lang3.version>
         <easymock.version>1.2_Java1.3</easymock.version>
         <entitybus.version>1.0.8</entitybus.version>
         <jsp-api.version>2.0</jsp-api.version>
         <lombok.version>1.18.8</lombok.version>
-        <plugin.checkstyle.version>2.17</plugin.checkstyle.version>
+        <plugin.checkstyle.version>3.1.0</plugin.checkstyle.version>
         <plugin.pmd.version>3.7</plugin.pmd.version>
         <pmd.version>5.5.2</pmd.version>
         <pmd.failurePriority>3</pmd.failurePriority>
