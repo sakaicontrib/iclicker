@@ -22,6 +22,7 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.dialect.function.StandardAnsiSqlAggregationFunctions.MinFunction;
 import org.sakaiproject.genericdao.api.search.Order;
 import org.sakaiproject.genericdao.api.search.Restriction;
 import org.sakaiproject.genericdao.api.search.Search;
@@ -110,7 +111,8 @@ public class IClickerLogicImpl implements IClickerLogic {
     public static final char QUOT = '"';
 
     /**
-     * Special tracker to see if the system is already running a thread, this is meant to ensure that more than one large scale operation is not running at once
+     * Special tracker to see if the system is already running a thread,
+     * this is meant to ensure that more than one large scale operation is not running at once
      */
     private WeakReference<BigRunner> runnerHolder;
     private static final String ICLICKER_TOOL_ID = "sakai.iclicker";
@@ -290,7 +292,7 @@ public class IClickerLogicImpl implements IClickerLogic {
 
         if (!externalLogic.isUserInstructor(userId) && !externalLogic.isUserAdmin(userId)) {
             // if user is not an instructor or an admin then we will not make a key for them, this is to block students from getting a pass key
-            throw new IllegalStateException("current user (" + userId + ") is not an instructor, cannot generate user key for them");
+            throw new IllegalStateException(String.format("current user (%s) is not an instructor, cannot generate user key for them", userId));
         }
 
         // find the key for this user if one exists
@@ -358,14 +360,16 @@ public class IClickerLogicImpl implements IClickerLogic {
      */
     @Override
     public void setSharedKey(String sharedKey) {
-        if (sharedKey != null) {
-            if (sharedKey.length() < 10) {
-                log.warn("i>clicker shared key ({}) is too short, must be at least 10 chars long. SSO shared key will be ignored until a longer key is entered.", sharedKey);
-            } else {
-                singleSignOnHandling = true;
-                singleSignOnSharedkey = sharedKey;
-                log.info("i>clicker plugin SSO handling enabled by shared key, note that this will disable normal username/password handling");
-            }
+        if (StringUtils.isEmpty(sharedKey)) {
+            return;
+        }
+
+        if (sharedKey.length() < 10) {
+            log.warn("i>clicker shared key ({}) is too short, must be at least 10 chars long. SSO shared key will be ignored until a longer key is entered.", sharedKey);
+        } else {
+            singleSignOnHandling = true;
+            singleSignOnSharedkey = sharedKey;
+            log.info("i>clicker plugin SSO handling enabled by shared key, note that this will disable normal username/password handling");
         }
     }
 
@@ -374,13 +378,11 @@ public class IClickerLogicImpl implements IClickerLogic {
      */
     @Override
     public String getSharedKey() {
-        String key = "";
-
         if (singleSignOnHandling && externalLogic.isUserAdmin(externalLogic.getCurrentUserId())) {
-            key = singleSignOnSharedkey;
+            return singleSignOnSharedkey;
         }
 
-        return key;
+        return "";
     }
 
     /**
@@ -398,57 +400,66 @@ public class IClickerLogicImpl implements IClickerLogic {
             throw new IllegalArgumentException("key must be set in order to verify the key");
         }
 
-        String invalidKey = "i>clicker shared key (" + key + ") format is invalid ";
-        boolean verified = false;
-
-        if (singleSignOnHandling) {
-            // encoding process requires the key and timestamp so split them from the passed in key
-            int splitIndex = key.lastIndexOf('|');
-
-            if ((splitIndex == -1) || (key.length() < splitIndex + 1)) {
-                throw new IllegalArgumentException(invalidKey + "(no |), must be {encoded key}|{timestamp}");
-            }
-
-            String actualKey = key.substring(0, splitIndex);
-
-            if (StringUtils.isEmpty(actualKey)) {
-                throw new IllegalArgumentException(invalidKey + "(missing encoded key), must be {encoded key}|{timestamp}");
-            }
-
-            String timestampStr = key.substring(splitIndex + 1);
-
-            if (StringUtils.isEmpty(timestampStr)) {
-                throw new IllegalArgumentException(invalidKey + "(missing timestamp), must be {encoded key}|{timestamp}");
-            }
-
-            long timestamp;
-
-            try {
-                timestamp = Long.parseLong(timestampStr);
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException(invalidKey + "(non numeric timestamp), must be {encoded key}|{timestamp}");
-            }
-
-            // check this key is still good (must be within 5 mins of now)
-            long unixTime = System.currentTimeMillis() / 1000L;
-            long timeDiff = Math.abs(timestamp - unixTime);
-
-            if (timeDiff > 300L) {
-                throw new SecurityException(invalidKey + ", this timestamp (" + timestamp + ") is more than 5 minutes different from the current time (" + unixTime + ")");
-            }
-
-            // finally we verify the key with the one in the config
-            byte[] sha1Bytes = DigestUtils.sha(singleSignOnSharedkey + ":" + timestamp);
-            String sha1Hex = Hex.encodeHexString(sha1Bytes);
-
-            if (!StringUtils.equals(actualKey, sha1Hex)) {
-                throw new SecurityException(invalidKey + ", does not match with the key (" + sha1Hex + ") in Sakai (using timestamp: " + timestamp + ")");
-            }
-
-            verified = true;
+        if (!singleSignOnHandling) {
+            return false;
         }
 
-        return verified;
+        String invalidKey = "i>clicker shared key (" + key + ") format is invalid ";
+
+        // encoding process requires the key and timestamp so split them from the passed in key
+        int splitIndex = key.lastIndexOf('|');
+
+        if ((splitIndex == -1) || (key.length() < splitIndex + 1)) {
+            throw new IllegalArgumentException(String.format("%s (no |), must be {encoded key}|{timestamp}", invalidKey));
+        }
+
+        String actualKey = key.substring(0, splitIndex);
+
+        if (StringUtils.isEmpty(actualKey)) {
+            throw new IllegalArgumentException(String.format("%s (missing encoded key), must be {encoded key}|{timestamp}", invalidKey));
+        }
+
+        String timestampStr = key.substring(splitIndex + 1);
+
+        if (StringUtils.isEmpty(timestampStr)) {
+            throw new IllegalArgumentException(String.format("%s (missing timestamp), must be {encoded key}|{timestamp}", invalidKey));
+        }
+
+        long timestamp;
+
+        try {
+            timestamp = Long.parseLong(timestampStr);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(String.format("%s (non numeric timestamp), must be {encoded key}|{timestamp}", invalidKey));
+        }
+
+        // check this key is still good (must be within 5 mins of now)
+        long unixTime = System.currentTimeMillis() / 1000L;
+        long timeDiff = Math.abs(timestamp - unixTime);
+
+        if (timeDiff > 300L) {
+            throw new SecurityException(
+                String.format(
+                    "%s, this timestamp (%s) is more than 5 minutes different from the current time (%s)",
+                    new Object[] {invalidKey, timestamp, unixTime}
+                )
+            );
+        }
+
+        // finally we verify the key with the one in the config
+        byte[] sha1Bytes = DigestUtils.sha1(singleSignOnSharedkey + ":" + timestamp);
+        String sha1Hex = Hex.encodeHexString(sha1Bytes);
+
+        if (!StringUtils.equals(actualKey, sha1Hex)) {
+            throw new SecurityException(
+                String.format(
+                    "%s, does not match with the key (%s) in Sakai (using timestamp: %s)",
+                    new Object[] {invalidKey, sha1Hex, timestamp}
+                )
+            );
+        }
+
+        return true;
     }
 
     // *******************************************************************************
@@ -473,7 +484,7 @@ public class IClickerLogicImpl implements IClickerLogic {
                 runner = null;
             } else {
                 if (!StringUtils.equals(type, runner.getType())) {
-                    throw new IllegalStateException("Already running a big runner of a different type: " + runner.getType());
+                    throw new IllegalStateException(String.format("Already running a big runner of a different type: %s", runner.getType()));
                 }
             }
         }
@@ -488,7 +499,7 @@ public class IClickerLogicImpl implements IClickerLogic {
                 } else if (BigRunner.RUNNER_TYPE_REMOVE.equalsIgnoreCase(type)) {
                     runner = getExternalLogic().makeRemoveToolFromWorkspacesRunner(ICLICKER_TOOL_ID);
                 } else {
-                    throw new IllegalArgumentException("Unknown type of runner operation: " + type);
+                    throw new IllegalArgumentException(String.format("Unknown type of runner operation: %s", type));
                 }
 
                 final BigRunner bigRunner = runner;
@@ -497,7 +508,7 @@ public class IClickerLogicImpl implements IClickerLogic {
                         try {
                             bigRunner.run();
                         } catch (Exception e) {
-                            String msg = "long running process (" + bigRunner + ") failure: " + e;
+                            String msg = String.format("long running process (%s) failure: %s", bigRunner, e);
                             sendNotification(msg, e);
                             log.warn(msg, e);
                             // sleep for 5 secs to hold the error state so it can be checked
@@ -518,7 +529,7 @@ public class IClickerLogicImpl implements IClickerLogic {
                 this.runnerHolder = new WeakReference<BigRunner>(runner);
             } else {
                 // failed to obtain the lock
-                String msg = "Could not obtain a lock (" + BigRunner.RUNNER_LOCK + ") on server (" + serverId + "): " + gotLock;
+                String msg = String.format("Could not obtain a lock (%s) on server (%s): ", new Object[] {BigRunner.RUNNER_LOCK, serverId, gotLock});
                 log.info(msg);
                 throw new ClickerLockException(msg, BigRunner.RUNNER_LOCK, serverId);
             }
@@ -560,12 +571,11 @@ public class IClickerLogicImpl implements IClickerLogic {
      */
     @Override
     public ClickerRegistration getItemById(Long id) {
-        log.debug("Getting item by id: {}", id);
         ClickerRegistration item = dao.findById(ClickerRegistration.class, id);
 
         if (item != null) {
             if (!canReadItem(item, externalLogic.getCurrentUserId())) {
-                throw new SecurityException("User (" + externalLogic.getCurrentUserId() + ") not allowed to access registration (" + item + ")");
+                throw new SecurityException(String.format("User (%s) not allowed to access registration (%s)", externalLogic.getCurrentUserId(), item));
             }
         }
 
@@ -613,7 +623,7 @@ public class IClickerLogicImpl implements IClickerLogic {
         ClickerRegistration item = dao.findOneBySearch(ClickerRegistration.class, new Search(new Restriction[] {new Restriction("clickerId", clickerId), new Restriction(OWNER_ID, userId)}));
         if (item != null) {
             if (!canReadItem(item, externalLogic.getCurrentUserId())) {
-                throw new SecurityException("User (" + externalLogic.getCurrentUserId() + ") not allowed to access registration (" + item + ")");
+                throw new SecurityException(String.format("User (%s) not allowed to access registration (%s)", externalLogic.getCurrentUserId(), item));
             }
             if (!isValidClickerRegistration(item)) {
                 // invalid registration, don't return it

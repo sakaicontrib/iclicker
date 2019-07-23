@@ -71,7 +71,7 @@ public class RestServlet extends HttpServlet {
         if (this.logic == null) {
             // this.logic = IClickerLogic.getInstance();
             // TODO figure this out
-            log.error("FAILURE!!!! IClickerLogic instance is null!!!!");
+            log.info("IClickerLogic instance is null");
         }
 
         return this.logic;

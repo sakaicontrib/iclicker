@@ -84,6 +84,7 @@ public class IClickerDaoImpl extends HibernateGeneralGenericDao implements IClic
 
         // basically we are opening a transaction to get the current lock and set it if it is not there
         Boolean obtainedLock;
+
         try {
             // check the lock
             List<ClickerLock> locks = findBySearch(ClickerLock.class, new Search("name", lockId));
