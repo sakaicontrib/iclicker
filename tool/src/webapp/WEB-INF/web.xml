@@ -44,13 +44,6 @@
         <servlet-class>
             uk.ac.cam.caret.sakai.WebappToolServlet
         </servlet-class>
-        <!-- use this to specify a starting page location if needed -->
-        <!--
-        <init-param>
-            <param-name>main-page</param-name>
-            <param-value>/</param-value>
-        </init-param>
-        -->
         <load-on-startup>1</load-on-startup>
     </servlet>
     <filter-mapping>
@@ -60,25 +53,6 @@
         <dispatcher>FORWARD</dispatcher>
         <dispatcher>INCLUDE</dispatcher>
     </filter-mapping>
-
-    <!-- REST handling servlet - for when entitybroker is not available -->
-    <servlet>
-        <servlet-name>sakai.iclicker.rest</servlet-name>
-        <servlet-class>org.sakaiproject.iclicker.tool.RestServlet</servlet-class>
-        <load-on-startup>2</load-on-startup>
-    </servlet>
-    <filter-mapping>
-        <filter-name>sakai.request</filter-name>
-        <servlet-name>sakai.iclicker.rest</servlet-name>
-        <dispatcher>REQUEST</dispatcher>
-        <dispatcher>FORWARD</dispatcher>
-        <dispatcher>INCLUDE</dispatcher>
-    </filter-mapping>
-    <servlet-mapping>
-        <servlet-name>sakai.iclicker.rest</servlet-name>
-        <url-pattern>/rest/*</url-pattern>
-    </servlet-mapping>
-    <!-- REST handling servlet -->
 
     <!-- Sakai listeners -->
     <listener>
