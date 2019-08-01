@@ -15,12 +15,14 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>build-tools</module>
         <module>api</module>
         <module>impl</module>
         <module>tool</module>
     </modules>
 
     <properties>
+        <build-tools.version>1.0.0</build-tools.version>
         <checkstyle.version>8.22</checkstyle.version>
         <commons-lang3.version>3.9</commons-lang3.version>
         <easymock.version>1.2_Java1.3</easymock.version>
@@ -218,12 +220,17 @@
                         <artifactId>checkstyle</artifactId>
                         <version>${checkstyle.version}</version>
                     </dependency>
+                    <dependency>
+                        <groupId>org.sakaiproject.iclicker</groupId>
+                        <artifactId>build-tools</artifactId>
+                        <version>${build-tools.version}</version>
+                    </dependency>
                 </dependencies>
                 <configuration>
                     <configLocation>checkstyle.xml</configLocation>
                     <includeTestSourceDirectory>true</includeTestSourceDirectory>
                     <failOnViolation>true</failOnViolation>
-                    <suppressionsLocation>checkstyle-suppression.xml</suppressionsLocation>
+                    <suppressionsLocation>/checkstyle-suppression.xml</suppressionsLocation>
                 </configuration>
             </plugin>
             <plugin>
@@ -240,6 +247,11 @@
                         <groupId>net.sourceforge.pmd</groupId>
                         <artifactId>pmd-jsp</artifactId>
                         <version>${pmd.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.sakaiproject.iclicker</groupId>
+                        <artifactId>build-tools</artifactId>
+                        <version>${build-tools.version}</version>
                     </dependency>
                 </dependencies>
                 <executions>
@@ -260,12 +272,12 @@
                     <printFailingErrors>true</printFailingErrors>
                     <includeTests>true</includeTests>
                     <excludeRoots>
-                        <excludeRoot>${project.basedir}/target/generated-sources/**</excludeRoot>
+                        <excludeRoot>${basedir}/target/generated-sources/**</excludeRoot>
                     </excludeRoots>
                     <rulesets>
-                        <ruleset>${project.basedir}/pmd-ruleset.xml</ruleset>
+                        <ruleset>/pmd-ruleset.xml</ruleset>
                     </rulesets>
-                    <excludeFromFailureFile>${project.basedir}/${pmd.suppressions}</excludeFromFailureFile>
+                    <excludeFromFailureFile>/${pmd.suppressions}</excludeFromFailureFile>
                 </configuration>
             </plugin>
         </plugins>
