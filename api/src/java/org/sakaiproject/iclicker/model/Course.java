@@ -25,7 +25,7 @@ import org.apache.commons.lang3.StringUtils;
 import lombok.Data;
 
 /**
- * Represents a course
+ * Represents a course.
  */
 @Data
 public class Course {
@@ -34,16 +34,29 @@ public class Course {
     private String title;
     private String description;
     /**
-     * This is the timecode (seconds) of the time when this course was created
+     * This is the timecode (seconds) of the time when this course was created.
      */
     private long createdTime;
     private boolean published;
     private List<Student> students = null;
 
+    /**
+     * Constructor.
+     *
+     * @param id the ID
+     * @param title the title
+     */
     public Course(String id, String title) {
         this(id, title, null);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param id the ID
+     * @param title the title
+     * @param description the descritption
+     */
     public Course(String id, String title, String description) {
         this(id, title, description, (System.currentTimeMillis() / 1000), true);
     }
@@ -51,7 +64,7 @@ public class Course {
     /**
      * @param id the course id
      * @param title the title
-     * @param description
+     * @param description the description
      * @param createdTime the timecode (seconds) of the time when this course was created (not in milliseconds)
      * @param published true if the course is published/available to students, false otherwise
      */
@@ -61,9 +74,10 @@ public class Course {
         this.description = description;
         if (createdTime > (System.currentTimeMillis() / 1000)) {
             // must have used the milliseconds version instead
-            createdTime = (createdTime / 1000);
+            this.createdTime = (createdTime / 1000);
+        } else {
+            this.createdTime = createdTime;
         }
-        this.createdTime = createdTime;
         this.published = published;
     }
 

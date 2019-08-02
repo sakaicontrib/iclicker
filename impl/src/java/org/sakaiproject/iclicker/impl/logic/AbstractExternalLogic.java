@@ -25,7 +25,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang3.StringUtils;
@@ -438,7 +437,7 @@ public abstract class AbstractExternalLogic {
             max = 100;
         }
 
-        List<Course> courses = new Vector<>();
+        List<Course> courses = new ArrayList<>();
 
         if (StringUtils.isBlank(siteId)) {
             List<Site> sites = getInstructorSites(0, max);

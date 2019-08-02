@@ -39,13 +39,15 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.PageContext;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Vector;
 
 /**
- * This is the singleton controller for the application, this handles all the display related logic and processing and communicates with the services for the view layer
+ * This is the singleton controller for the application, this handles all the
+ * display related logic and processing and communicates with the services for the view layer.
  */
 @Data
 @Slf4j
@@ -496,7 +498,7 @@ public class ToolController {
             String keyVal = ICLICKER_MESSAGES + key;
 
             if (context.getAttribute(keyVal) == null) {
-                context.setAttribute(keyVal, new Vector<String>(), PageContext.REQUEST_SCOPE);
+                context.setAttribute(keyVal, new ArrayList<String>(), PageContext.REQUEST_SCOPE);
             }
 
             List<String> l = (List<String>) context.getAttribute(keyVal, PageContext.REQUEST_SCOPE);

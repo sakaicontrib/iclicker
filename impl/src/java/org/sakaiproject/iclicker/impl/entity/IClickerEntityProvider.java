@@ -68,8 +68,9 @@ import lombok.Setter;
 
 /**
  * iClicker REST handler <br/>
- * This handles all the RESTful endpoint and data feed generation for the application
+ * This handles all the RESTful endpoint and data feed generation for the application.
  */
+@SuppressWarnings("checkstyle:ClassFanOutComplexity")
 public class IClickerEntityProvider extends AbstractEntityProvider
                 implements EntityProvider, Createable, Resolvable, CollectionResolvable, Outputable, Inputable,
                 Describeable, ActionsExecutable, Redirectable, RequestAware {
@@ -83,6 +84,12 @@ public class IClickerEntityProvider extends AbstractEntityProvider
 
     // custom actions
 
+    /**
+     * Get instructor courses.
+     *
+     * @param view the view
+     * @return the action
+     */
     @EntityCustomAction(action = "courses", viewKey = EntityView.VIEW_LIST)
     public ActionReturn getInstructorCourses(EntityView view) {
         String userId = externalLogic.getCurrentUserId();
@@ -296,7 +303,8 @@ public class IClickerEntityProvider extends AbstractEntityProvider
 
             if (gradeItemName == null) {
                 throw new IllegalArgumentException(
-                                "valid gbItemName must be included in the URL /iclicker/gradeitem/{courseId}/{gradeItemName}");
+                    "valid gbItemName must be included in the URL /iclicker/gradeitem/{courseId}/{gradeItemName}"
+                );
             }
 
             Gradebook gb = logic.getCourseGradebook(courseId, gradeItemName);
@@ -314,7 +322,7 @@ public class IClickerEntityProvider extends AbstractEntityProvider
             try {
                 inputData = readerToString(request.getReader());
             } catch (IOException e) {
-                throw new RuntimeException("Failed to read the data from the request: " + e);
+                throw new RuntimeException("Failed to read the data from the request: ", e);
             }
 
             if (StringUtils.isBlank(inputData)) {
@@ -457,7 +465,7 @@ public class IClickerEntityProvider extends AbstractEntityProvider
             return cr.getClickerId();
         } catch (ClickerIdInvalidException e) {
             throw new EntityException("Invalid clickerId (" + clickerId + "): " + e, "/register",
-                            HttpServletResponse.SC_BAD_REQUEST);
+                HttpServletResponse.SC_BAD_REQUEST);
         } catch (IllegalStateException e) {
             throw new EntityException("ClickerId is already registered (" + clickerId + "): " + e, "/register",
                             HttpServletResponse.SC_CONFLICT);

@@ -26,7 +26,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * This represents an individual score in a gradebook grade item for a user
+ * This represents an individual score in a gradebook grade item for a user.
  */
 @Data
 @NoArgsConstructor
@@ -41,15 +41,35 @@ public class GradebookItemScore {
     private String comment;
 
     /**
-     * Used to indicate the failure that occurred when saving this score (null if no error)
+     * Used to indicate the failure that occurred when saving this score (null if no error).
      */
     private String error;
 
+    /**
+     * Constructor.
+     *
+     * @param itemName the item name
+     * @param userId the user ID
+     * @param grade the grade
+     */
     public GradebookItemScore(String itemName, String userId, String grade) {
         this(itemName, userId, grade, null, null, null, null);
     }
 
-    public GradebookItemScore(String itemName, String userId, String grade, String username, String graderUserId, Date recorded, String comment) {
+    /**
+     * Constructor.
+     *
+     * @param itemName the item name
+     * @param userId the user ID
+     * @param grade the grade
+     * @param username the username
+     * @param graderUserId the grader ID
+     * @param recorded the date of recording
+     * @param comment the comment
+     */
+    public GradebookItemScore(
+            String itemName, String userId, String grade, String username,
+            String graderUserId, Date recorded, String comment) {
         if (StringUtils.isBlank(itemName)) {
             throw new IllegalArgumentException("itemName must be set");
         }
@@ -60,7 +80,9 @@ public class GradebookItemScore {
             throw new IllegalArgumentException("userId or username must be set");
         }
 
-        assignId(itemName, userId != null ? userId : username);
+        this.id = itemName + ":" + (userId != null ? userId : username);
+        this.itemName = itemName;
+        this.userId = userId;
         this.username = username;
         this.graderUserId = graderUserId;
 
@@ -74,10 +96,16 @@ public class GradebookItemScore {
         this.comment = comment;
     }
 
-    public void assignId(String itemName, String userId) {
-        this.id = itemName + ":" + userId;
-        this.itemName = itemName;
-        this.userId = userId;
+    /**
+     * Assign the ID.
+     *
+     * @param itemsName the item name
+     * @param usersId the users ID
+     */
+    public void assignId(String itemsName, String usersId) {
+        this.id = itemsName + ":" + usersId;
+        this.itemName = itemsName;
+        this.userId = usersId;
     }
 
     @Override

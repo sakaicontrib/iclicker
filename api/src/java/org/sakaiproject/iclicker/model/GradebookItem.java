@@ -18,10 +18,10 @@
  */
 package org.sakaiproject.iclicker.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -29,7 +29,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * This represents an item in a gradebook and the associated scores
+ * This represents an item in a gradebook and the associated scores.
  */
 @Data
 @NoArgsConstructor
@@ -41,20 +41,37 @@ public class GradebookItem {
     private Date dueDate;
     private String type = "internal"; // this is the externalAppName or "internal"
     private boolean released = false;
-    private List<GradebookItemScore> scores = new Vector<>();
+    private List<GradebookItemScore> scores = new ArrayList<>();
 
     /**
      * map of score id -> error_key,
      * these are recorded when this item is saved
-     * (errors also recorded in the scores themselves)
+     * (errors also recorded in the scores themselves).
      */
     private Map<String, String> scoreErrors;
 
+    /**
+     * Constructor.
+     *
+     * @param gradebookId the gradebook ID
+     * @param name the name
+     */
     public GradebookItem(String gradebookId, String name) {
         this(gradebookId, name, null, null, null, false);
     }
 
-    public GradebookItem(String gradebookId, String name, Double pointsPossible, Date dueDate, String type, boolean released) {
+    /**
+     * Constructor.
+     *
+     * @param gradebookId the gradebook ID
+     * @param name the name
+     * @param pointsPossible the points possible
+     * @param dueDate the due date
+     * @param type the type
+     * @param released is this a released item?
+     */
+    public GradebookItem(
+            String gradebookId, String name, Double pointsPossible, Date dueDate, String type, boolean released) {
         if (StringUtils.isBlank(gradebookId)) {
             throw new IllegalArgumentException("gradebookId must be set");
         }

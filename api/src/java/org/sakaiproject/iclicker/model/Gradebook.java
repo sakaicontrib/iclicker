@@ -18,24 +18,29 @@
  */
 package org.sakaiproject.iclicker.model;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import org.apache.commons.lang3.StringUtils;
 
 import lombok.Data;
 
 /**
- * This holds the values of all the items in a gradebook and the users/scores
+ * This holds the values of all the items in a gradebook and the users/scores.
  */
 @Data
 public class Gradebook {
     private String id;
     private String courseId;
 
-    private List<Student> students = new Vector<>();
-    private List<GradebookItem> items = new Vector<>();
+    private List<Student> students = new ArrayList<>();
+    private List<GradebookItem> items = new ArrayList<>();
 
+    /**
+     * Constructor.
+     *
+     * @param id the ID
+     */
     public Gradebook(String id) {
         this.id = id;
         this.courseId = id;

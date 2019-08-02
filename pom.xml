@@ -25,16 +25,14 @@
         <build-tools.version>1.0.0</build-tools.version>
         <checkstyle.version>8.22</checkstyle.version>
         <commons-lang3.version>3.9</commons-lang3.version>
-        <easymock.version>1.2_Java1.3</easymock.version>
         <entitybus.version>1.0.8</entitybus.version>
         <jsp-api.version>2.0</jsp-api.version>
         <lombok.version>1.18.8</lombok.version>
         <plugin.checkstyle.version>3.1.0</plugin.checkstyle.version>
-        <plugin.pmd.version>3.7</plugin.pmd.version>
-        <pmd.version>5.5.2</pmd.version>
+        <plugin.pmd.version>3.12.0</plugin.pmd.version>
+        <pmd.version>6.17.0</pmd.version>
         <pmd.failurePriority>3</pmd.failurePriority>
         <pmd.showWarnings>false</pmd.showWarnings>
-        <pmd.suppressions>pmd-suppressions.properties</pmd.suppressions>
         <reflectutils.version>0.9.16</reflectutils.version>
         <sakai-jsp.version>0.10-K1</sakai-jsp.version>
         <taglibs.version>1.1.2</taglibs.version>
@@ -101,10 +99,6 @@
     </dependencyManagement>
 
     <dependencies>
-        <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -277,7 +271,7 @@
                     <rulesets>
                         <ruleset>/pmd-ruleset.xml</ruleset>
                     </rulesets>
-                    <excludeFromFailureFile>/${pmd.suppressions}</excludeFromFailureFile>
+                    <excludeFromFailureFile>/pmd-suppressions.properties</excludeFromFailureFile>
                 </configuration>
             </plugin>
         </plugins>
