@@ -131,6 +131,12 @@ public class IClickerEntityProvider extends AbstractEntityProvider
         return ar;
     }
 
+    /**
+     * Get students in a course.
+     *
+     * @param view the view
+     * @return the action return
+     */
     @EntityCustomAction(action = "students", viewKey = EntityView.VIEW_LIST)
     public ActionReturn getCourseStudents(EntityView view) {
         String courseId = view.getPathSegment(2);
@@ -170,6 +176,12 @@ public class IClickerEntityProvider extends AbstractEntityProvider
         return ar;
     }
 
+    /**
+     * Get the gradebook for the course.
+     *
+     * @param view the view
+     * @return the action return
+     */
     @EntityCustomAction(action = "gradebook", viewKey = EntityView.VIEW_LIST)
     public ActionReturn getCourseGradebook(EntityView view) {
         String courseId = view.getPathSegment(2);
@@ -207,6 +219,12 @@ public class IClickerEntityProvider extends AbstractEntityProvider
         return ar;
     }
 
+    /**
+     * Validate the clicker ID.
+     *
+     * @param view the view
+     * @return the action return
+     */
     @EntityCustomAction(action = "validate", viewKey = EntityView.VIEW_NEW)
     public ActionReturn validateClickerId(EntityView view) {
         String clickerId = view.getPathSegment(2);
@@ -248,6 +266,13 @@ public class IClickerEntityProvider extends AbstractEntityProvider
         return ar;
     }
 
+    /**
+     * Activate the clicker.
+     *
+     * @param view the view
+     * @param ref the entity reference
+     * @return the http response code
+     */
     @EntityCustomAction(action = "activate", viewKey = EntityView.VIEW_EDIT)
     public int activateClicker(EntityView view, EntityReference ref) {
         ClickerRegistration cr = findClickerRegistration(ref.getId());
@@ -262,6 +287,13 @@ public class IClickerEntityProvider extends AbstractEntityProvider
         return HttpServletResponse.SC_NO_CONTENT;
     }
 
+    /**
+     * Deactivate the clicker.
+     *
+     * @param view the view
+     * @param ref the entity reference
+     * @return the http response code
+     */
     @EntityCustomAction(action = "deactivate", viewKey = EntityView.VIEW_EDIT)
     public int deactivateClicker(EntityView view, EntityReference ref) {
         ClickerRegistration cr = findClickerRegistration(ref.getId());
@@ -276,6 +308,12 @@ public class IClickerEntityProvider extends AbstractEntityProvider
         return HttpServletResponse.SC_NO_CONTENT;
     }
 
+    /**
+     * Handle a grade item.
+     *
+     * @param view the view
+     * @return the action return
+     */
     @EntityCustomAction(action = "gradeitem", viewKey = "")
     @SuppressWarnings("unchecked")
     public ActionReturn handleGradeItem(EntityView view) {
@@ -376,10 +414,21 @@ public class IClickerEntityProvider extends AbstractEntityProvider
 
     // standard methods
 
+    /**
+     * Get the entity prefix.
+     *
+     * @return the prefix
+     */
     public String getEntityPrefix() {
         return PREFIX;
     }
 
+    /**
+     * Get the entity.
+     *
+     * @param ref the reference
+     * @return the entity
+     */
     public Object getEntity(EntityReference ref) {
         if (ref.getId() == null) {
             return new ClickerRegistration();
@@ -396,7 +445,7 @@ public class IClickerEntityProvider extends AbstractEntityProvider
     }
 
     /**
-     * Find the clicker by either the internal id or the clicker id
+     * Find the clicker by either the internal id or the clicker id.
      * 
      * @param id the internal id or the clicker id
      * @return the {@link ClickerRegistration} OR null if none can be found
@@ -416,6 +465,13 @@ public class IClickerEntityProvider extends AbstractEntityProvider
         return entity;
     }
 
+    /**
+     * Get the entities.
+     *
+     * @param ref the reference
+     * @param search the search
+     * @return the list of entities
+     */
     public List<?> getEntities(EntityReference ref, Search search) {
         String locationId = null;
         String userId = getCurrentUser();
@@ -445,10 +501,25 @@ public class IClickerEntityProvider extends AbstractEntityProvider
         return logic.getAllVisibleItems(userId, locationId);
     }
 
+    /**
+     * Create an entity.
+     *
+     * @param ref the reference
+     * @param entity the entity
+     * @return the string
+     */
     public String createEntity(EntityReference ref, Object entity) {
         return createEntity(ref, entity, null);
     }
 
+    /**
+     * Create an entity.
+     *
+     * @param ref the reference
+     * @param entity the entity
+     * @param params the params
+     * @return the string
+     */
     public String createEntity(EntityReference ref, Object entity, Map<String, Object> params) {
         String clickerId = ref.getId();
 
@@ -472,22 +543,48 @@ public class IClickerEntityProvider extends AbstractEntityProvider
         }
     }
 
+    /**
+     * Get sample entity.
+     *
+     * @return the sample entity
+     */
     public Object getSampleEntity() {
         return new ClickerRegistration();
     }
 
+    /**
+     * Get current user.
+     *
+     * @return the current user ID
+     */
     private String getCurrentUser() {
         return externalLogic.getCurrentUserId();
     }
 
+    /**
+     * Get handled output formats.
+     *
+     * @return the array of formats
+     */
     public String[] getHandledOutputFormats() {
         return new String[] {Formats.XML, Formats.JSON};
     }
 
+    /**
+     * Get handled input formats.
+     *
+     * @return the array of formats
+     */
     public String[] getHandledInputFormats() {
         return new String[] {Formats.HTML, Formats.XML, Formats.JSON};
     }
 
+    /**
+     * Render a buffer to string.
+     *
+     * @param br the buffer reader
+     * @return the string
+     */
     public static String readerToString(BufferedReader br) {
         StringBuilder sb = new StringBuilder();
         String line;

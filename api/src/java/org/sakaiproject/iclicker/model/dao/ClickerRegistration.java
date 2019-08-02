@@ -30,7 +30,7 @@ import lombok.NoArgsConstructor;
  * This represents a clicker (iclicker remote) registration which is stored in the local Sakai DB,
  * this registration can be controlled by the owner or the system admin only <br/>
  * Registrations can be viewed by the instructor of the courses the owner is in <br/>
- * Anyone in the system can create a registration
+ * Anyone in the system can create a registration.
  */
 @Data
 @NoArgsConstructor
@@ -43,11 +43,11 @@ public class ClickerRegistration implements Serializable {
     private Long id;
     private String clickerId;
     /**
-     * Sakai userId (internal, not EID/USERNAME)
+     * Sakai userId (internal, not EID/USERNAME).
      */
     private String ownerId;
     /**
-     * [OPTIONAL] Sakai course ID
+     * [OPTIONAL] Sakai course ID.
      */
 
     private String locationId;
@@ -55,13 +55,13 @@ public class ClickerRegistration implements Serializable {
     /**
      * if this is true then the registration is effectively deleted (disabled)
      * and should not be returned as part of the data feeds,
-     * it should still be displayed to the owner but not to others
+     * it should still be displayed to the owner but not to others.
      */
     private boolean activated = true;
 
     /**
      * if this is true it means this registration came from the national system,
-     * or has been synced with it
+     * or has been synced with it.
      */
     private boolean national = false;
 
@@ -71,10 +71,23 @@ public class ClickerRegistration implements Serializable {
     // NON-PERSISTENT
     public String userDisplayName;
 
+    /**
+     * Constructor.
+     *
+     * @param clickerId the clicker ID
+     * @param ownerId the owner ID
+     */
     public ClickerRegistration(String clickerId, String ownerId) {
         this(clickerId, ownerId, null);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param clickerId the clicker ID
+     * @param ownerId the owner ID
+     * @param locationId the location ID
+     */
     public ClickerRegistration(String clickerId, String ownerId, String locationId) {
         this.clickerId = clickerId;
         this.ownerId = ownerId;
@@ -84,7 +97,9 @@ public class ClickerRegistration implements Serializable {
     }
 
     /**
-     * Special copy constructor which ensures we are not handing around the persistent object
+     * Special copy constructor which ensures we are not handing around the persistent object.
+     *
+     * @param cr the clicker registration
      */
     public ClickerRegistration(ClickerRegistration cr) {
         this.id = cr.getId();

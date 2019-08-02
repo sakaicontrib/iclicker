@@ -26,7 +26,7 @@ import lombok.Setter;
 import org.sakaiproject.iclicker.service.BigRunner;
 
 /**
- * Handles the execution of large scale tasks and the tracking thereof
+ * Handles the execution of large scale tasks and the tracking thereof.
  */
 public abstract class BigRunnerImpl extends Observable implements BigRunner {
     @Setter private int total = 0;
@@ -37,37 +37,72 @@ public abstract class BigRunnerImpl extends Observable implements BigRunner {
     @Setter @Getter private Exception failure;
     @Setter @Getter private String type = "none";
 
+    /**
+     * Constructor.
+     *
+     */
     public BigRunnerImpl() {
     }
 
+    /**
+     * Constructor.
+     *
+     * @param type the type
+     */
     public BigRunnerImpl(String type) {
         this.type = type;
     }
 
+    /**
+     * Sets the completed total.
+     *
+     * @param totalCompleted the total completed
+     */
     public void setCompleted(int totalCompleted) {
         this.completed = totalCompleted;
         checkAndNotify();
     }
 
+    /**
+     * Adds to the completed total.
+     *
+     * @param completedChunk the total completed chunk
+     */
     public void addCompleted(int completedChunk) {
         this.completed = completedChunk;
         checkAndNotify();
     }
 
+    /**
+     * Increment the completed total.
+     */
     public void incrementCompleted() {
         completed++;
         checkAndNotify();
     }
 
+    /**
+     * Sets the completed total.
+     */
     public void setComplete() {
         this.complete = true;
         this.completed = this.total;
     }
 
+    /**
+     * Get the total completed.
+     *
+     * @return the total completed
+     */
     public int getItemsCompleted() {
         return completed;
     }
 
+    /**
+     * Get the percent completed.
+     *
+     * @return the percent completed
+     */
     public int getPercentCompleted() {
         int percent = completed;
 
@@ -82,14 +117,29 @@ public abstract class BigRunnerImpl extends Observable implements BigRunner {
         return percent;
     }
 
+    /**
+     * Is there an error?
+     *
+     * @return true, if an error exists
+     */
     public boolean isError() {
         return failure != null;
     }
 
+    /**
+     * Get total items.
+     *
+     * @return the total item count
+     */
     public int getTotalItems() {
         return total;
     }
 
+    /**
+     * Get the observable.
+     *
+     * @return this object
+     */
     public Observable getObservable() {
         return this;
     }

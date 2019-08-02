@@ -21,7 +21,7 @@ package org.sakaiproject.iclicker.service;
 import java.util.Observable;
 
 /**
- * Special class for handling long running operations
+ * Special class for handling long running operations.
  */
 public interface BigRunner extends Runnable {
     String RUNNER_TYPE_ADD = "add";
@@ -29,20 +29,60 @@ public interface BigRunner extends Runnable {
     String RUNNER_TYPE_SYNC = "sync";
     String RUNNER_LOCK = "bigRunnerLock";
 
+    /**
+     * Get total items.
+     *
+     * @return total item count
+     */
     int getTotalItems();
 
+    /**
+     * Get total items completed.
+     *
+     * @return total item completed count
+     */
     int getItemsCompleted();
 
+    /**
+     * Get total items percent.
+     *
+     * @return total item percent
+     */
     int getPercentCompleted();
 
+    /**
+     * Is this complete?
+     *
+     * @return true if complete
+     */
     boolean isComplete();
 
+    /**
+     * Is this in error?
+     *
+     * @return true if in error
+     */
     boolean isError();
 
+    /**
+     * Sets the failure exception.
+     *
+     * @param e the exception
+     */
     void setFailure(Exception e);
 
+    /**
+     * Get the type.
+     *
+     * @return the type
+     */
     String getType();
 
+    /**
+     * Get the observable.
+     *
+     * @return the observable
+     */
     Observable getObservable();
 
 }

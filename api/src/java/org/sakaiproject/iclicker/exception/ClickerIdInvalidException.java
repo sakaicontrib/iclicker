@@ -19,7 +19,8 @@
 package org.sakaiproject.iclicker.exception;
 
 /**
- * Exception which indicates a failure in the clickerId, {@link #failure} indicates the {@link Failure} enum: EMPTY, LENGTH, CHARS, CHECKSUM, SAMPLE
+ * Exception which indicates a failure in the clickerId, {@link #failure}
+ * indicates the {@link Failure} enum: EMPTY, LENGTH, CHARS, CHECKSUM, SAMPLE.
  */
 public class ClickerIdInvalidException extends RuntimeException {
 
@@ -27,39 +28,39 @@ public class ClickerIdInvalidException extends RuntimeException {
 
     public enum Failure {
         /**
-         * the clickerId is null or empty string
+         * the clickerId is null or empty string.
          */
         EMPTY,
         /**
-         * the clickerId length is not 8 chars (too long), shorter clickerIds are padded out to 8
+         * the clickerId length is not 8 chars (too long), shorter clickerIds are padded out to 8.
          */
         LENGTH,
         /**
-         * the clickerId contains invalid characters
+         * the clickerId contains invalid characters.
          */
         CHARS,
         /**
-         * the clickerId did not validate using the checksum method
+         * the clickerId did not validate using the checksum method.
          */
         CHECKSUM,
         /**
-         * the clickerId matches the sample one and cannot be used
+         * the clickerId matches the sample one and cannot be used.
          */
         SAMPLE,
         /**
-         * the GO ID contains invalid characters
+         * the GO ID contains invalid characters.
          */
         GO_CHARS,
         /**
-         * cannot find and compare the current user
+         * cannot find and compare the current user.
          */
         GO_NO_USER,
         /**
-         * current user lastname does not match the one on record
+         * current user lastname does not match the one on record.
          */
         GO_LASTNAME,
         /**
-         * GO ID cannot be found on the server
+         * GO ID cannot be found on the server.
          */
         GO_NO_MATCH,
     }
@@ -67,10 +68,25 @@ public class ClickerIdInvalidException extends RuntimeException {
     public Failure failure;
     public String clickerId;
 
+    /**
+     * Constructor.
+     *
+     * @param message the message
+     * @param failure the failure
+     * @param clickerId the clicker ID
+     */
     public ClickerIdInvalidException(String message, Failure failure, String clickerId) {
         this(message, failure, clickerId, null);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param message the message
+     * @param failure the failure
+     * @param clickerId the clicker ID
+     * @param cause the cause
+     */
     public ClickerIdInvalidException(String message, Failure failure, String clickerId, Throwable cause) {
         super(message, cause);
         this.failure = failure;

@@ -19,7 +19,8 @@
 package org.sakaiproject.iclicker.exception;
 
 /**
- * Exception which indicates the clicker is already registered, contains info about who it is registered to and who tried to register it
+ * Exception which indicates the clicker is already registered,
+ * contains info about who it is registered to and who tried to register it.
  */
 public class ClickerRegisteredException extends RuntimeException {
 
@@ -29,6 +30,13 @@ public class ClickerRegisteredException extends RuntimeException {
     public String clickerId;
     public String registeredOwnerId;
 
+    /**
+     * Constructor.
+     *
+     * @param ownerId the owner ID
+     * @param clickerId the clicker ID
+     * @param registeredOwnerId the registered owner ID
+     */
     public ClickerRegisteredException(String ownerId, String clickerId, String registeredOwnerId) {
         super();
         this.ownerId = ownerId;

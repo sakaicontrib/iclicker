@@ -32,12 +32,16 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Implementations of any specialized DAO methods from the specialized DAO that allows the developer to extend the functionality of the generic dao package, this handles all data persistence for the
- * application
+ * Implementations of any specialized DAO methods from the specialized DAO that allows the developer to extend the
+ * functionality of the generic dao package, this handles all data persistence for the
+ * application.
  */
 @Slf4j
 public class IClickerDaoImpl extends HibernateGeneralGenericDao implements IClickerDao {
 
+    /**
+     * Init.
+     */
     public void init() {
         try {
             // attempt to alter the iclicker_registration table
@@ -58,19 +62,26 @@ public class IClickerDaoImpl extends HibernateGeneralGenericDao implements IClic
                 log.info("Updated the iclicker_registration table in Oracle");
             }
         } catch (Exception e) {
-            log.warn("Unable to alter i>clicker iclicker_registration table, you will need to manually alter the clickerId column to 16 chars long (from 8 chars). {}", e.getMessage());
+            log.warn(
+                "Error altering iclicker_registration table," +
+                " will need to manually alter the clickerId column to 16 chars long. {}",
+                e.getMessage()
+            );
         }
 
     }
 
     /**
-     * Allows a lock to be obtained that is system wide, this is primarily for ensuring something runs on a single server only in a cluster<br/>
-     * <b>NOTE:</b> This intentionally returns a null on failure rather than an exception since exceptions will cause a rollback which makes the current session effectively dead, this also makes it
-     * impossible to control the failure so instead we return null as a marker
+     * Allows a lock to be obtained that is system wide,
+     * this is primarily for ensuring something runs on a single server only in a cluster<br/>
+     * <b>NOTE:</b> This intentionally returns a null on failure rather than an exception since
+     * exceptions will cause a rollback which makes the current session effectively dead, this also makes it
+     * impossible to control the failure so instead we return null as a marker.
      *
      * @param lockId the name of the lock which we are seeking
      * @param executerId a unique id for the holder of this lock (normally a server id)
-     * @param timePeriod the length of time (in milliseconds) that the lock should be valid for, set this very low for non-repeating processes (the length of time the process should take to run) and
+     * @param timePeriod the length of time (in milliseconds) that the lock should be valid for,
+     *        set this very low for non-repeating processes (the length of time the process should take to run) and
      *            the length of the repeat period plus the time to run the process for repeating jobs
      * @return true if a lock was obtained, false if not, null if failure
      */
@@ -132,9 +143,11 @@ public class IClickerDaoImpl extends HibernateGeneralGenericDao implements IClic
     }
 
     /**
-     * Releases a lock that was being held, this is useful if you know a server is shutting down and you want to release your locks early<br/>
-     * <b>NOTE:</b> This intentionally returns a null on failure rather than an exception since exceptions will cause a rollback which makes the current session effectively dead, this also makes it
-     * impossible to control the failure so instead we return null as a marker
+     * Releases a lock that was being held, this is useful if you know a server is shutting down
+     * and you want to release your locks early<br/>
+     * <b>NOTE:</b> This intentionally returns a null on failure rather than an exception since exceptions
+     * will cause a rollback which makes the current session effectively dead, this also makes it
+     * impossible to control the failure so instead we return null as a marker.
      *
      * @param lockId the name of the lock which we are seeking
      * @param executerId a unique id for the holder of this lock (normally a server id)

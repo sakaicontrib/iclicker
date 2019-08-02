@@ -28,7 +28,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Represents a user in the system
+ * Represents a user in the system.
  * 
  */
 @Data
@@ -43,10 +43,26 @@ public class User {
     private String email;
     private String sortName;
 
+    /**
+     * Constructor.
+     *
+     * @param userId the uzser ID
+     * @param username the username
+     * @param name the name
+     */
     public User(String userId, String username, String name) {
         this(userId, username, name, null, null);
     }
 
+    /**
+     * Constructor.
+     *
+     *@param userId the uzser ID
+     * @param username the username
+     * @param name the name
+     * @param sortName the sort name
+     * @param email the email
+     */
     public User(String userId, String username, String name, String sortName, String email) {
         this.userId = userId;
         this.username = username;
@@ -102,8 +118,15 @@ public class User {
 
     public static class UsernameComparator implements Comparator<User>, Serializable {
 
-        public static final long serialVersionUID = 1L;
+        private static final long serialVersionUID = -3706455898470651959L;
 
+        /**
+         * Compare.
+         *
+         *  @param o1 object 1
+         *  @param o2 object 2
+         *  @return return the match integer
+         */
         public int compare(User o1, User o2) {
             return o1.username.compareTo(o2.username);
         }
@@ -112,8 +135,15 @@ public class User {
 
     public static class SortnameComparator implements Comparator<User>, Serializable {
 
-        public static final long serialVersionUID = 1L;
+        private static final long serialVersionUID = -1105332623637125172L;
 
+        /**
+         * Compare.
+         *
+         *  @param o1 object 1
+         *  @param o2 object 2
+         *  @return return the match integer
+         */
         public int compare(User o1, User o2) {
             return o1.sortName.compareTo(o2.sortName);
         }

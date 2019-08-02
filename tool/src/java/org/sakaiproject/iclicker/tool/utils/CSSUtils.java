@@ -51,10 +51,10 @@ public final class CSSUtils {
     }
 
     /**
-     * Captures the (yes) overly complex rules for the skin folder naming convention
+     * Captures the (yes) overly complex rules for the skin folder naming convention.
      *
-     * @param <code>skinFolder</code> The folder where the skins are to be found.
-     * @return <code>skinFolder</code> The adjusted folder where the skins can be found.
+     * @param skinFolder The folder where the skins are to be found.
+     * @return the CSS skin folder
      */
     public static String adjustCssSkinFolder(String skinFolder) {
         if (skinFolder == null) {
@@ -71,9 +71,13 @@ public final class CSSUtils {
             prefix = "";
         }
 
-        String templates = ServerConfigurationService.getString("portal.templates", PORTAL_SKIN_MORPHEUS_PREFIX_DEFAULT);
+        String templates = ServerConfigurationService.getString(
+            "portal.templates",
+            PORTAL_SKIN_MORPHEUS_PREFIX_DEFAULT
+        );
 
-        if (StringUtils.equals(PORTAL_SKIN_MORPHEUS_PREFIX_DEFAULT, templates) && !StringUtils.startsWith(skinFolder, prefix)) {
+        if (StringUtils.equals(PORTAL_SKIN_MORPHEUS_PREFIX_DEFAULT, templates) &&
+                !StringUtils.startsWith(skinFolder, prefix)) {
             skinFolder = prefix + skinFolder;
         }
 
@@ -83,8 +87,8 @@ public final class CSSUtils {
     /**
      * Returns a URL for the tool.css suitable for putting in an href= field.
      *
-     * @param <code>skinFolder</code> where the tool.css skin lives for this site.
-     * @return <code>cssToolSkin</code> URL for the tool.css
+     * @param skinFolder where the tool.css skin lives for this site.
+     * @return tool skin
      */
     public static String getCssToolSkin(String skinFolder) {
         skinFolder = adjustCssSkinFolder(skinFolder);
@@ -97,7 +101,7 @@ public final class CSSUtils {
     /**
      * Returns a URL for the tool.css suitable for putting in an href= field.
      *
-     * @param <code>site</code> The site for this tool.
+     * @param site The site for this tool.
      * @return <code>cssToolSkin</code> URL for the tool.css
      */
     public static String getCssToolSkin(Site site) {

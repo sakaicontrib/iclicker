@@ -68,17 +68,28 @@ public class ToolController {
     private ExternalLogic externalLogic;
     private ReloadableResourceBundleMessageSource messageSource;
 
+    /**
+     * Init.
+     */
     public void init() {
     }
 
-    /**************************************************************************
+    /**
+     * ************************************************************************
      * VIEW handling
      */
 
-    /**************************************************************************
+    /**
+     * ************************************************************************
      * View handling methods
      */
 
+    /**
+     * Process registration.
+     *
+     * @param pageContext the page context
+     * @param request the request
+     */
     public void processRegistration(PageContext pageContext, HttpServletRequest request) {
         // Handle the POST if there is one
         pageContext.setAttribute("newRegistration", false);
@@ -97,25 +108,75 @@ public class ToolController {
                     // save a new clicker registration
                     try {
                         this.getLogic().createRegistration(clickerId);
-                        ToolController.addMessage(pageContext, ToolController.KEY_INFO, "reg.registered.success", clickerId);
-                        ToolController.addMessage(pageContext, ToolController.KEY_BELOW, "reg.registered.below.success", (Object[]) null);
+                        ToolController.addMessage(
+                            pageContext,
+                            ToolController.KEY_INFO,
+                            "reg.registered.success",
+                            clickerId
+                        );
+                        ToolController.addMessage(
+                            pageContext,
+                            ToolController.KEY_BELOW,
+                            "reg.registered.below.success",
+                            (Object[]) null
+                        );
                         pageContext.setAttribute("newRegistration", true);
                     } catch (ClickerRegisteredException e) {
-                        ToolController.addMessage(pageContext, ToolController.KEY_ERROR, "reg.registered.clickerId.duplicate", clickerId);
-                        ToolController.addMessage(pageContext, ToolController.KEY_BELOW, "reg.registered.below.duplicate", clickerId);
+                        ToolController.addMessage(
+                            pageContext,
+                            ToolController.KEY_ERROR,
+                            "reg.registered.clickerId.duplicate",
+                            clickerId
+                        );
+                        ToolController.addMessage(
+                            pageContext,
+                            ToolController.KEY_BELOW,
+                            "reg.registered.below.duplicate",
+                            clickerId
+                        );
                     } catch (ClickerIdInvalidException e) {
                         if (Failure.EMPTY.equals(e.failure)) {
-                            ToolController.addMessage(pageContext, ToolController.KEY_ERROR, "reg.registered.clickerId.empty", (Object[]) null);
+                            ToolController.addMessage(
+                                pageContext,
+                                ToolController.KEY_ERROR,
+                                "reg.registered.clickerId.empty",
+                                (Object[]) null
+                            );
                         } else if (Failure.LENGTH.equals(e.failure)) {
-                            ToolController.addMessage(pageContext, ToolController.KEY_ERROR, "reg.registered.clickerId.wrong.length", (Object[]) null);
+                            ToolController.addMessage(
+                                pageContext,
+                                ToolController.KEY_ERROR,
+                                "reg.registered.clickerId.wrong.length",
+                                (Object[]) null
+                            );
                         } else if (Failure.GO_NO_USER.equals(e.failure)) {
-                            ToolController.addMessage(pageContext, ToolController.KEY_ERROR, "reg.registered.clickerId.failure", clickerId);
+                            ToolController.addMessage(
+                                pageContext,
+                                ToolController.KEY_ERROR,
+                                "reg.registered.clickerId.failure",
+                                clickerId
+                            );
                         } else if (Failure.GO_LASTNAME.equals(e.failure)) {
-                            ToolController.addMessage(pageContext, ToolController.KEY_ERROR, "reg.registered.clickerId.go.wrong.lastname", (Object[]) null);
+                            ToolController.addMessage(
+                                pageContext,
+                                ToolController.KEY_ERROR,
+                                "reg.registered.clickerId.go.wrong.lastname",
+                                (Object[]) null
+                            );
                         } else if (Failure.GO_NO_MATCH.equals(e.failure)) {
-                            ToolController.addMessage(pageContext, ToolController.KEY_ERROR, "reg.registered.clickerId.go.invalid", clickerId);
+                            ToolController.addMessage(
+                                pageContext,
+                                ToolController.KEY_ERROR,
+                                "reg.registered.clickerId.go.invalid",
+                                clickerId
+                            );
                         } else {
-                            ToolController.addMessage(pageContext, ToolController.KEY_ERROR, "reg.registered.clickerId.invalid", clickerId);
+                            ToolController.addMessage(
+                                pageContext,
+                                ToolController.KEY_ERROR,
+                                "reg.registered.clickerId.invalid",
+                                clickerId
+                            );
                         }
                     }
                 }
@@ -124,7 +185,12 @@ public class ToolController {
                 boolean activate = Boolean.parseBoolean(request.getParameter("activate"));
 
                 if ((request.getParameter("registrationId") == null)) {
-                    ToolController.addMessage(pageContext, ToolController.KEY_ERROR, "reg.activate.registrationId.empty", (Object[]) null);
+                    ToolController.addMessage(
+                        pageContext,
+                        ToolController.KEY_ERROR,
+                        "reg.activate.registrationId.empty",
+                        (Object[]) null
+                    );
                 } else {
                     try {
                         Long registrationId = Long.parseLong(request.getParameter("registrationId"));
@@ -132,15 +198,30 @@ public class ToolController {
                         ClickerRegistration cr = this.getLogic().setRegistrationActive(registrationId, activate);
 
                         if (cr != null) {
-                            ToolController.addMessage(pageContext, ToolController.KEY_INFO, "reg.activate.success." + cr.isActivated(), cr.getClickerId());
+                            ToolController.addMessage(
+                                pageContext,
+                                ToolController.KEY_INFO,
+                                "reg.activate.success." + cr.isActivated(),
+                                cr.getClickerId()
+                            );
                         }
                     } catch (NumberFormatException e) {
-                        ToolController.addMessage(pageContext, ToolController.KEY_ERROR, "reg.activate.registrationId.nonnumeric", request.getParameter("registrationId"));
+                        ToolController.addMessage(
+                            pageContext,
+                            ToolController.KEY_ERROR,
+                            "reg.activate.registrationId.nonnumeric",
+                            request.getParameter("registrationId")
+                        );
                     }
                 }
             } else if (request.getParameter("remove") != null) {
                 if (request.getParameter("registrationId") == null) {
-                    ToolController.addMessage(pageContext, ToolController.KEY_ERROR, "reg.activate.registrationId.empty", (Object[]) null);
+                    ToolController.addMessage(
+                        pageContext,
+                        ToolController.KEY_ERROR,
+                        "reg.activate.registrationId.empty",
+                        (Object[]) null
+                    );
                 } else {
                     try {
                         Long registrationId = Long.parseLong(request.getParameter("registrationId"));
@@ -148,10 +229,20 @@ public class ToolController {
                         ClickerRegistration cr = this.getLogic().setRegistrationActive(registrationId, false);
 
                         if (cr != null) {
-                            ToolController.addMessage(pageContext, ToolController.KEY_INFO, "reg.remove.success", cr.getClickerId());
+                            ToolController.addMessage(
+                                pageContext,
+                                ToolController.KEY_INFO,
+                                "reg.remove.success",
+                                cr.getClickerId()
+                            );
                         }
                     } catch (NumberFormatException e) {
-                        ToolController.addMessage(pageContext, ToolController.KEY_ERROR, "reg.activate.registrationId.nonnumeric", request.getParameter("registrationId"));
+                        ToolController.addMessage(
+                            pageContext,
+                            ToolController.KEY_ERROR,
+                            "reg.activate.registrationId.nonnumeric",
+                            request.getParameter("registrationId")
+                        );
                     }
                 }
             } else {
@@ -165,9 +256,19 @@ public class ToolController {
         // SSO handling
         pageContext.setAttribute("ssoEnabled", logic.isSingleSignOnEnabled());
         // added to allow special messages below the forms
-        pageContext.setAttribute("belowMessages", ToolController.getMessages(pageContext, ToolController.KEY_BELOW), PageContext.REQUEST_SCOPE);
+        pageContext.setAttribute(
+            "belowMessages",
+            ToolController.getMessages(pageContext, ToolController.KEY_BELOW),
+            PageContext.REQUEST_SCOPE
+        );
     }
 
+    /**
+     * Process the instructor.
+     *
+     * @param pageContext the page context
+     * @param request the request
+     */
     public void processInstructor(PageContext pageContext, HttpServletRequest request) {
         // admin/instructor check
         if (!this.isAdmin() && !this.isInstructor()) {
@@ -198,6 +299,12 @@ public class ToolController {
         pageContext.setAttribute("ssoEnabled", logic.isSingleSignOnEnabled());
     }
 
+    /**
+     * Process the instructor SSO.
+     *
+     * @param pageContext the page context
+     * @param request the request
+     */
     public void processInstructorSSO(PageContext pageContext, HttpServletRequest request) {
         // admin/instructor check
         if (!this.isAdmin() && !this.isInstructor()) {
@@ -226,6 +333,12 @@ public class ToolController {
         }
     }
 
+    /**
+     * Process the admin.
+     *
+     * @param pageContext the page context
+     * @param request the request
+     */
     public void processAdmin(PageContext pageContext, HttpServletRequest request) {
         // admin check
         if (!this.isAdmin()) {
@@ -264,7 +377,12 @@ public class ToolController {
                 boolean activate = Boolean.parseBoolean(request.getParameter("activate"));
 
                 if (request.getParameter("registrationId") == null) {
-                    ToolController.addMessage(pageContext, ToolController.KEY_ERROR, "reg.activate.registrationId.empty", (Object[]) null);
+                    ToolController.addMessage(
+                        pageContext,
+                        ToolController.KEY_ERROR,
+                        "reg.activate.registrationId.empty",
+                        (Object[]) null
+                    );
                 } else {
                     try {
                         Long registrationId = Long.parseLong(request.getParameter("registrationId"));
@@ -272,16 +390,31 @@ public class ToolController {
                         ClickerRegistration cr = this.getLogic().setRegistrationActive(registrationId, activate);
 
                         if (cr != null) {
-                            ToolController.addMessage(pageContext, ToolController.KEY_INFO, "admin.activate.success." + cr.isActivated(), cr.getClickerId(),
-                                            this.getLogic().getUserDisplayName(cr.getOwnerId()));
+                            ToolController.addMessage(
+                                pageContext,
+                                ToolController.KEY_INFO,
+                                "admin.activate.success." + cr.isActivated(),
+                                cr.getClickerId(),
+                                this.getLogic().getUserDisplayName(cr.getOwnerId())
+                            );
                         }
                     } catch (NumberFormatException e) {
-                        ToolController.addMessage(pageContext, ToolController.KEY_ERROR, "reg.activate.registrationId.nonnumeric", request.getParameter("registrationId"));
+                        ToolController.addMessage(
+                            pageContext,
+                            ToolController.KEY_ERROR,
+                            "reg.activate.registrationId.nonnumeric",
+                            request.getParameter("registrationId")
+                        );
                     }
                 }
             } else if (request.getParameter("remove") != null) {
                 if (request.getParameter("registrationId") == null) {
-                    ToolController.addMessage(pageContext, ToolController.KEY_ERROR, "reg.activate.registrationId.empty", (Object[]) null);
+                    ToolController.addMessage(
+                        pageContext,
+                        ToolController.KEY_ERROR,
+                        "reg.activate.registrationId.empty",
+                        (Object[]) null
+                    );
                 } else {
                     try {
                         Long registrationId = Long.parseLong(request.getParameter("registrationId"));
@@ -289,11 +422,22 @@ public class ToolController {
 
                         if (cr != null) {
                             this.getLogic().removeItem(cr);
-                            ToolController.addMessage(pageContext, ToolController.KEY_INFO, "admin.delete.success", cr.getClickerId(), registrationId,
-                                            this.getLogic().getUserDisplayName(cr.getOwnerId()));
+                            ToolController.addMessage(
+                                pageContext,
+                                ToolController.KEY_INFO,
+                                "admin.delete.success",
+                                cr.getClickerId(),
+                                registrationId,
+                                this.getLogic().getUserDisplayName(cr.getOwnerId())
+                            );
                         }
                     } catch (NumberFormatException e) {
-                        ToolController.addMessage(pageContext, ToolController.KEY_ERROR, "reg.activate.registrationId.nonnumeric", request.getParameter("registrationId"));
+                        ToolController.addMessage(
+                            pageContext,
+                            ToolController.KEY_ERROR,
+                            "reg.activate.registrationId.nonnumeric",
+                            request.getParameter("registrationId")
+                        );
                     }
                 }
             } else if (request.getParameter("runner") != null) {
@@ -315,9 +459,19 @@ public class ToolController {
                     String msgKey = "admin.process.message." + runnerType;
                     ToolController.addMessage(pageContext, ToolController.KEY_INFO, msgKey, (Object[]) null);
                 } catch (ClickerLockException e) {
-                    ToolController.addMessage(pageContext, ToolController.KEY_ERROR, "admin.process.message.locked", runnerType);
+                    ToolController.addMessage(
+                        pageContext,
+                        ToolController.KEY_ERROR,
+                        "admin.process.message.locked",
+                        runnerType
+                    );
                 } catch (IllegalStateException e) {
-                    ToolController.addMessage(pageContext, ToolController.KEY_ERROR, "admin.process.message.locked", runnerType);
+                    ToolController.addMessage(
+                        pageContext,
+                        ToolController.KEY_ERROR,
+                        "admin.process.message.locked",
+                        runnerType
+                    );
                 }
             } else {
                 // invalid POST
@@ -369,8 +523,17 @@ public class ToolController {
                     sb.append("<span class=\"paging_current paging_item\">").append(marker).append("</span>\n");
                 } else {
                     // make it a link
-                    sb.append("<a class=\"paging_link paging_item\" href=\"").append(pageContext.findAttribute("adminPath")).append("&page=").append(currentPage).append("&sort=").append(sort)
-                                    .append("&nc=").append(d.getTime() + currentPage).append("\">").append(marker).append("</a>\n");
+                    sb.append("<a class=\"paging_link paging_item\" href=\"")
+                        .append(pageContext.findAttribute("adminPath"))
+                        .append("&page=")
+                        .append(currentPage)
+                        .append("&sort=")
+                        .append(sort)
+                        .append("&nc=")
+                        .append(d.getTime() + currentPage)
+                        .append("\">")
+                        .append(marker)
+                        .append("</a>\n");
                 }
             }
 
@@ -378,6 +541,12 @@ public class ToolController {
         }
     }
 
+    /**
+     * Makes the runner status.
+     *
+     * @param pageContext the page context
+     * @param clearOnComplete should we clear on completion?
+     */
     public void makeRunnerStatus(PageContext pageContext, boolean clearOnComplete) {
         // check for running process and include the info in the page
         BigRunner runner = logic.getRunnerStatus();
@@ -402,7 +571,7 @@ public class ToolController {
     }
 
     /**
-     * Used to ensure that the view being displayed is valid and allowed for the current user
+     * Used to ensure that the view being displayed is valid and allowed for the current user.
      * 
      * @param viewParam the value of the parameter "view"
      * @return the valid and allowed view for the given user
@@ -422,7 +591,7 @@ public class ToolController {
     }
 
     /**
-     * Check if the user is allowed in a view
+     * Check if the user is allowed in a view.
      * 
      * @param view the view constant from VIEWS
      * @return true if allowed, false if not
@@ -452,12 +621,13 @@ public class ToolController {
         return allowed;
     }
 
-    /**************************************************************************
+    /**
+     * ************************************************************************
      * Services pass-through
      */
 
     /**
-     * This gets the list of clicker registrations for a current user (or visible to them)
+     * This gets the list of clicker registrations for a current user (or visible to them).
      * 
      * @param locationId [OPTIONAL] a unique id which represents the current location of the user (entity reference)
      * @return a List of ClickerRegistration objects visible to the current user
@@ -468,26 +638,49 @@ public class ToolController {
         return logic.getAllVisibleItems(userId, locationId);
     }
 
+    /**
+     * Is the user an admin?
+     *
+     * @return true, if user is an admin
+     */
     public boolean isAdmin() {
         String userId = externalLogic.getCurrentUserId();
 
         return externalLogic.isUserAdmin(userId);
     }
 
+    /**
+     * Is the user an instructor?
+     *
+     * @return true, if user is an instructor
+     */
     public boolean isInstructor() {
         String userId = externalLogic.getCurrentUserId();
 
         return externalLogic.isUserInstructor(userId);
     }
 
-    /**************************************************************************
+    /**
+     * ************************************************************************
      * STATICS and methods for message handling
      */
 
+    /**
+     * Spring's message bundle location.
+     *
+     * @return the location
+     */
     public static String springMessageBundle() {
         return "classpath:" + MESSAGE_BUNDLE.replace('.', '/');
     }
 
+    /**
+     * Add a message.
+     *
+     * @param context the context
+     * @param key the key
+     * @param message the message
+     */
     @SuppressWarnings("unchecked")
     public static void addMessage(PageContext context, String key, String message) {
         if (context == null || key == null) {
@@ -506,6 +699,13 @@ public class ToolController {
         }
     }
 
+    /**
+     * Add a message.
+     * @param context the context
+     * @param key the key
+     * @param messageKey the message key
+     * @param args the args
+     */
     public static void addMessage(PageContext context, String key, String messageKey, Object... args) {
         if (context == null || key == null) {
             throw new IllegalArgumentException("context (" + context + ") and key (" + key + ") must both not be null");
@@ -527,6 +727,13 @@ public class ToolController {
         }
     }
 
+    /**
+     * Get the messages.
+     *
+     * @param context the context
+     * @param key the key
+     * @return the array of messages
+     */
     @SuppressWarnings("unchecked")
     public static String[] getMessages(PageContext context, String key) {
         if (context == null || key == null) {
@@ -546,6 +753,12 @@ public class ToolController {
         return messages;
     }
 
+    /**
+     * Get the message locale.
+     *
+     * @param context the context
+     * @return the locale
+     */
     public Locale getMessageLocale(@SuppressWarnings("UnusedParameters") PageContext context) {
         return externalLogic.getCurrentLocale();
     }

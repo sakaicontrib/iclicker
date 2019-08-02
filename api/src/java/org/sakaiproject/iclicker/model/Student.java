@@ -29,7 +29,7 @@ import lombok.Setter;
 
 /**
  * Represents a student in the course gradebook, this only makes sense in the context of a course or
- * a gradebook
+ * a gradebook.
  */
 @NoArgsConstructor
 public class Student extends User {
@@ -37,14 +37,35 @@ public class Student extends User {
     @Setter private Boolean clickerRegistered;
     @Setter @Getter private Set<ClickerRegistration> clickerRegistrations;
 
+    /**
+     * Constructor.
+     *
+     * @param userId the user ID
+     * @param username the username
+     * @param name the name
+     */
     public Student(String userId, String username, String name) {
         super(userId, username, name, null, null);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param userId the user ID
+     * @param username the username
+     * @param name the name
+     * @param sortName the sort name
+     * @param email the email
+     */
     public Student(String userId, String username, String name, String sortName, String email) {
         super(userId, username, name, sortName, email);
     }
 
+    /**
+     * Is this clicker registered?
+     *
+     * @return true, if registered
+     */
     public boolean isClickerRegistered() {
         return clickerRegistered == null ? false : clickerRegistered.booleanValue();
     }

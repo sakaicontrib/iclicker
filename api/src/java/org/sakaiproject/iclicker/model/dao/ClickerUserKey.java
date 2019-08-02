@@ -39,12 +39,12 @@ public class ClickerUserKey implements Serializable {
     private Long id;
 
     /**
-     * Sakai userId (internal, not EID/USERNAME)
+     * Sakai userId (internal, not EID/USERNAME).
      */
     private String userId;
 
     /**
-     * The encoded user key
+     * The encoded user key.
      */
     private String userKey;
 
@@ -52,7 +52,10 @@ public class ClickerUserKey implements Serializable {
     private Date dateModified;
 
     /**
-     * Full constructor
+     * Full constructor.
+     *
+     *  @param userKey the user key
+     *  @param userId the user ID
      */
     public ClickerUserKey(String userKey, String userId) {
         this.userKey = userKey;
@@ -62,14 +65,16 @@ public class ClickerUserKey implements Serializable {
     }
 
     /**
-     * Special copy constructor which ensures we are not handing around the persistent object
+     * Special copy constructor which ensures we are not handing around the persistent object.
+     *
+     *  @param clickerUserKey clicker user key
      */
-    public ClickerUserKey(ClickerUserKey cluk) {
-        this.id = cluk.getId();
-        this.userKey = cluk.getUserKey();
-        this.userId = cluk.getUserId();
-        this.dateCreated = cluk.getDateCreated();
-        this.dateModified = cluk.getDateModified();
+    public ClickerUserKey(ClickerUserKey clickerUserKey) {
+        this.id = clickerUserKey.getId();
+        this.userKey = clickerUserKey.getUserKey();
+        this.userId = clickerUserKey.getUserId();
+        this.dateCreated = clickerUserKey.getDateCreated();
+        this.dateModified = clickerUserKey.getDateModified();
     }
 
     @Override

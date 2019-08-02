@@ -64,34 +64,37 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * This is the common parts of the logic which is external to our app logic, this provides isolation of the Sakai system from the app so that the integration can be adjusted for future versions or
- * even other systems without requiring rewriting large parts of the code
+ * This is the common parts of the logic which is external to our app logic, this provides isolation of the
+ * Sakai system from the app so that the integration can be adjusted for future versions or
+ * even other systems without requiring rewriting large parts of the code.
  */
 @Slf4j
+@SuppressWarnings("checkstyle:ClassFanOutComplexity")
 public abstract class AbstractExternalLogic {
 
     /**
-     * String type: gets the printable name of this server
+     * String type: gets the printable name of this server.
      */
     public static final String SETTING_SERVER_NAME = "server.name";
 
     /**
-     * String type: gets the unique id of this server (safe for clustering if used)
+     * String type: gets the unique id of this server (safe for clustering if used).
      */
     public static final String SETTING_SERVER_ID = "server.cluster.id";
 
     /**
-     * String type: gets the URL to this server
+     * String type: gets the URL to this server.
      */
     public static final String SETTING_SERVER_URL = "server.main.URL";
 
     /**
-     * String type: gets the URL to the portal on this server (or just returns the server URL if no portal in use)
+     * String type: gets the URL to the portal on this server (or just returns the server URL if no portal in use).
      */
     public static final String SETTING_PORTAL_URL = "server.portal.URL";
 
     /**
-     * Boolean type: if true then there will be data preloads and DDL creation, if false then data preloads are disabled (and will cause exceptions if preload data is missing)
+     * Boolean type: if true then there will be data preloads and DDL creation, if false then data preloads
+     * are disabled (and will cause exceptions if preload data is missing).
      */
     public static final String SETTING_AUTO_DDL = "auto.ddl";
 
@@ -117,6 +120,9 @@ public abstract class AbstractExternalLogic {
     @Setter protected SiteService siteService;
     @Setter protected UserDirectoryService userDirectoryService;
 
+    /**
+     * Init.
+     */
     public void init() {
         serverId = getConfigurationSetting(AbstractExternalLogic.SETTING_SERVER_ID, serverId);
     }
@@ -161,12 +167,14 @@ public abstract class AbstractExternalLogic {
     }
 
     /**
-     * Attempt to authenticate a user given a login name and password
+     * Attempt to authenticate a user given a login name and password.
      * 
      * @param loginname the login name for the user
      * @param password the password for the user
-     * @param createSession if true then a session is established for the user and the session ID is returned, otherwise the session is not created
-     * @return the user ID if the user was authenticated OR session ID if authenticated and createSession is true OR null if the auth params are invalid
+     * @param createSession if true then a session is established for the user and the
+     *        session ID is returned, otherwise the session is not created
+     * @return the user ID if the user was authenticated OR session ID if authenticated
+     *         and createSession is true OR null if the auth params are invalid
      */
     public String authenticateUser(String loginname, String password, boolean createSession) {
         if (StringUtils.isBlank(loginname)) {
@@ -192,7 +200,7 @@ public abstract class AbstractExternalLogic {
     }
 
     /**
-     * Get the user id from the user login name
+     * Get the user id from the user login name.
      * 
      * @param loginname the eid for the user
      * @return the id IF the user exists OR null if they do not
@@ -211,7 +219,7 @@ public abstract class AbstractExternalLogic {
     }
 
     /**
-     * Start a session for the user, assumption is that the user has already be authenticated in some way
+     * Start a session for the user, assumption is that the user has already be authenticated in some way.
      * 
      * @param loginname the login name for the user
      * @return the new session ID for this user
@@ -233,7 +241,7 @@ public abstract class AbstractExternalLogic {
     }
 
     /**
-     * Start a session for the user, assumption is that the user has already be authenticated in some way
+     * Start a session for the user, assumption is that the user has already be authenticated in some way.
      * 
      * @param userId the internal Sakai id for the user
      * @return the new session ID for this user
@@ -266,7 +274,7 @@ public abstract class AbstractExternalLogic {
     }
 
     /**
-     * Validate the session id given and optionally make it the current one
+     * Validate the session id given and optionally make it the current one.
      * 
      * @param sessionId a sakai session id
      * @param makeCurrent if true and the session id is valid then it is made the current one
@@ -287,7 +295,9 @@ public abstract class AbstractExternalLogic {
                 return false;
             }
         } catch (Exception e) {
-            throw new IllegalArgumentException("Failure attempting to set sakai session id (" + sessionId + "): " + e.getMessage());
+            throw new IllegalArgumentException(
+                String.format("Failure attempting to set sakai session id (%s): %s", sessionId, e.getMessage())
+            );
         }
 
         return true;
@@ -322,7 +332,7 @@ public abstract class AbstractExternalLogic {
     }
 
     /**
-     * Get the display name for a user by their unique id
+     * Get the display name for a user by their unique id.
      * 
      * @param userId the current sakai user id (not username)
      * @return display name (probably firstname lastname) or "----------" (10 hyphens) if none found
@@ -340,6 +350,12 @@ public abstract class AbstractExternalLogic {
         return name;
     }
 
+    /**
+     * Get user.
+     *
+     * @param userId the user ID
+     * @return the user
+     */
     public org.sakaiproject.iclicker.model.User getUser(String userId) {
         org.sakaiproject.iclicker.model.User user = null;
         User u = null;
@@ -379,7 +395,7 @@ public abstract class AbstractExternalLogic {
     }
 
     /**
-     * Sends an email to a group of email addresses
+     * Sends an email to a group of email addresses.
      * 
      * @param fromEmail [OPTIONAL] from email
      * @param toEmails array of emails to send to, must not be null or empty
@@ -404,7 +420,7 @@ public abstract class AbstractExternalLogic {
     }
 
     /**
-     * Check if this user has super admin access
+     * Check if this user has super admin access.
      * 
      * @param userId the internal user id (not username)
      * @return true if the user has admin access, false otherwise
@@ -414,7 +430,7 @@ public abstract class AbstractExternalLogic {
     }
 
     /**
-     * Check if a user has a specified permission within a context, primarily a convenience method and passthrough
+     * Check if a user has a specified permission within a context, primarily a convenience method and passthrough.
      * 
      * @param userId the internal user id (not username)
      * @param permission a permission string constant
@@ -426,7 +442,8 @@ public abstract class AbstractExternalLogic {
     }
 
     /**
-     * Get all the courses for the current user, note that this needs to be limited from outside this method for security
+     * Get all the courses for the current user, note that this needs to be
+     * limited from outside this method for security.
      * 
      * @param siteId [OPTIONAL] limit the return to just this one site
      * @param max [OPTIONAL] limit the number of sites returned (default 100)
@@ -493,12 +510,21 @@ public abstract class AbstractExternalLogic {
         }
 
         List<Site> instSites = new ArrayList<>();
-        List<Site> sites = siteService.getSites(SelectionType.UPDATE, null, null, null, SortType.TITLE_ASC, new PagingPosition(start, max));
+        List<Site> sites = siteService.getSites(
+            SelectionType.UPDATE,
+            null,
+            null,
+            null,
+            SortType.TITLE_ASC,
+            new PagingPosition(start, max)
+        );
         for (Site site : sites) {
             // filter out admin sites
             String sid = site.getId();
 
-            if (StringUtils.startsWith(sid, "!") || StringUtils.endsWith(sid, "Admin") || StringUtils.equals(sid, "mercury")) {
+            if (StringUtils.startsWith(sid, "!") ||
+                    StringUtils.endsWith(sid, "Admin") ||
+                    StringUtils.equals(sid, "mercury")) {
                 log.debug("Skipping site ({}) for current user in instructor courses", sid);
                 continue;
             }
@@ -510,7 +536,7 @@ public abstract class AbstractExternalLogic {
     }
 
     /**
-     * Get the listing of students from the site gradebook, uses GB security so safe to call
+     * Get the listing of students from the site gradebook, uses GB security so safe to call.
      * 
      * @param siteId the id of the site to get students from
      * @return the list of Students
@@ -557,7 +583,8 @@ public abstract class AbstractExternalLogic {
     }
 
     /**
-     * Check if the current user in an instructor for the given user id, this will return the first course found in alpha order, will only check the first 100 courses
+     * Check if the current user in an instructor for the given user id, this will return the first
+     * course found in alpha order, will only check the first 100 courses.
      * 
      * @param studentUserId the Sakai user id for the student
      * @return the course ID of the course they are an instructor for the student OR null if they are not
@@ -590,12 +617,13 @@ public abstract class AbstractExternalLogic {
     }
 
     /**
-     * Gets the gradebook data for a given site, this uses the gradebook security so it is safe for anyone to call
+     * Gets the gradebook data for a given site, this uses the gradebook security so it is safe for anyone to call.
      * 
      * @param siteId a sakai siteId (cannot be group Id)
-     * @param gbItemName [OPTIONAL] an item name to fetch from this gradebook (limit to this item only), if null then all items are returned
+     * @param gbItemName [OPTIONAL] an item name to fetch from this gradebook
+     *        (limit to this item only), if null then all items are returned
+     * @return the gradebook
      */
-    // @SuppressWarnings("unchecked")
     public Gradebook getCourseGradebook(String siteId, String gbItemName) {
         // The gradebookUID is the siteId, the gradebookID is a long
         String gbID = siteId;
@@ -641,14 +669,21 @@ public abstract class AbstractExternalLogic {
                 GradebookItem gbItem = makeGradebookItemFromAssignment(gbID, assignment, studentUserIds, studentIds);
                 gb.getItems().add(gbItem);
             } else {
-                throw new IllegalArgumentException("Invalid gradebook item name (" + gbItemName + "), no item with this name found in course (" + siteId + ")");
+                throw new IllegalArgumentException(
+                    String.format(
+                        "Invalid gradebook item name (%s), no item with this name found in course (%s)",
+                        gbItemName,
+                        siteId
+                    )
+                );
             }
         }
 
         return gb;
     }
 
-    private GradebookItem makeGradebookItemFromAssignment(String gbID, Assignment assignment, Map<String, String> studentUserIds, List<String> studentIds) {
+    private GradebookItem makeGradebookItemFromAssignment(
+            String gbID, Assignment assignment, Map<String, String> studentUserIds, List<String> studentIds) {
         // build up the items listing
         GradebookItem gbItem = new GradebookItem(gbID, assignment.getName(), assignment.getPoints(),
                         assignment.getDueDate(), assignment.getExternalAppName(), assignment.isReleased());
@@ -677,7 +712,7 @@ public abstract class AbstractExternalLogic {
 
     /**
      * Save a gradebook item and optionally the scores within <br/>
-     * Scores must have at least the studentId or username AND the grade set
+     * Scores must have at least the studentId or username AND the grade set.
      * 
      * @param gbItem the gradebook item to save, must have at least the gradebookId and name set
      * @return the updated gradebook item and scores, contains any errors that occurred
@@ -808,7 +843,11 @@ public abstract class AbstractExternalLogic {
 
                 try {
                     // check against existing score
-                    String currentScore = gradebookService.getAssignmentScoreString(gradebookUid, assignment.getId(), studentId);
+                    String currentScore = gradebookService.getAssignmentScoreString(
+                        gradebookUid,
+                        assignment.getId(),
+                        studentId
+                    );
 
                     if (currentScore != null) {
                         Double currentScoreDouble = Double.valueOf(currentScore);
@@ -848,10 +887,13 @@ public abstract class AbstractExternalLogic {
     }
 
     /**
-     * Retrieves settings from the configuration service (sakai.properties)
-     * 
-     * @param settingName the name of the setting to retrieve, Should be a string name: e.g. auto.ddl, mystuff.config, etc. OR one of the SETTING constants (e.g {@link #SETTING_AUTO_DDL})
-     * @param defaultValue a specified default value to return if this setting cannot be found, <b>NOTE:</b> You can set the default value to null but you must specify the class type in parens
+     * Retrieves settings from the configuration service (sakai.properties).
+     *
+     * @param <T> the type
+     * @param settingName the name of the setting to retrieve, Should be a string name:
+     * e.g. auto.ddl, mystuff.config, etc. OR one of the SETTING constants (e.g {@link #SETTING_AUTO_DDL})
+     * @param defaultValue a specified default value to return if this setting cannot be found,
+     * <b>NOTE:</b> You can set the default value to null but you must specify the class type in parens.
      * @return the value of the configuration setting OR the default value if none can be found
      */
     @SuppressWarnings("unchecked")
@@ -893,7 +935,7 @@ public abstract class AbstractExternalLogic {
     // METHODS TO ADD TOOL TO MY WORKSPACES
 
     /**
-     * Set a current user for the current thread, create session if needed
+     * Set a current user for the current thread, create session if needed.
      * 
      * @param userId the userId to set
      */
@@ -917,7 +959,7 @@ public abstract class AbstractExternalLogic {
 
     /**
      * Create runner to add a tool to all My Workspace sites <br/>
-     * NOTE: take steps to ensure this cannot be run more than once
+     * NOTE: take steps to ensure this cannot be run more than once.
      *
      * @param toolId the id of the tool you want to add (ie sakai.iclicker)
      * @param pageTitle the title of the page shown in the site navigation
@@ -933,7 +975,12 @@ public abstract class AbstractExternalLogic {
         final String currentUserId = getCurrentUserId();
 
         if (currentUserId == null || !isUserAdmin(currentUserId)) {
-            throw new SecurityException("current user (" + currentUserId + ") cannot push tool into worksites, only the admin can perform this operation");
+            throw new SecurityException(
+                String.format(
+                    "current user (%s) cannot push tool into worksites, only the admin can perform this operation",
+                    currentUserId
+                )
+            );
         }
 
         // get the tool
@@ -1013,7 +1060,7 @@ public abstract class AbstractExternalLogic {
 
     /**
      * Create runner to remove the tool from all my workspaces <br/>
-     * NOTE: take steps to ensure this cannot be run more than once
+     * NOTE: take steps to ensure this cannot be run more than once.
      * 
      * @param toolId the id of the tool you want to add (ie sakai.iclicker)
      * @return an object that can be used to track the process
@@ -1027,7 +1074,11 @@ public abstract class AbstractExternalLogic {
 
         if (currentUserId == null || !isUserAdmin(currentUserId)) {
             throw new SecurityException(
-                            "current user (" + currentUserId + ") cannot push tool into worksites, only the admin can perform this operation");
+                String.format(
+                    "current user (%s) cannot push tool into worksites, only the admin can perform this operation",
+                    currentUserId
+                )
+            );
         }
 
         // get the tool
@@ -1086,7 +1137,10 @@ public abstract class AbstractExternalLogic {
                 } catch (Exception e) {
                     log.error("Failed trying to remove ({}) from my workspaces: ", toolId, e);
                     setFailure(e);
-                    throw new RuntimeException("Failed trying to remove (" + toolId + ") from my workspaces: " + e, e);
+                    throw new RuntimeException(
+                        String.format("Failed trying to remove (%s) from my workspaces: %s", toolId, e),
+                        e
+                    );
                 } finally {
                     log.info("Completed long running process: {}", this);
                     setComplete();

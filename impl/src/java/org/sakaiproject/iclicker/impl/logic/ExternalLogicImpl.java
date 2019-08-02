@@ -21,10 +21,13 @@ package org.sakaiproject.iclicker.impl.logic;
 import org.sakaiproject.iclicker.service.ExternalLogic;
 
 /**
- * This is the 2.6 version of the external logic service
+ * This is the Sakai version of the external logic service.
  */
 public class ExternalLogicImpl extends AbstractExternalLogic implements ExternalLogic {
 
+    /**
+     * Init.
+     */
     public void init() {
         super.init();
     }

@@ -25,7 +25,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * This defines locks to allow for cluster operations
+ * This defines locks to allow for cluster operations.
  */
 @Data
 @NoArgsConstructor
@@ -37,15 +37,21 @@ public class ClickerLock implements Serializable {
     private Date lastModified;
 
     /**
-     * The name of the lock
+     * The name of the lock.
      */
     private String name;
 
     /**
-     * The holder (owner) of this lock
+     * The holder (owner) of this lock.
      */
     private String holder;
 
+    /**
+     * Constructor.
+     *
+     * @param name the name
+     * @param holder the holder
+     */
     public ClickerLock(String name, String holder) {
         this.lastModified = new Date();
         this.name = name;

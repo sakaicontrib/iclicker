@@ -19,7 +19,7 @@
 package org.sakaiproject.iclicker.exception;
 
 /**
- * Exception which indicates that the lock could not be obtained, most likely because it is already in use
+ * Exception which indicates that the lock could not be obtained, most likely because it is already in use.
  */
 public class ClickerLockException extends RuntimeException {
 
@@ -28,6 +28,13 @@ public class ClickerLockException extends RuntimeException {
     public String name;
     public String holder;
 
+    /**
+     * Constructor.
+     *
+     * @param message the message
+     * @param name the name
+     * @param holder the holder
+     */
     public ClickerLockException(String message, String name, String holder) {
         super(message);
         this.name = name;
