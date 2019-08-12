@@ -12,6 +12,7 @@
     <name>Sakai iclicker project base pom</name>
     <groupId>org.sakaiproject.iclicker</groupId>
     <artifactId>iclicker-parent</artifactId>
+    <version>19</version>
     <packaging>pom</packaging>
 
     <modules>
