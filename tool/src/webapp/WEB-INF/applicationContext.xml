@@ -31,6 +31,10 @@
         <property name="messageSource" ref="messageSource" />
     </bean>
 
+    <bean id="org.sakaiproject.iclicker.tool.RestServlet" class="org.sakaiproject.iclicker.tool.RestServlet" init-method="init">
+        <property name="logic" ref="org.sakaiproject.iclicker.service.IClickerLogic" />
+    </bean>
+
     <!-- the i18n messages source -->
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
         <property name="basename">
