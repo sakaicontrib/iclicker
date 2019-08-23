@@ -1416,7 +1416,6 @@ public class IClickerLogicImpl implements IClickerLogic {
                             );
                         }
 
-                        String liType = lineitem.getAttribute("type");
                         Double liPointsPossible = 100.0;
                         String liPPText = lineitem.getAttribute("pointspossible");
 
@@ -1445,7 +1444,7 @@ public class IClickerLogicImpl implements IClickerLogic {
 
                         if (!gb.getItems().contains(gbi)) {
                             gbi.setPointsPossible(liPointsPossible);
-                            gbi.setType(liType);
+                            gbi.setType(null);
                             gb.getItems().add(gbi);
                         } else {
                             int pos = gb.getItems().lastIndexOf(gbi);
