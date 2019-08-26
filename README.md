@@ -18,13 +18,13 @@ Administrators
 
 Sakai Compatibility
 -------------------
-This version of the plug-in works with Sakai 11+ and supports single sign-on. Installations of Sakai older than version 11 are not supported by the i>clicker integrate plug-in.
+This version of the plug-in works with Sakai 11, 12, and 19 with support for single sign-on. Installations of Sakai older than version 11 are not supported by the i>clicker integrate plug-in.
 
 Build
 -----
 The source code for this plugin is located at https://github.com/sakaicontrib/iclicker
 
-Switch to the appropriate branch (11.x, 12.x, etc.), update the pom.xml Sakai version to the version you require, and build the default version of the app by running this command from the location of this README ::
+Switch to the appropriate branch (11.x, 12.x, 19), update the pom.xml Sakai version to the version you require, and build the default version of the app by running this command from the location of this README ::
 
     mvn -e clean install
 
