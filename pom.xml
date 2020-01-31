@@ -24,7 +24,7 @@
 
     <properties>
         <build-tools.version>1.0.0</build-tools.version>
-        <checkstyle.version>8.22</checkstyle.version>
+        <checkstyle.version>8.29</checkstyle.version>
         <commons-lang3.version>3.9</commons-lang3.version>
         <entitybus.version>1.0.8</entitybus.version>
         <jsp-api.version>2.0</jsp-api.version>
