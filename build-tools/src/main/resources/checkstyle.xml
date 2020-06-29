@@ -24,6 +24,10 @@
 
 <module name="Checker">
     <module name="SuppressWarningsFilter"/>
+    <module name="LineLength">
+        <property name="severity" value="info"/>
+        <property name="max" value="120"/>
+    </module>
     <module name="FileLength">
         <property name="severity" value="error"/>
         <property name="max" value="2500"/>
@@ -161,10 +165,6 @@
         <module name="LeftCurly">
             <property name="severity" value="info"/>
             <property name="option" value="eol"/>
-        </module>
-        <module name="LineLength">
-            <property name="severity" value="info"/>
-            <property name="max" value="120"/>
         </module>
         <module name="LocalFinalVariableName">
             <property name="severity" value="error"/>
