@@ -355,7 +355,7 @@
         <license>
             <name>GNU GENERAL PUBLIC LICENSE, Version 3.0</name>
             <distribution>repo</distribution>
-            <url>http://www.gnu.org/licenses/gpl.html</url>
+            <url>https://www.gnu.org/licenses/gpl.html</url>
         </license>
     </licenses>
 
@@ -365,7 +365,7 @@
             <id>sakai-maven</id>
             <name>Sakai Maven Repo</name>
             <layout>default</layout>
-            <url>http://source.sakaiproject.org/maven2</url>
+            <url>https://source.sakaiproject.org/maven2</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
@@ -376,7 +376,7 @@
         <!-- for the license header plugin -->
         <pluginRepository>
             <id>mc-release</id>
-            <url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
+            <url>https://mc-repo.googlecode.com/svn/maven2/releases</url>
         </pluginRepository>
     </pluginRepositories>
 
@@ -403,7 +403,7 @@
             <id>aaronz@vt.edu</id>
             <name>Aaron Zeckoski</name>
             <email>azeckoski@vt.edu</email>
-            <url>http://tinyurl.com/azprofile</url>
+            <url>https://tinyurl.com/azprofile</url>
             <roles>
                 <role>Architect</role>
                 <role>Developer</role>
